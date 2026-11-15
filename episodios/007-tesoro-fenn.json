@@ -1,0 +1,11 @@
+{"slug": "007-tesoro-fenn", "voice": "es-MX-JorgeNeural",
+ "main": {"shirt": "#F2E3C6", "hat": "panama", "hat_col": "#C9A27A"},
+ "segments": [
+  {"scene": "reveal", "obj": "chest", "lines": ["+1 MILLÓN $"], "bg": "forest", "sky": "night", "chip": "EL TESORO ESCONDIDO", "text": "Un millonario escondió un cofre lleno de oro en las montañas… y dejó un poema con las pistas."},
+  {"scene": "place", "bg": "mountains", "sky": "day", "action": "point", "mood": "happy", "chip": "MONTAÑAS ROCOSAS · 2010", "text": "Fue en 2010. Forrest Fenn, un vendedor de arte de Estados Unidos, escondió un cofre de bronce en las Montañas Rocosas."},
+  {"scene": "place", "bg": "vault", "action": "talk", "mood": "surprised", "symbols": "exclaim", "chip": "ORO, MONEDAS Y JOYAS", "text": "Dentro había pepitas de oro, monedas antiguas y joyas. Más de un millón de dólares."},
+  {"scene": "place", "bg": "library", "prop": "book", "mood": "open", "symbols": "letters", "chip": "24 VERSOS", "text": "Las pistas estaban escondidas en un poema de veinticuatro versos, dentro de su libro de memorias."},
+  {"scene": "place", "bg": "forest", "sky": "night", "crowd": 3, "crowd_mood": "worried", "action": "dig", "mood": "worried", "symbols": "question", "chip": "10 AÑOS BUSCANDO", "text": "Miles de personas lo buscaron durante diez años, sin encontrar nada."},
+  {"scene": "reveal", "obj": "map", "lines": ["WYOMING"], "bg": "mountains", "sky": "sunset", "chip": "6 DE JUNIO DE 2020", "text": "Hasta que, en 2020, un estudiante de medicina lo encontró en Wyoming, tras dos años estudiando el poema."},
+  {"scene": "end", "chip": "+ HISTORIAS REALES", "text": "Sígueme para más historias reales."}
+ ]}

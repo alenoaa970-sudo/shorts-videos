@@ -23,7 +23,9 @@ Crea `episodios/NNN-slug.json` (NNN = siguiente número del historial) siguiendo
 - Último segmento: `"scene": "end"`, con el texto "Sígueme para más historias reales." y `"chip": "+ HISTORIAS REALES"`.
 - **Misterios**: usa `"sky": "night"` y `"dark": true`, símbolos `question`, y el ánimo `worried` o `surprised`. **Dinero**: usa `coins` y `reveal` con la cifra en grande (por ejemplo, `"lines": ["10.000", "BITCOINS"]`).
 - Español neutro (que se entienda en España y Latinoamérica). Los años con cifras (1865), y el resto de números en letra si es posible.
-- Varía las escenas (town, port, interior, idea, speaker, coins, reveal, closeup) y pon un `chip` con el lugar o el año en casi todas.
+- **NADA DE RECICLAR (orden de Alejandro):** cada vídeo usa **al menos 4 fondos (`bg`) distintos**, elegidos según la historia: mountains, forest, vault, library, city, office, storm, town, port, interior. La sala con ventanas (`interior`) se usa como mucho UNA vez por vídeo, y solo si encaja con la historia.
+- Usa sobre todo `place` (personaje en cualquier fondo), `closeup` y `reveal` con `bg`. Objetos disponibles para `reveal`: book, box, sign, poster, pizza, chest, map. Si la historia necesita un fondo u objeto que no existe, **dibújalo nuevo** en tools/anim/backgrounds.py o en big_object(), en vez de forzar uno que no encaje.
+- Pon un `chip` con el lugar o el año en casi todas las escenas.
 - Escoge el vestuario del protagonista (`main`) según la época y el lugar.
 
 ## 3. Renderizar y revisar

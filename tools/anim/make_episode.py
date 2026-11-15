@@ -18,9 +18,11 @@ Tipos de escena y parámetros:
   idea      primer plano + bombilla que se enciende.
   speaker   personaje en una tarima hablando a un público. prop=book|newspaper|none|mic, crowd=2-4
   coins     bote que se llena de monedas. label="TEXTO DEBAJO"
-  reveal    objeto grande que aparece. obj=book|box|sign|poster|pizza, lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
+  reveal    objeto grande que aparece. obj=book|box|sign|poster|pizza|chest|map, bg=<fondo> (opcional), lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
   (interior y closeup aceptan "dark": true para escenas de misterio)
-  closeup   protagonista grande. prop=book|newspaper|cigar|none, mood=open|happy|surprised|worried|bored, symbols=letters|question|exclaim|hearts|notes|clock|none
+  place     protagonista de pie en cualquier fondo. bg=mountains|forest|vault|library|city|office|storm|town|port|interior,
+            action=talk|wave|point|dig, mood, prop, symbols, crowd=0-4 (gente alrededor), sky=day|sunset|night
+  closeup   protagonista grande (bg= cualquier fondo). prop=book|newspaper|cigar|none, mood=open|happy|surprised|worried|bored, symbols=letters|question|exclaim|hearts|notes|clock|none
   end       cierre "¡SÍGUEME!". chip="+ OFICIOS OLVIDADOS"
 """
 import sys, os, math, asyncio, subprocess, tempfile, random, json, wave
@@ -31,6 +33,7 @@ import edge_tts, skia
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from engine import *
 from sound import music, whoosh, pop, clink, shimmer, SR
+import backgrounds as BG
 
 GAP = 0.28
 SHIRTS = ["#F2D9C9", "#CFE3F2", "#E7F2CF", "#F6F2E6", "#EFD9F2"]
@@ -160,6 +163,37 @@ def big_object(c, obj, lines, color, T, a):
         y0 = 20 if len(lines) <= 1 else -5
         for ln in lines[:2]:
             text_c(c, ln, 0, y0, fit(ln, 50, 420), fill=color or "#B3262A", path=FONT_SERIF); y0 += 62
+    elif obj == "chest":
+        c.drawCircle(0, -40, 420, rad_grad(0, -40, 430, [C("#FFE27A", 150), C("#FFE27A", 0)]))
+        c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeLTRB(-270, -60, 290, 250), 16, 16), P("#000000", a=100, blur=10))
+        for k in range(14):   # oro que asoma
+            gx = -200 + (k * 61) % 400; gy = -70 - (k * 37) % 70
+            coin(c, gx, gy, 34, k)
+        c.save(); c.translate(-280, -40); c.rotate(-14)
+        fs(c, rrect(0, -150, 560, 0, 40), lin_grad(0, -150, 0, 0, ["#A3622E", "#7A4420"]), ow=8)
+        for xx in (80, 280, 480): fs(c, rrect(xx - 22, -150, xx + 22, 0, 4), "#D8B04A", ow=5)
+        c.restore()
+        fs(c, rrect(-280, -40, 280, 240, 14), lin_grad(0, -40, 0, 240, ["#9C5A2A", "#6A3A18"]), ow=8)
+        for xx in (-200, 0, 200): fs(c, rrect(xx - 22, -40, xx + 22, 240, 4), "#D8B04A", ow=5)
+        fs(c, rrect(-40, 40, 40, 120, 10), "#E8C25A", ow=6); fs(c, oval(0, 80, 12, 16), "#2A1B12", ow=0)
+        if lines:
+            fs(c, rrect(-260, 280, 260, 370, 20), "#FFD23F", ow=7)
+            text_c(c, lines[0], 0, 343, fit(lines[0], 54, 480, FONT_BLACK), fill="#2A1B12")
+    elif obj == "map":
+        c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeLTRB(-330, -260, 350, 290), 10, 10), P("#000000", a=100, blur=10))
+        paper = poly([(-340, -270), (-110, -250), (110, -275), (340, -255), (330, 270), (100, 255), (-120, 280), (-335, 260)])
+        fs(c, paper, "#EED9A6", ow=8)
+        for xx in (-110, 110): c.drawLine(xx, -255, xx, 260, P("#C9A86A", stroke=4))
+        mnt = [(-250, 0), (-180, -110), (-110, 0), (-60, -80), (0, 0)]
+        c.drawPath(poly(mnt, close=False), P("#7A5A3A", stroke=7))
+        river = skia.Path(); river.moveTo(-300, 180); river.cubicTo(-120, 80, 0, 220, 300, 120)
+        c.drawPath(river, P("#3B82C4", stroke=10))
+        for k in range(5): BG.pine(c, 80 + k * 45, -60 + (k % 2) * 30, 0.18, "#2F6B45", "#24543A", ow=3)
+        path = skia.Path(); path.moveTo(-280, 230); path.cubicTo(-150, 120, 60, 200, 190, -120)
+        p = P("#B3262A", stroke=8); p.setPathEffect(skia.DashPathEffect.Make([22, 18], 0)); c.drawPath(path, p)
+        c.drawLine(165, -145, 215, -95, P("#B3262A", stroke=14)); c.drawLine(215, -145, 165, -95, P("#B3262A", stroke=14))
+        if lines:
+            text_c(c, lines[0], 0, -175, fit(lines[0], 52, 600), fill="#3A2416", path=FONT_SERIF)
     elif obj == "pizza":
         for k, (px, py) in enumerate(((-130, 40), (150, -30))):
             c.save(); c.translate(px, py); c.rotate(k * 25)
@@ -188,6 +222,13 @@ def big_object(c, obj, lines, color, T, a):
             size = fit(ln, 70, 2 * hw - 80)
             text_c(c, ln, 0, y0, size, fill=color or "#2F5D50", path=FONT_SERIF); y0 += 80
     c.restore()
+
+def background(c, s, T, default="interior"):
+    bg = s.get("bg", default)
+    if BG.draw_bg(c, T, bg, s): return
+    if bg == "town": town(c, T, s.get("sign", ""), s.get("sky", "day"))
+    elif bg == "port": port(c, T, s.get("sky", "day"), s.get("sign", ""), s.get("crates", []))
+    else: interior(c, T, dim=0.5 if s.get("dark") else 0.0, beams=not s.get("dark"))
 
 # ------------------------------------------------------------------ escenas
 def M(ep):
@@ -274,7 +315,10 @@ def sc_coins(c, s, tl, d, m, T, ep):
         text_c(c, s["label"], 540, 1482, 32, fill="#2A1B12")
 
 def sc_reveal(c, s, tl, d, m, T, ep):
-    interior(c, T, dim=0.55, beams=False)
+    if "bg" in s:
+        background(c, s, T); c.drawRect(skia.Rect.MakeWH(W, H), P("#140A05", a=110))
+    else:
+        interior(c, T, dim=0.55, beams=False)
     c.drawRect(skia.Rect.MakeWH(W, H), rad_grad(540, 1050, 650, [C("#FFE9A0", 150), C("#FFE9A0", 0)]))
     two = "obj2" in s
     swap = d * 0.47 if two else d + 1
@@ -290,15 +334,32 @@ def sc_reveal(c, s, tl, d, m, T, ep):
     character(c, 170, 1880, 0.75, T, mood="happy" if tl > swap else "open", mouth=m, arm_r=-2.4, arm_l=0.2, **M(ep))
 
 def sc_closeup(c, s, tl, d, m, T, ep):
-    bg = s.get("bg", "interior")
-    if bg == "town": town(c, T, s.get("sign", ""), s.get("sky", "day"))
-    elif bg == "port": port(c, T, s.get("sky", "day"), s.get("sign", ""), [])
-    else: interior(c, T, dim=0.5 if s.get("dark") else 0.0, beams=not s.get("dark"))
+    background(c, s, T)
     prop = s.get("prop", "none"); prop = None if prop == "none" else prop
     held = prop in ("book", "newspaper")
     character(c, 540, 1880, 1.45, T, mood=s.get("mood", "open"), mouth=m, blink=(T % 3.3) < 0.12, prop=prop,
               arm_l=0.9 if held else 0.25, arm_r=-0.9 if held else -0.4, **M(ep))
     floaters(c, s.get("symbols", "none"), 540, 860, tl)
+
+def sc_place(c, s, tl, d, m, T, ep):
+    background(c, s, T, default="mountains")
+    n = int(s.get("crowd", 0))
+    for i in range(n):
+        x = [190, 890, 330, 750][i % 4]
+        h = HATS[(i + 2) % len(HATS)]
+        character(c, x, 1800 - (i // 2) * 0, 0.95, T + i, shirt=SHIRTS[(i + 2) % 5], hat=h[0], hat_col=h[1],
+                  mood=s.get("crowd_mood", "surprised"), arm_l=0.3, arm_r=-0.3, mustache=i % 2 == 0)
+    act = s.get("action", "talk")
+    if act == "wave": arm = -0.15 - 2.2 * (0.5 + 0.5 * math.sin(tl * 7))
+    elif act == "point": arm = -2.0
+    elif act == "dig": arm = -1.2 - 0.6 * math.sin(tl * 6)
+    else: arm = -0.4
+    prop = s.get("prop", "none"); prop = None if prop == "none" else prop
+    held = prop in ("book", "newspaper")
+    x = 540 if n == 0 else 540
+    character(c, x, 1780, 1.2, T, mood=s.get("mood", "open"), mouth=m, blink=(T % 3.1) < 0.12, prop=prop,
+              arm_r=-0.9 if held else arm, arm_l=0.9 if held else 0.25, **M(ep))
+    floaters(c, s.get("symbols", "none"), 540, 880, tl)
 
 def sc_end(c, s, tl, d, m, T, ep):
     burst(c, T)
@@ -310,11 +371,13 @@ def sc_end(c, s, tl, d, m, T, ep):
     text_c(c, "¡SÍGUEME!", 0, 42, 118, fill="#FFFFFF", stroke="#7A1010", sw=10)
     c.restore()
 
-SCENES = {"town": sc_town, "port": sc_port, "interior": sc_interior, "idea": sc_idea, "speaker": sc_speaker,
+SCENES = {"place": sc_place, "town": sc_town, "port": sc_port, "interior": sc_interior, "idea": sc_idea, "speaker": sc_speaker,
           "coins": sc_coins, "reveal": sc_reveal, "closeup": sc_closeup, "end": sc_end}
-FOCUS = {"town": (540, 1150), "port": (540, 1150), "interior": (540, 1150), "idea": (540, 900), "speaker": (540, 1000),
+FOCUS = {"place": (540, 1150), "town": (540, 1150), "port": (540, 1150), "interior": (540, 1150), "idea": (540, 900), "speaker": (540, 1000),
          "coins": (540, 1200), "reveal": (540, 1150), "closeup": (540, 1250), "end": (540, 1000)}
 CHIP_Y = {"end": 235}
+
+BG.SHIP = ship
 
 def main(ep_path, out, preview=None):
     ep = json.load(open(ep_path))

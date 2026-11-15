@@ -47,7 +47,7 @@ Orden de la semana: lunes dinero, miércoles misterio, viernes dinero, sábado m
 - **Dibujos animados 2D** con un personaje propio: cabeza grande y redonda, bigote, sombrero y guayabera. Es un diseño original: no copiar personajes de otros canales.
 - **Fondos ilustrados** de la época y el lugar (calle, fábrica, puerto…) con detalles que se mueven: nubes, palmeras, luces y polvo.
 - **Movimiento constante**: cámara que se acerca poco a poco, un golpe de zoom con flash en cada cambio de escena, personajes que se mueven, parpadean y hablan, y objetos que aparecen con rebote.
-- **Una escena nueva cada 5–10 segundos.**
+- **Una escena nueva cada 5–10 segundos, y al menos 4 escenarios distintos por vídeo, adaptados a la historia. Nunca reciclar el mismo fondo todo el vídeo.**
 - **Subtítulos grandes palabra a palabra** en el centro: blancos con borde negro y la palabra que se dice en amarillo.
 - **Etiqueta arriba** con el lugar y el año (por ejemplo, "1865 · FÁBRICA EL FÍGARO").
 - **Sonido**: voz automática con música de fondo suave que baja cuando hay voz, y efectos (whoosh, pop, monedas, brillos).
