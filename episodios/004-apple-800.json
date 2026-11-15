@@ -1,0 +1,11 @@
+{"slug": "004-apple-800", "voice": "es-MX-JorgeNeural",
+ "main": {"shirt": "#F2D9C9", "hat": "bowler", "hat_col": "#3B3B44"},
+ "segments": [
+  {"scene": "reveal", "obj": "sign", "lines": ["10 % DE APPLE", "= 800 $"], "color": "#B3262A", "chip": "EL PEOR NEGOCIO", "text": "Este hombre vendió el diez por ciento de Apple… por ochocientos dólares."},
+  {"scene": "town", "sky": "day", "sign": "CALIFORNIA · 1976", "action": "talk", "chip": "1 DE ABRIL DE 1976", "text": "El uno de abril de 1976 nació Apple con tres fundadores. Uno de ellos, Ronald Wayne, se quedó con el diez por ciento."},
+  {"scene": "closeup", "bg": "interior", "mood": "worried", "symbols": "question", "chip": "TENÍA MIEDO", "text": "Pero tenía miedo de perder su casa si el negocio salía mal."},
+  {"scene": "coins", "label": "SU PARTE: 800 $", "chip": "12 DÍAS DESPUÉS", "text": "Así que, solo doce días después, vendió su parte por ochocientos dólares."},
+  {"scene": "closeup", "bg": "interior", "mood": "surprised", "symbols": "exclaim", "chip": "¿Y HOY?", "text": "¿Y hoy? Con Apple valiendo billones, ese diez por ciento valdría cientos de miles de millones de dólares."},
+  {"scene": "reveal", "obj": "poster", "lines": ["SIN", "ARREPENTIRSE"], "color": "#2F5D50", "chip": "¿SE ARREPIENTE?", "text": "Lo más curioso: él dice que no se arrepiente."},
+  {"scene": "end", "chip": "+ HISTORIAS REALES", "text": "Sígueme para más historias reales."}
+ ]}

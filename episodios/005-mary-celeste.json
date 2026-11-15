@@ -1,0 +1,11 @@
+{"slug": "005-mary-celeste", "voice": "es-MX-JorgeNeural",
+ "main": {"shirt": "#CFE3F2", "hat": "cap", "hat_col": "#2E3A5A"},
+ "segments": [
+  {"scene": "port", "sky": "night", "sign": "MARY CELESTE", "chip": "EL BARCO FANTASMA", "text": "En 1872 encontraron un barco navegando solo… sin nadie a bordo."},
+  {"scene": "port", "sky": "sunset", "sign": "MARY CELESTE", "crates": ["ALCOHOL", "ALCOHOL", "ALCOHOL"], "chip": "NUEVA YORK · 1872", "text": "El Mary Celeste salió de Nueva York con diez personas y casi mil setecientos barriles de alcohol."},
+  {"scene": "closeup", "bg": "port", "sky": "night", "mood": "surprised", "symbols": "question", "chip": "CERCA DE LAS AZORES", "text": "Un mes después, otro barco lo encontró a la deriva en medio del Atlántico."},
+  {"scene": "interior", "workers": 1, "mood": "surprised", "prop": "none", "dark": true, "zzz": false, "chip": "TODO EN SU SITIO", "text": "Al subir, todo estaba en su sitio: la carga, la comida, las cosas de la tripulación."},
+  {"scene": "reveal", "obj": "poster", "lines": ["FALTA:", "EL BOTE", "SALVAVIDAS"], "color": "#B3262A", "chip": "SOLO FALTABA ALGO", "text": "Solo faltaba una cosa: el bote salvavidas."},
+  {"scene": "closeup", "bg": "interior", "dark": true, "mood": "worried", "symbols": "question", "chip": "SIN RESOLVER", "text": "Nunca se volvió a saber de ninguno de ellos. Y hoy, más de ciento cincuenta años después, sigue siendo un misterio."},
+  {"scene": "end", "chip": "+ HISTORIAS REALES", "text": "Sígueme para más historias reales."}
+ ]}

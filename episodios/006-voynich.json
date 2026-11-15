@@ -1,0 +1,11 @@
+{"slug": "006-voynich", "voice": "es-MX-JorgeNeural",
+ "main": {"shirt": "#E7F2CF", "hat": "panama", "hat_col": null},
+ "segments": [
+  {"scene": "reveal", "obj": "book", "lines": ["¿?", "MS 408", "¿?"], "color": "#5B3F6B", "chip": "EL LIBRO IMPOSIBLE", "text": "Existe un libro que nadie en el mundo ha conseguido leer."},
+  {"scene": "closeup", "bg": "interior", "mood": "surprised", "prop": "book", "symbols": "letters", "chip": "EL MANUSCRITO VOYNICH", "text": "Se llama manuscrito Voynich. Está escrito en un alfabeto que no existe en ningún otro sitio."},
+  {"scene": "reveal", "obj": "sign", "lines": ["1404 – 1438"], "color": "#2F5D50", "chip": "PRUEBA DEL CARBONO 14", "text": "La prueba del carbono catorce dice que su pergamino es de entre 1404 y 1438."},
+  {"scene": "speaker", "prop": "book", "crowd": 4, "symbols": "question", "chip": "NADIE LO DESCIFRA", "text": "Expertos en idiomas y en códigos secretos lo han intentado durante más de un siglo. Nadie ha conseguido descifrarlo."},
+  {"scene": "town", "sky": "sunset", "sign": "ITALIA · 1912", "action": "talk", "chip": "ITALIA · 1912", "text": "Lleva el nombre de Wilfrid Voynich, un librero que lo compró en Italia en 1912."},
+  {"scene": "closeup", "bg": "interior", "dark": true, "mood": "worried", "prop": "book", "symbols": "question", "chip": "¿Y TÚ?", "text": "Hoy se guarda en la Universidad de Yale… y se puede ver gratis en internet. ¿Te atreves a descifrarlo?"},
+  {"scene": "end", "chip": "+ HISTORIAS REALES", "text": "Sígueme para más historias reales."}
+ ]}
