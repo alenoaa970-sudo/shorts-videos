@@ -19,6 +19,7 @@ Tipos de escena y parámetros:
   speaker   personaje en una tarima hablando a un público. prop=book|newspaper|none|mic, crowd=2-4
   coins     bote que se llena de monedas. label="TEXTO DEBAJO"
   reveal    objeto grande que aparece. obj=book|box|sign|poster, lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
+  (interior y closeup aceptan "dark": true para escenas de misterio)
   closeup   protagonista grande. prop=book|newspaper|cigar|none, mood=open|happy|surprised|worried|bored, symbols=letters|question|exclaim|hearts|notes|clock|none
   end       cierre "¡SÍGUEME!". chip="+ OFICIOS OLVIDADOS"
 """
@@ -184,7 +185,7 @@ def sc_port(c, s, tl, d, m, T, ep):
     character(c, 760, 1800, 1.1, T, mood="open", mouth=m, blink=(T % 3.1) < 0.12, arm_r=-2.0, arm_l=0.2, **M(ep))
 
 def sc_interior(c, s, tl, d, m, T, ep):
-    interior(c, T)
+    interior(c, T, dim=0.5 if s.get("dark") else 0.0, beams=not s.get("dark"))
     n = int(s.get("workers", 3)); mood = s.get("mood", "bored"); prop = s.get("prop", "cigar")
     prop = None if prop == "none" else prop
     xs = {1: [540], 2: [300, 780], 3: [210, 540, 870], 4: [150, 400, 680, 930]}[max(1, min(4, n))]
@@ -271,7 +272,7 @@ def sc_closeup(c, s, tl, d, m, T, ep):
     bg = s.get("bg", "interior")
     if bg == "town": town(c, T, s.get("sign", ""), s.get("sky", "day"))
     elif bg == "port": port(c, T, s.get("sky", "day"), s.get("sign", ""), [])
-    else: interior(c, T)
+    else: interior(c, T, dim=0.5 if s.get("dark") else 0.0, beams=not s.get("dark"))
     prop = s.get("prop", "none"); prop = None if prop == "none" else prop
     held = prop in ("book", "newspaper")
     character(c, 540, 1880, 1.45, T, mood=s.get("mood", "open"), mouth=m, blink=(T % 3.3) < 0.12, prop=prop,

@@ -26,9 +26,21 @@
 | Gaming | Muy altas | 0,01–0,08 $ | Muy alta | ❌ No: necesita clips con derechos |
 | Motivación | Altas | 0,06–0,12 $ | Muy alta | ❌ Saturado |
 
-## 3. Nicho elegido
+## 3. Nicho elegido (decidido por los datos, 15/11/2026)
 
-**Elegido:** historia curiosa, sobre todo oficios y hechos olvidados ("El despertador humano", "El hielo que viajó a la India"…), contada en dibujos animados.
+Alejandro pidió elegir "lo que digan los números". Datos usados:
+- Probabilidad de que un vídeo se haga viral (10 veces más visitas de lo normal), según OutlierKit (agosto de 2026): **finanzas personales 16,7 %**, **crímenes reales y misterios sin resolver 12,5 %**, cocina 11,7 %, herramientas de IA 10 %, canales faceless genéricos 3,1 %.
+- Lo que más se ve en Shorts es entretenimiento (32 %), gaming (21 %) y tutoriales (18 %). Todo eso necesita grabar o tener derechos, así que no se puede automatizar.
+- La animación 2D tiende a hacerse más viral.
+
+**Mezcla de temas, que se va rotando:**
+1. **Historias de dinero (40 %)**: fortunas que se perdieron, estafas famosas, errores millonarios, inventos que hicieron rico a alguien, precios de antes. SOLO historias reales, NUNCA consejos de inversión. Es el nicho con más probabilidad de hacerse viral y el que más paga por visita.
+2. **Misterios sin resolver y casos reales (40 %)**: desapariciones famosas, enigmas históricos, casos curiosos. Sin detalles violentos ni sangre (YouTube no pone anuncios en eso) y con respeto a las víctimas reales.
+3. **Oficios e historias olvidadas (20 %)**: el formato con el que empezamos.
+
+Orden de la semana: lunes dinero, miércoles misterio, viernes dinero, sábado misterio. La primera semana de cada mes, el sábado toca historia olvidada.
+
+**Duración: 35 a 45 segundos** (unas 100–120 palabras). Los vídeos cortos se ven hasta el final más a menudo.
 
 ## 3b. Estilo visual estándar (referencia elegida por Alejandro)
 
@@ -39,13 +51,13 @@
 - **Subtítulos grandes palabra a palabra** en el centro: blancos con borde negro y la palabra que se dice en amarillo.
 - **Etiqueta arriba** con el lugar y el año (por ejemplo, "1865 · FÁBRICA EL FÍGARO").
 - **Sonido**: voz automática con música de fondo suave que baja cuando hay voz, y efectos (whoosh, pop, monedas, brillos).
-- **Duración de 55 a 65 segundos.** Cierre con "¡SÍGUEME!".
+- **Duración de 35 a 45 segundos.** Cierre con "¡SÍGUEME!".
 - Motor: `tools/anim/engine.py`. Ejemplo completo: `tools/anim/ep002_lector.py`.
 
 ## 4. Formato estándar de cada Short
 
 1. **Gancho en los 2 primeros segundos**: una pregunta o un dato increíble.
-2. **Duración de 30 a 45 segundos.**
+2. **Duración de 35 a 45 segundos.**
 3. **Subtítulos grandes**, porque mucha gente ve sin sonido.
 4. **Un solo dato o una sola historia por vídeo**, contada con tensión hasta el final.
 5. **Final que invite a ver de nuevo o a seguir el canal.**
