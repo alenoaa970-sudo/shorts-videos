@@ -1,0 +1,13 @@
+{
+  "slug": "000-ejemplo",
+  "voice": "es-MX-JorgeNeural",
+  "main": {"shirt": "#F6F2E6", "hat": "panama", "hat_col": null},
+  "segments": [
+    {"scene": "town", "sky": "night", "sign": "CALLE MAYOR", "action": "talk", "chip": "MADRID · 1850", "text": "Esto es una prueba de la escena de calle por la noche."},
+    {"scene": "port", "sky": "sunset", "sign": "TUDOR", "crates": ["HIELO", "HIELO", "HIELO"], "chip": "BOSTON · 1833", "text": "Y esto es el puerto, con un barco que se mueve."},
+    {"scene": "reveal", "obj": "poster", "lines": ["SE BUSCA", "LECTOR"], "obj2": "sign", "lines2": ["PROHIBIDO", "LEER"], "color2": "#B3262A", "chip": "EL CARTEL", "text": "Aquí aparece un cartel, y luego cambia por otro cartel distinto con brillos."},
+    {"scene": "closeup", "mood": "surprised", "symbols": "question", "bg": "town", "prop": "none", "chip": "¿POR QUÉ?", "text": "Un primer plano con interrogaciones."},
+    {"scene": "interior", "workers": 2, "mood": "happy", "prop": "none", "chip": "EL TALLER", "text": "Dos trabajadores felices."},
+    {"scene": "end", "chip": "+ HISTORIAS DE ANTES", "text": "Sígueme para más."}
+  ]
+}

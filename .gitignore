@@ -1,0 +1,3 @@
+videos/*.mp4
+!videos/001-guerra-mas-corta.mp4
+!videos/002-lector-tabaqueria.mp4

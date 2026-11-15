@@ -28,7 +28,7 @@
 
 ## 3. Nicho elegido
 
-**Propuesta (falta que Alejandro la confirme):** historia curiosa, sobre todo oficios y hechos olvidados ("El despertador humano", "El hielo que viajó a la India"…), contada en dibujos animados.
+**Elegido:** historia curiosa, sobre todo oficios y hechos olvidados ("El despertador humano", "El hielo que viajó a la India"…), contada en dibujos animados.
 
 ## 3b. Estilo visual estándar (referencia elegida por Alejandro)
 
@@ -50,7 +50,7 @@
 4. **Un solo dato o una sola historia por vídeo**, contada con tensión hasta el final.
 5. **Final que invite a ver de nuevo o a seguir el canal.**
 6. **Datos siempre comprobados** con fuentes fiables. Nada inventado.
-7. **Publicar 1 o 2 al día, a la misma hora.**
+7. **Publicar 4 por semana (lunes, miércoles, viernes y sábado) a las 19:00, hora de Madrid.** Así no se pasa del límite de 20 publicaciones al mes del plan gratis de Metricool.
 8. Títulos cortos con el dato más llamativo y el hashtag #shorts.
 
 ## Fuentes
@@ -60,3 +60,6 @@
 - air.io, YouTube Official Blog (vía subsub.io y tella.com): requisitos del YPP y cambios de febrero de 2027
 - outlierkit.com, tubefilter.com: política de "contenido no auténtico" (julio de 2026)
 - fluxnote.io: audiencia hispanohablante y español neutro
+
+## 5. Proceso automático
+Lo describe paso a paso `RUN.md`. Cada vídeo se crea y se publica sin esperar el visto bueno.
