@@ -11,6 +11,8 @@ Formato del JSON (ver episodios/EJEMPLO.json):
      {"scene": "<tipo>", "text": "frase narrada", "chip": "ETIQUETA ARRIBA", ...parámetros de la escena}
   ]
 }
+Efectos por segmento (opcionales): "impact": true (golpe + temblor + flash), "riser": true (subida de tensión justo antes),
+"heartbeat": true (latidos + pulso rojo). La música sube de intensidad sola a lo largo del vídeo.
 Tipos de escena y parámetros:
   town      calle colonial. sign="TEXTO DEL CARTEL", sky=day|sunset|night, action=wave|talk
   port      puerto con barco. sky=day|sunset|night, sign="NOMBRE DEL BARCO", crates=["HIELO",...]
@@ -18,9 +20,9 @@ Tipos de escena y parámetros:
   idea      primer plano + bombilla que se enciende.
   speaker   personaje en una tarima hablando a un público. prop=book|newspaper|none|mic, crowd=2-4
   coins     bote que se llena de monedas. label="TEXTO DEBAJO"
-  reveal    objeto grande que aparece. obj=book|box|sign|poster|pizza|chest|map, bg=<fondo> (opcional), lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
+  reveal    objeto grande que aparece. obj=book|box|sign|poster|pizza|chest|map|medals, bg=<fondo> (opcional), lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
   (interior y closeup aceptan "dark": true para escenas de misterio)
-  place     protagonista de pie en cualquier fondo. bg=mountains|forest|vault|library|city|office|storm|town|port|interior,
+  place     protagonista de pie en cualquier fondo. bg=mountains|forest|vault|library|city|office|storm|warroom|beach|lisbon|town|port|interior,
             action=talk|wave|point|dig, mood, prop, symbols, crowd=0-4 (gente alrededor), sky=day|sunset|night
   closeup   protagonista grande (bg= cualquier fondo). prop=book|newspaper|cigar|none, mood=open|happy|surprised|worried|bored, symbols=letters|question|exclaim|hearts|notes|clock|none
   end       cierre "¡SÍGUEME!". chip="+ OFICIOS OLVIDADOS"
@@ -32,7 +34,7 @@ certifi.where = lambda: "/root/.ccr/ca-bundle.crt"
 import edge_tts, skia
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from engine import *
-from sound import music, whoosh, pop, clink, shimmer, SR
+from sound import music, whoosh, pop, clink, shimmer, SR, music_style, riser, impact, heartbeat
 import backgrounds as BG
 
 GAP = 0.28
@@ -194,6 +196,28 @@ def big_object(c, obj, lines, color, T, a):
         c.drawLine(165, -145, 215, -95, P("#B3262A", stroke=14)); c.drawLine(215, -145, 165, -95, P("#B3262A", stroke=14))
         if lines:
             text_c(c, lines[0], 0, -175, fit(lines[0], 52, 600), fill="#3A2416", path=FONT_SERIF)
+    elif obj == "medals":
+        for k, (mx, ribbon, col, shape) in enumerate([(-170, ["#1A1A1A", "#FFFFFF", "#C8372D"], "#3A3A3A", "cross"), (170, ["#B3262A", "#9AA6B2", "#B3262A"], "#D8B04A", "circle")]):
+            c.save(); c.translate(mx, 0); c.rotate(-6 if k == 0 else 6)
+            for j, rc in enumerate(ribbon): c.drawRect(skia.Rect.MakeLTRB(-70 + j * 47, -260, -23 + j * 47, -60), P(rc))
+            c.drawRect(skia.Rect.MakeLTRB(-70, -260, 71, -60), P(OUT, stroke=6))
+            if shape == "cross":
+                cr = skia.Path()
+                for ang in range(4):
+                    c.save(); c.rotate(ang * 90)
+                    fs(c, poly([(-38, -40), (38, -40), (55, -150), (-55, -150)]) if False else poly([(-30, -30), (30, -30), (55, -140), (-55, -140)]), col, ow=6)
+                    c.restore()
+                c.save(); c.translate(0, 0)
+                fs(c, rrect(-40, -40, 40, 40, 6), col, ow=6)
+                c.restore()
+                c.translate(0, 0)
+            else:
+                fs(c, oval(0, 0, 120, 120), col, ow=8); c.drawCircle(0, 0, 85, P("#A8862E", stroke=6))
+            c.restore()
+        # reposition cross center below ribbon
+        if lines:
+            fs(c, rrect(-330, 200, 330, 290, 20), "#FFD23F", ow=7)
+            text_c(c, lines[0], 0, 263, fit(lines[0], 50, 620, FONT_BLACK), fill="#2A1B12")
     elif obj == "pizza":
         for k, (px, py) in enumerate(((-130, 40), (150, -30))):
             c.save(); c.translate(px, py); c.rotate(k * 25)
@@ -416,7 +440,12 @@ def main(ep_path, out, preview=None):
             add(shimmer(), st + 0.1, 0.8)
             if "obj2" in s: add(shimmer(), st + d * 0.47, 1.0); add(pop(), st + d * 0.47, 0.5)
         if s["scene"] == "end": add(pop(), st + 0.05, 0.6)
-    mus = music(total)
+        if s.get("riser"): r = riser(); add(r, st - len(r) / SR + 0.05, 0.8)
+        if s.get("impact"): add(impact(), st + 0.02, 0.9)
+        if s.get("heartbeat"):
+            for q in range(int(d / 0.85)): add(heartbeat(), st + q * 0.85, 0.7)
+    curve = np.clip(np.linspace(0.0, 1.0, n) ** 0.8, 0, 1)
+    mus = music_style(total, ep.get("music", "cuba"), curve)
     fr = int(SR / FPS)
     venv = np.array([np.sqrt(np.mean(voice_a[i * fr:(i + 1) * fr] ** 2) + 1e-9) for i in range(int(total * FPS))])
     duck = np.repeat(np.where(venv > 0.01, 0.55, 1.0), fr)
@@ -446,7 +475,11 @@ def main(ep_path, out, preview=None):
         c = surf.getCanvas(); c.clear(C("#000000"))
         fx, fy = FOCUS[s["scene"]]
         z = 1.0 + 0.05 * ease_io(tl / max(d, 0.1)) + 0.14 * (1 - ease_out(tl / 0.35))
-        c.save(); c.translate(fx, fy); c.scale(z, z); c.translate(-fx, -fy)
+        c.save()
+        if s.get("impact") and tl < 0.5:
+            amp = 22 * (1 - tl / 0.5); c.translate(math.sin(f * 2.3) * amp, math.cos(f * 3.1) * amp)
+            z += 0.06 * (1 - tl / 0.5)
+        c.translate(fx, fy); c.scale(z, z); c.translate(-fx, -fy)
         SCENES[s["scene"]](c, s, tl, d, float(mouth[min(f, len(mouth) - 1)]), T, ep)
         c.restore()
         vignette(c)
@@ -455,6 +488,11 @@ def main(ep_path, out, preview=None):
                  bg="#FFFFFF" if s["scene"] == "end" else ("#7FD4C1" if idx % 2 else "#FFD23F"))
         if tl < 0.12:
             c.drawRect(skia.Rect.MakeWH(W, H), P("#FFFFFF", a=int(160 * (1 - tl / 0.12))))
+        if s.get("impact") and tl < 0.25:
+            c.drawRect(skia.Rect.MakeWH(W, H), P("#FFFFFF", a=int(200 * (1 - tl / 0.25))))
+        if s.get("heartbeat"):
+            pulse = max(0.0, math.sin((tl % 0.85) / 0.85 * math.pi * 2)) ** 6
+            c.drawRect(skia.Rect.MakeWH(W, H), rad_grad(W / 2, H / 2, 1200, [C("#B3000A", 0), C("#B3000A", int(120 * pulse))], [0.5, 1]))
         captions(c, words, T, y=760)
         if preview:
             surf.makeImageSnapshot().save(f"/tmp/prev_{T:05.1f}.png"); continue

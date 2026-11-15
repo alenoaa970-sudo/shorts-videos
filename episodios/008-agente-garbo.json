@@ -1,0 +1,96 @@
+{
+ "slug": "008-agente-garbo",
+ "voice": "es-MX-JorgeNeural",
+ "music": "spy",
+ "main": {
+  "shirt": "#D9D2C0",
+  "hat": "bowler",
+  "hat_col": "#2D2D33"
+ },
+ "segments": [
+  {
+   "scene": "place",
+   "bg": "warroom",
+   "action": "point",
+   "mood": "surprised",
+   "impact": true,
+   "chip": "AGENTE GARBO",
+   "text": "Un español engañó a Hitler… con veintisiete espías que no existían."
+  },
+  {
+   "scene": "place",
+   "bg": "city",
+   "action": "talk",
+   "mood": "worried",
+   "symbols": "question",
+   "chip": "1941",
+   "text": "En 1941, Juan Pujol, un barcelonés, quiso espiar para los británicos. Le dijeron que no."
+  },
+  {
+   "scene": "place",
+   "bg": "lisbon",
+   "action": "talk",
+   "mood": "happy",
+   "prop": "newspaper",
+   "chip": "LISBOA",
+   "text": "Así que se hizo pasar por espía nazi. Los alemanes creían que estaba en Londres… pero estaba en Lisboa, inventándoselo todo."
+  },
+  {
+   "scene": "reveal",
+   "obj": "poster",
+   "lines": [
+    "27 ESPÍAS",
+    "FALSOS"
+   ],
+   "color": "#B3262A",
+   "bg": "library",
+   "chip": "TODOS INVENTADOS",
+   "text": "Se inventó una red entera de espías falsos, cada uno con su vida."
+  },
+  {
+   "scene": "place",
+   "bg": "warroom",
+   "action": "point",
+   "mood": "open",
+   "heartbeat": true,
+   "riser": true,
+   "chip": "1944",
+   "text": "Los británicos lo ficharon. Y en 1944 le encargaron la mentira más importante de la guerra…"
+  },
+  {
+   "scene": "place",
+   "bg": "beach",
+   "action": "point",
+   "mood": "surprised",
+   "impact": true,
+   "symbols": "exclaim",
+   "chip": "DÍA D · NORMANDÍA",
+   "text": "convencer a Hitler de que Normandía era una trampa… y que el ataque real llegaría por Calais."
+  },
+  {
+   "scene": "reveal",
+   "obj": "medals",
+   "lines": [
+    "UNA MEDALLA DE CADA BANDO"
+   ],
+   "bg": "vault",
+   "impact": true,
+   "chip": "¡FUNCIONÓ!",
+   "text": "Funcionó. Y recibió una medalla de cada bando: de los nazis… y de los británicos."
+  },
+  {
+   "scene": "closeup",
+   "bg": "forest",
+   "sky": "night",
+   "mood": "worried",
+   "symbols": "question",
+   "chip": "1949: «MUERTO»",
+   "text": "Después fingió su propia muerte y desapareció durante décadas."
+  },
+  {
+   "scene": "end",
+   "chip": "+ HISTORIAS REALES",
+   "text": "Sígueme para más historias reales."
+  }
+ ]
+}

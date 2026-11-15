@@ -26,6 +26,9 @@ Crea `episodios/NNN-slug.json` (NNN = siguiente número del historial) siguiendo
 - **NADA DE RECICLAR (orden de Alejandro):** cada vídeo usa **al menos 4 fondos (`bg`) distintos**, elegidos según la historia: mountains, forest, vault, library, city, office, storm, town, port, interior. La sala con ventanas (`interior`) se usa como mucho UNA vez por vídeo, y solo si encaja con la historia.
 - Usa sobre todo `place` (personaje en cualquier fondo), `closeup` y `reveal` con `bg`. Objetos disponibles para `reveal`: book, box, sign, poster, pizza, chest, map. Si la historia necesita un fondo u objeto que no existe, **dibújalo nuevo** en tools/anim/backgrounds.py o en big_object(), en vez de forzar uno que no encaje.
 - Pon un `chip` con el lugar o el año en casi todas las escenas.
+- **Música según el tono** (campo `"music"` del JSON): `spy` (espionaje, engaños, planes secretos), `mystery` (misterios, desapariciones, enigmas), `epic` (hazañas, desastres, momentos históricos), `upbeat` (dinero con final feliz, inventos, curiosidades ligeras), `cuba` solo para historias latinas o de antes con tono alegre.
+- **Emoción**: el gancho lleva `"impact": true`. El giro principal lleva `"riser": true` en el segmento anterior y `"impact": true` en el del giro. Usa `"heartbeat": true` en el momento de máxima tensión. No pongas más de 3 impactos por vídeo.
+- **Historias poco conocidas**: evita las típicas que ya ha contado todo el mundo; busca giros inesperados, protagonistas sorprendentes y, si puede ser, con relación con España o Latinoamérica.
 - Escoge el vestuario del protagonista (`main`) según la época y el lugar.
 
 ## 3. Renderizar y revisar

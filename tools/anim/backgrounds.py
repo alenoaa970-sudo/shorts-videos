@@ -251,6 +251,90 @@ def storm(c, t, ship_name=""):
         if k == 1:
             if SHIP: SHIP(c, 560, yy + 40, 0.75, t * 2.5, ship_name)
 
+# ------------------------------------------------------------------ sala de operaciones (guerra)
+def warroom(c, t):
+    c.drawRect(skia.Rect.MakeWH(W, H), lin_grad(0, 0, 0, H, ["#2A2F24", "#15180F"]))
+    # gran mapa en la pared
+    fs(c, rrect(70, 180, 1010, 900, 10), "#3A2A18", ow=10)
+    c.drawRect(skia.Rect.MakeLTRB(95, 205, 985, 875), lin_grad(0, 205, 0, 875, ["#7FB6C9", "#5E97AC"]))
+    land = [poly([(380, 260), (520, 240), (560, 380), (500, 520), (430, 560), (390, 460), (350, 380)]),     # Gran Bretaña
+            poly([(560, 600), (985, 560), (985, 875), (520, 875), (470, 760)]),                                # continente
+            poly([(95, 760), (300, 720), (340, 875), (95, 875)])]
+    for p in land: fs(c, p, "#D9C48F", ow=5)
+    for xx in range(95, 985, 90): c.drawLine(xx, 205, xx, 875, P("#FFFFFF", stroke=2, a=50))
+    for yy in range(205, 875, 90): c.drawLine(95, yy, 985, yy, P("#FFFFFF", stroke=2, a=50))
+    # flechas rojas parpadeantes
+    a = int(150 + 100 * math.sin(t * 4))
+    for (x0, y0, x1, y1) in [(480, 520, 600, 660), (520, 470, 700, 600)]:
+        c.drawLine(x0, y0, x1, y1, P("#E53935", stroke=12, a=a))
+        ang = math.atan2(y1 - y0, x1 - x0)
+        c.drawPath(poly([(x1, y1), (x1 - 40 * math.cos(ang - 0.5), y1 - 40 * math.sin(ang - 0.5)), (x1 - 40 * math.cos(ang + 0.5), y1 - 40 * math.sin(ang + 0.5))]), P("#E53935", a=a))
+    for (px, py) in [(470, 380), (720, 640), (850, 700), (610, 720)]: fs(c, oval(px, py, 12, 12), "#E53935", ow=4)
+    # lámpara colgante con cono de luz
+    sw = math.sin(t * 1.1) * 0.06
+    c.save(); c.translate(540, 0); c.rotate(math.degrees(sw))
+    c.drawLine(0, 0, 0, 980, P("#111111", stroke=5))
+    c.drawPath(poly([(-60, 1000), (60, 1000), (380, 1700), (-380, 1700)]), P("#FFE9A0", a=40, blur=20))
+    fs(c, poly([(-70, 1010), (-35, 960), (35, 960), (70, 1010)]), "#3E4A2E", ow=5)
+    c.restore()
+    # mesa con radio
+    c.drawRect(skia.Rect.MakeLTRB(0, 1500, W, H), lin_grad(0, 1500, 0, H, ["#3A2A18", "#1E150B"]))
+    fs(c, rrect(620, 1300, 1000, 1500, 10), "#4A4F3A", ow=7)
+    for k in range(2): fs(c, oval(690 + k * 90, 1400, 32, 32), "#2A2A2A", ow=5)
+    c.drawRect(skia.Rect.MakeLTRB(860, 1340, 970, 1460), P("#1F2A1A"))
+    wave = skia.Path(); wave.moveTo(865, 1400)
+    for k in range(22): wave.lineTo(865 + k * 5, 1400 + math.sin(t * 12 + k) * 25 * abs(math.sin(t * 3)))
+    c.drawPath(wave, P("#7CFF7C", stroke=3))
+    c.drawLine(960, 1300, 1000, 1180, P("#2A2A2A", stroke=6))
+
+# ------------------------------------------------------------------ playa al amanecer (desembarco)
+def beach(c, t):
+    _sky(c, "#F2A65A", "#FFE3B5", 1050)
+    c.drawCircle(540, 1000, 170, P("#FFD37A", a=230))
+    for (cx, cy, sc, sp) in [(200, 420, 1.0, 6), (800, 330, 0.8, 4)]: cloud(c, (cx + t * sp) % (W + 400) - 200, cy, sc, a=170)
+    c.drawRect(skia.Rect.MakeLTRB(0, 1040, W, 1450), lin_grad(0, 1040, 0, 1450, ["#5E8FB0", "#2F5F80"]))
+    for k in range(8):
+        yy = 1070 + k * 45
+        c.drawLine((t * 30 + k * 130) % W, yy, (t * 30 + k * 130) % W + 120, yy, P("#FFFFFF", stroke=3, a=80))
+    for k in range(7):   # siluetas de barcos en el horizonte
+        x = 80 + k * 150 + math.sin(t + k) * 5; y = 1060 + (k % 3) * 25
+        c.drawPath(poly([(x - 45, y), (x + 45, y), (x + 32, y + 18), (x - 32, y + 18)]), P("#2A3440"))
+        c.drawRect(skia.Rect.MakeLTRB(x - 8, y - 28, x + 8, y), P("#2A3440"))
+    sand = skia.Path(); sand.moveTo(0, 1450); sand.quadTo(540, 1390, W, 1450); sand.lineTo(W, H); sand.lineTo(0, H); sand.close()
+    c.drawPath(sand, lin_grad(0, 1400, 0, H, ["#E8CF9A", "#C9A86A"]))
+    for k in range(5):   # obstáculos de playa
+        x = 120 + k * 210; y = 1560 + (k % 2) * 60
+        c.drawLine(x - 30, y + 40, x + 30, y - 40, P("#4A4A4A", stroke=10)); c.drawLine(x + 30, y + 40, x - 30, y - 40, P("#4A4A4A", stroke=10))
+
+# ------------------------------------------------------------------ calle de Lisboa (años 40)
+def lisbon(c, t):
+    _sky(c, "#7EC8F2", "#FFE6B8", 900)
+    cols = ["#F2C14E", "#E07A4F", "#7FB6C9", "#F6ECD2", "#C98AB0"]
+    x = -20; k = 0
+    while x < W:
+        w = 230; h = 700 + (k % 3) * 90
+        fs(c, rrect(x, 1380 - h, x + w, 1400, 4), cols[k % 5], ow=6)
+        for wy in range(1380 - h + 70, 1300, 150):     # ventanas con contraventanas
+            for wx in (x + 40, x + 130):
+                fs(c, rrect(wx, wy, wx + 60, wy + 90, 4), "#3B5A7A", ow=4)
+                c.drawLine(wx + 30, wy, wx + 30, wy + 90, P("#FFFFFF", stroke=3, a=120))
+        for ty in range(1380 - h + 20, 1380, 40):       # azulejos
+            c.drawLine(x, ty, x + w, ty, P("#FFFFFF", stroke=1, a=40))
+        fs(c, rrect(x - 10, 1380 - h - 30, x + w + 10, 1380 - h + 6, 4), "#C4573A", ow=5)
+        x += w + 4; k += 1
+    c.drawRect(skia.Rect.MakeLTRB(0, 1400, W, H), lin_grad(0, 1400, 0, H, ["#CFC2A8", "#9E8F72"]))
+    for k in range(12):
+        c.drawLine(0, 1430 + k * 45, W, 1430 + k * 45, P("#8A7C60", stroke=2, a=90))
+    c.drawLine(0, 1560, W, 1560, P("#555555", stroke=6)); c.drawLine(0, 1610, W, 1610, P("#555555", stroke=6))
+    c.drawLine(0, 980, W, 980, P("#222222", stroke=3))   # cable del tranvía
+    tx = (W + 300) - ((t * 90) % (W + 900))
+    fs(c, rrect(tx, 1250, tx + 520, 1560, 26), "#F2C230", ow=8)    # tranvía amarillo
+    fs(c, rrect(tx, 1250, tx + 520, 1300, 26), "#FFFFFF", ow=6)
+    for k in range(4): fs(c, rrect(tx + 30 + k * 120, 1320, tx + 120 + k * 120, 1420, 8), "#BFE6F5", ow=5)
+    c.drawLine(tx + 260, 1250, tx + 300, 985, P("#222222", stroke=5))
+    for wx in (tx + 110, tx + 410): fs(c, oval(wx, 1565, 32, 32), "#333333", ow=5)
+    fs(c, rrect(tx + 190, 1450, tx + 330, 1490, 6), "#2F5D50", ow=4)
+
 def draw_bg(c, t, name, s):
     """Dibuja cualquier fondo por nombre. Devuelve False si no lo conoce."""
     sky = s.get("sky", "day")
@@ -261,9 +345,12 @@ def draw_bg(c, t, name, s):
     elif name == "city": city(c, t)
     elif name == "office": office(c, t)
     elif name == "storm": storm(c, t, s.get("sign", ""))
+    elif name == "warroom": warroom(c, t)
+    elif name == "beach": beach(c, t)
+    elif name == "lisbon": lisbon(c, t)
     else: return False
     if s.get("dark"): c.drawRect(skia.Rect.MakeWH(W, H), P("#0A0612", a=120))
     return True
 
 SHIP = None
-NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm"]
+NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon"]

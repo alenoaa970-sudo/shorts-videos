@@ -11,3 +11,4 @@ Antes de elegir una historia nueva, comprobar aquí que no se ha hecho ya. Añad
 | 005 | 15/11/2026 21:05 | El Mary Celeste, el barco fantasma (1872) — misterio | El BARCO FANTASMA que apareció sin nadie a bordo 👻 | Publicado |
 | 006 | 15/11/2026 21:06 | El manuscrito Voynich (1404–1438) — misterio | El LIBRO que NADIE ha podido leer en 500 años 📜 | Publicado |
 | 007 | 15/11/2026 21:20 | El tesoro escondido de Forrest Fenn (2010–2020) — dinero + misterio | Escondió un COFRE DE ORO y dejó un poema con las pistas 💰🗺️ | Publicado |
+| 008 | 15/11/2026 21:34 | Agente Garbo: Juan Pujol engaña a Hitler (1941–1944) — misterio/espías | El ESPAÑOL que engañó a Hitler con 27 espías FALSOS 🕵️ | Publicado |
