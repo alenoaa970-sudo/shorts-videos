@@ -28,7 +28,19 @@
 
 ## 3. Nicho elegido
 
-**PENDIENTE: lo elige Alejandro.** Hasta entonces no se generan vídeos nuevos.
+**Propuesta (falta que Alejandro la confirme):** historia curiosa, sobre todo oficios y hechos olvidados ("El despertador humano", "El hielo que viajó a la India"…), contada en dibujos animados.
+
+## 3b. Estilo visual estándar (referencia elegida por Alejandro)
+
+- **Dibujos animados 2D** con un personaje propio: cabeza grande y redonda, bigote, sombrero y guayabera. Es un diseño original: no copiar personajes de otros canales.
+- **Fondos ilustrados** de la época y el lugar (calle, fábrica, puerto…) con detalles que se mueven: nubes, palmeras, luces y polvo.
+- **Movimiento constante**: cámara que se acerca poco a poco, un golpe de zoom con flash en cada cambio de escena, personajes que se mueven, parpadean y hablan, y objetos que aparecen con rebote.
+- **Una escena nueva cada 5–10 segundos.**
+- **Subtítulos grandes palabra a palabra** en el centro: blancos con borde negro y la palabra que se dice en amarillo.
+- **Etiqueta arriba** con el lugar y el año (por ejemplo, "1865 · FÁBRICA EL FÍGARO").
+- **Sonido**: voz automática con música de fondo suave que baja cuando hay voz, y efectos (whoosh, pop, monedas, brillos).
+- **Duración de 55 a 65 segundos.** Cierre con "¡SÍGUEME!".
+- Motor: `tools/anim/engine.py`. Ejemplo completo: `tools/anim/ep002_lector.py`.
 
 ## 4. Formato estándar de cada Short
 
