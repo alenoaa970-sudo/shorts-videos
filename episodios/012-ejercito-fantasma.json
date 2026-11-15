@@ -1,0 +1,60 @@
+{
+ "slug": "012-ejercito-fantasma",
+ "voice": "es-MX-JorgeNeural",
+ "music": "spy",
+ "engine": "3d",
+ "segments": [
+  {
+   "shot": "lift",
+   "impact": true,
+   "chip": "",
+   "text": "Dos soldados levantan un tanque de treinta toneladas… con las manos."
+  },
+  {
+   "shot": "rubber",
+   "pop": 1.2,
+   "chip": "FRANCIA · 1944",
+   "text": "Porque es de goma. Son el Ejército Fantasma, en 1944."
+  },
+  {
+   "shot": "artists",
+   "chip": "PINTORES Y ACTORES",
+   "text": "No son soldados normales: son pintores, diseñadores, actores e ingenieros de sonido."
+  },
+  {
+   "shot": "army",
+   "shimmer": 0.3,
+   "chip": "UN EJÉRCITO GIGANTE",
+   "text": "Su misión: que los alemanes creyeran que eran un ejército gigante."
+  },
+  {
+   "shot": "night",
+   "heartbeat": true,
+   "chip": "DE NOCHE",
+   "text": "Inflaban tanques y camiones, y de noche ponían altavoces con ruido de tropas."
+  },
+  {
+   "shot": "binoculars",
+   "riser": true,
+   "chip": "MARZO 1945 · RÍO RIN",
+   "text": "En 1945 fingieron que cruzarían el río Rin por un sitio…"
+  },
+  {
+   "shot": "river",
+   "impact": true,
+   "chip": "¡FUNCIONÓ!",
+   "text": "y los alemanes movieron allí sus tropas, mientras el ejército real cruzaba por otro."
+  },
+  {
+   "shot": "medal",
+   "shimmer": 0.4,
+   "chip": "SECRETO HASTA 1996",
+   "text": "Fue tan secreto que no se supo hasta 1996."
+  },
+  {
+   "shot": "end",
+   "chip": "+ HISTORIAS REALES",
+   "text": "Sígueme para más."
+  }
+ ]
+}

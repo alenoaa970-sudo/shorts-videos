@@ -15,3 +15,4 @@ Antes de elegir una historia nueva, comprobar aquí que no se ha hecho ya. Añad
 | 009 | 15/11/2026 21:49 | Stanislav Petrov evita una guerra nuclear (1983) — misterio/tensión | El hombre que EVITÓ una guerra nuclear sin hacer nada ☢️ | Publicado |
 | 010 | 15/11/2026 21:50 | Juliane Koepcke sobrevive a la caída y 11 días en el Amazonas (Perú, 1971) | Cayó de un AVIÓN a 3.000 metros… y SOBREVIVIÓ en el Amazonas 🌴 | Publicado |
 | 011 | 15/11/2026 21:51 | Violet Jessop, superviviente del Olympic, Titanic y Britannic (1911–1916) | Sobrevivió al TITANIC… y a otros 2 desastres 🚢 | Publicado |
+| 012 | 15/11/2026 22:51 | El Ejército Fantasma: tanques de goma (1944–1945) — primer vídeo 3D | El EJÉRCITO de GOMA que engañó a los nazis 🪖 | Publicado |

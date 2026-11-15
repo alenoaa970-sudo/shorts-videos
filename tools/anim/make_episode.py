@@ -42,7 +42,7 @@ SHIRTS = ["#F2D9C9", "#CFE3F2", "#E7F2CF", "#F6F2E6", "#EFD9F2"]
 HATS = [("cap", "#6B5B4B"), ("panama", None), ("cap", "#3F5A6B"), ("bowler", None), ("cap", "#5B3F6B")]
 
 async def tts(text, voice, out):
-    c = edge_tts.Communicate(text, voice, rate="+12%", boundary="WordBoundary")
+    c = edge_tts.Communicate(text, voice, rate=os.environ.get("RATE", "+12%"), boundary="WordBoundary")
     words = []
     with open(out, "wb") as f:
         async for ch in c.stream():
