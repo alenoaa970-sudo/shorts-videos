@@ -18,7 +18,7 @@ Tipos de escena y parámetros:
   idea      primer plano + bombilla que se enciende.
   speaker   personaje en una tarima hablando a un público. prop=book|newspaper|none|mic, crowd=2-4
   coins     bote que se llena de monedas. label="TEXTO DEBAJO"
-  reveal    objeto grande que aparece. obj=book|box|sign|poster, lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
+  reveal    objeto grande que aparece. obj=book|box|sign|poster|pizza, lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
   (interior y closeup aceptan "dark": true para escenas de misterio)
   closeup   protagonista grande. prop=book|newspaper|cigar|none, mood=open|happy|surprised|worried|bored, symbols=letters|question|exclaim|hearts|notes|clock|none
   end       cierre "¡SÍGUEME!". chip="+ OFICIOS OLVIDADOS"
@@ -136,6 +136,10 @@ def floaters(c, kind, x, y, tl):
         fnt = FONT_BLACK if kind not in ("hearts", "notes") else "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
         text_c(c, chars[k % len(chars)], xx, yy, 50 + 22 * ph, fill=col, stroke="#3A2416", sw=8, a=int(255 * (1 - ph) ** 0.7), path=fnt)
 
+def fit(txt, size, maxw, path=FONT_SERIF):
+    while size > 24 and font(size, path).measureText(txt) > maxw: size -= 2
+    return size
+
 def big_object(c, obj, lines, color, T, a):
     c.save(); c.translate(540, 1150 + math.sin(T * 2) * 12); c.rotate(-4 + math.sin(T * 1.5) * 3); c.scale(a, a)
     lines = lines or []
@@ -146,7 +150,7 @@ def big_object(c, obj, lines, color, T, a):
         c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeLTRB(-165, -250, 205, 250), 10, 10), P("#E8C25A", stroke=6))
         y0 = -120
         for ln in lines[:5]:
-            size = 58 if len(ln) <= 9 else (48 if len(ln) <= 12 else 38)
+            size = fit(ln, 58, 330)
             text_c(c, ln, 20, y0, size, fill="#F5D774", path=FONT_SERIF); y0 += 75
     elif obj == "box":
         c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeLTRB(-300, -170, 320, 210), 16, 16), P("#000000", a=100, blur=10))
@@ -155,7 +159,24 @@ def big_object(c, obj, lines, color, T, a):
         fs(c, rrect(-230, -80, 230, 110, 12), "#F3E3BC", ow=6)
         y0 = 20 if len(lines) <= 1 else -5
         for ln in lines[:2]:
-            text_c(c, ln, 0, y0, 50 if len(ln) <= 12 else 38, fill=color or "#B3262A", path=FONT_SERIF); y0 += 62
+            text_c(c, ln, 0, y0, fit(ln, 50, 420), fill=color or "#B3262A", path=FONT_SERIF); y0 += 62
+    elif obj == "pizza":
+        for k, (px, py) in enumerate(((-130, 40), (150, -30))):
+            c.save(); c.translate(px, py); c.rotate(k * 25)
+            c.drawCircle(8, 12, 190, P("#000000", a=90, blur=10))
+            fs(c, oval(0, 0, 190, 190), "#D9963F", ow=8)
+            fs(c, oval(0, 0, 160, 160), "#F2C14E", ow=0)
+            c.drawCircle(0, 0, 160, P("#E0582F", a=90))
+            rnd = random.Random(k)
+            for q in range(9):
+                a_ = rnd.uniform(0, 6.28); r_ = rnd.uniform(20, 120)
+                fs(c, oval(math.cos(a_) * r_, math.sin(a_) * r_, 22, 22), "#B3262A", ow=4)
+            for q in range(6):
+                c.save(); c.rotate(q * 60); c.drawLine(0, 0, 0, -185, P(OUT, stroke=3, a=110)); c.restore()
+            c.restore()
+        if lines:
+            fs(c, rrect(-250, 230, 250, 320, 20), "#FFD23F", ow=7)
+            text_c(c, lines[0], 0, 293, 54, fill="#2A1B12")
     else:   # sign / poster
         tall = obj == "poster"
         hw, hh = (230, 320) if tall else (340, 200)
@@ -164,7 +185,7 @@ def big_object(c, obj, lines, color, T, a):
         c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeLTRB(-hw + 22, -hh + 22, hw - 22, hh - 22), 8, 8), P(color or "#2F5D50", stroke=6))
         n = len(lines[:5]); y0 = -((n - 1) * 80) / 2 + 22
         for ln in lines[:5]:
-            size = 70 if len(ln) <= 10 else (54 if len(ln) <= 14 else 42)
+            size = fit(ln, 70, 2 * hw - 80)
             text_c(c, ln, 0, y0, size, fill=color or "#2F5D50", path=FONT_SERIF); y0 += 80
     c.restore()
 
