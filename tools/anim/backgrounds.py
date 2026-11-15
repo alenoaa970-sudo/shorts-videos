@@ -335,6 +335,163 @@ def lisbon(c, t):
     for wx in (tx + 110, tx + 410): fs(c, oval(wx, 1565, 32, 32), "#333333", ow=5)
     fs(c, rrect(tx + 190, 1450, tx + 330, 1490, 6), "#2F5D50", ow=4)
 
+# ------------------------------------------------------------------ búnker con alarma
+def bunker(c, t):
+    c.drawRect(skia.Rect.MakeWH(W, H), lin_grad(0, 0, 0, H, ["#1B2226", "#0B0F12"]))
+    # pantalla gigante con mapa del mundo y trayectorias
+    fs(c, rrect(60, 200, 1020, 860, 14), "#0D1A14", ow=10, outline="#3A4A44")
+    for xx in range(80, 1000, 60): c.drawLine(xx, 220, xx, 840, P("#1E5A3A", stroke=2, a=120))
+    for yy in range(220, 840, 60): c.drawLine(80, yy, 1000, yy, P("#1E5A3A", stroke=2, a=120))
+    for p in [poly([(150, 330), (380, 300), (420, 420), (330, 560), (250, 520), (180, 430)]),
+              poly([(560, 290), (900, 280), (960, 420), (820, 520), (640, 470), (580, 380)])]:
+        c.drawPath(p, P("#2E8B57", a=170)); c.drawPath(p, P("#5CFF9C", stroke=3, a=200))
+    prog = (t * 0.35) % 1
+    for k in range(5):   # trayectorias de "misiles" en la pantalla
+        sx, sy = 300 + k * 18, 430 + k * 10; ex, ey = 720 + k * 22, 360 - k * 6
+        path = skia.Path(); path.moveTo(sx, sy); path.quadTo((sx + ex) / 2, 220 + k * 12, ex, ey)
+        meas = skia.PathMeasure(path, False); L = meas.getLength()
+        seg = skia.Path(); meas.getSegment(0, L * min(1, prog * 1.3 + k * 0.05), seg, True)
+        c.drawPath(seg, P("#FF3B30", stroke=5))
+    text_c(c, "ALERTA", 540, 815, 48, fill="#FF3B30")
+    # luz giratoria roja
+    a = 0.5 + 0.5 * math.sin(t * 9)
+    c.drawRect(skia.Rect.MakeWH(W, H), P("#FF1A1A", a=int(55 * a)))
+    fs(c, rrect(500, 90, 580, 150, 20), "#B3000A", ow=6)
+    c.drawCircle(540, 120, 160, rad_grad(540, 120, 170, [C("#FF3B30", int(160 * a)), C("#FF3B30", 0)]))
+    # consolas
+    fs(c, poly([(0, 1350), (W, 1350), (W, 1520), (0, 1520)]), "#2C3439", ow=6)
+    for k in range(12):
+        x = 60 + k * 85; on = math.sin(t * 6 + k * 1.7) > 0
+        fs(c, oval(x, 1400, 14, 14), "#FF3B30" if on else "#5A1010", ow=4)
+        fs(c, rrect(x - 26, 1440, x + 26, 1490, 6), ["#3A6A8A", "#6A8A3A", "#8A6A3A"][k % 3], ow=4)
+    c.drawRect(skia.Rect.MakeLTRB(0, 1520, W, H), lin_grad(0, 1520, 0, H, ["#22292D", "#0E1214"]))
+
+# ------------------------------------------------------------------ espacio con satélite
+def space(c, t):
+    c.drawRect(skia.Rect.MakeWH(W, H), lin_grad(0, 0, 0, H, ["#05060F", "#101433"]))
+    _stars(c, t, 160, H, seed=9)
+    c.drawCircle(540, 2650, 1400, rad_grad(540, 2650, 1480, [C("#3B82C4", 255), C("#3B82C4", 255), C("#7FD4F0", 120), C("#7FD4F0", 0)], [0, 0.93, 0.97, 1]))
+    rnd = random.Random(5)
+    for k in range(14):
+        cx = rnd.uniform(-100, 1180); cy = rnd.uniform(1330, 1700)
+        c.drawOval(skia.Rect.MakeLTRB(cx - 120, cy - 25, cx + 120, cy + 25), P("#FFFFFF", a=150, blur=6))
+    c.save(); c.translate(560 + math.sin(t * 0.5) * 30, 620 + math.cos(t * 0.4) * 20); c.rotate(-15 + math.sin(t * 0.3) * 5)
+    for side in (-1, 1):
+        fs(c, rrect(side * 110 - (190 if side < 0 else 0), -45, side * 110 + (190 if side > 0 else 0), 45, 6), "#2A4A8A", ow=6)
+        for k in range(1, 5):
+            x = side * 110 + side * k * 38
+            c.drawLine(x, -45, x, 45, P("#7FA8E0", stroke=3))
+    fs(c, rrect(-110, -80, 110, 80, 12), "#C9D2DA", ow=7)
+    fs(c, oval(0, 95, 40, 22), "#8A96A4", ow=5)
+    c.drawLine(0, -80, 0, -150, P(OUT, stroke=6)); fs(c, oval(0, -160, 14, 14), "#FF3B30", ow=4)
+    c.restore()
+
+# ------------------------------------------------------------------ avión en la tormenta
+def sky_storm(c, t):
+    c.drawRect(skia.Rect.MakeWH(W, H), lin_grad(0, 0, 0, H, ["#141B2A", "#3A4458"]))
+    flash = max(0.0, math.sin(t * 1.6) ** 30)
+    for i in range(160):
+        rx = (i * 83 + t * 700) % (W + 200) - 100; ry = (i * 137 + t * 1300) % H
+        c.drawLine(rx, ry, rx - 14, ry + 46, P("#C9D6E6", stroke=3, a=100))
+    for (cx, cy, sc, sp) in [(100, 300, 2.0, 30), (700, 520, 2.4, 22), (300, 1250, 2.2, 26), (900, 1500, 2.0, 34), (520, 1750, 2.6, 20)]:
+        x = (cx - t * sp) % (W + 600) - 300
+        cloud(c, x, cy, sc, a=255)
+        c.save(); c.translate(x, cy); c.scale(sc, sc)
+        p = skia.Path()
+        for (px, py, r) in [(-70, 10, 50), (-20, -20, 65), (45, -5, 55), (90, 15, 40), (0, 20, 50)]: p.addCircle(px, py, r)
+        c.drawPath(p, P("#4A5568", a=215)); c.restore()
+    if flash > 0.05:
+        bolt = poly([(760, 0), (700, 330), (760, 320), (660, 700), (820, 280), (750, 290), (820, 0)])
+        c.drawPath(bolt, P("#FFF6B0", a=int(255 * flash)))
+        c.drawRect(skia.Rect.MakeWH(W, H), P("#FFFFFF", a=int(90 * flash)))
+    c.save(); c.translate(500 + math.sin(t * 7) * 8, 900 + math.sin(t * 5) * 14); c.rotate(-8 + math.sin(t * 3) * 3)
+    fs(c, rrect(-330, -50, 330, 50, 50), "#E8EEF4", ow=8)
+    fs(c, poly([(-60, 0), (80, 0), (-60, 260), (-140, 260)]), "#C9D2DA", ow=7)
+    fs(c, poly([(-60, 0), (80, 0), (-60, -260), (-140, -260)]), "#B8C2CC", ow=7)
+    fs(c, poly([(-300, -30), (-250, -30), (-330, -170), (-370, -170)]), "#C9D2DA", ow=6)
+    for k in range(9): fs(c, oval(-180 + k * 50, -12, 11, 13), "#3B5A7A", ow=3)
+    fs(c, oval(300, -10, 30, 22), "#3B5A7A", ow=4)
+    for (ex, ey) in [(-10, 140), (-10, -140)]:
+        fs(c, rrect(ex - 30, ey - 22, ex + 50, ey + 22, 18), "#8A96A4", ow=5)
+        c.save(); c.translate(ex + 56, ey); c.rotate(t * 2000 % 360)
+        c.drawLine(0, -40, 0, 40, P("#555555", stroke=7)); c.restore()
+    c.restore()
+
+# ------------------------------------------------------------------ selva amazónica con río
+def jungle(c, t, camp=False):
+    c.drawRect(skia.Rect.MakeWH(W, H), lin_grad(0, 0, 0, H, ["#BFE3C8", "#7FBF8A"]))
+    c.drawRect(skia.Rect.MakeWH(W, H), rad_grad(700, 200, 700, [C("#FFF6C8", 140), C("#FFF6C8", 0)]))
+    rnd = random.Random(15)
+    def tree(x, y, s, col):
+        c.save(); c.translate(x, y); c.scale(s, s)
+        c.drawRect(skia.Rect.MakeLTRB(-18, -500, 18, 0), P("#5A3A22"))
+        for k in range(6):
+            a = rnd.uniform(0, 6.28); r = rnd.uniform(60, 140)
+            fs(c, oval(math.cos(a) * r, -520 + math.sin(a) * r * 0.6, rnd.uniform(110, 160), rnd.uniform(80, 120)), col, ow=4)
+        c.restore()
+    for k in range(8): tree(k * 150 + rnd.uniform(-40, 40), 1050, rnd.uniform(0.9, 1.3), "#4E9A5C")
+    for k in range(6): tree(k * 200 + rnd.uniform(-40, 40), 1250, rnd.uniform(1.1, 1.5), "#3A8048")
+    # río que serpentea
+    river = skia.Path(); river.moveTo(380, 1150); river.cubicTo(700, 1300, 200, 1500, 600, H); river.lineTo(1000, H)
+    river.cubicTo(560, 1500, 1000, 1300, 560, 1150); river.close()
+    c.drawRect(skia.Rect.MakeLTRB(0, 1150, W, H), lin_grad(0, 1150, 0, H, ["#6E8A3A", "#4E6A2A"]))
+    fs(c, river, lin_grad(0, 1150, 0, H, ["#7FB6C9", "#4F8FAA"]), ow=6)
+    for k in range(10):
+        yy = 1200 + k * 75; xx = 520 + math.sin(yy * 0.01) * 120 + ((t * 40 + k * 30) % 80)
+        c.drawLine(xx, yy, xx + 60, yy, P("#FFFFFF", stroke=3, a=110))
+    # lianas y hojas grandes en primer plano
+    for k in range(6):
+        x = 40 + k * 200
+        lv = skia.Path(); lv.moveTo(x, 0); lv.quadTo(x + 40 + math.sin(t + k) * 10, 300, x + 10, 520 + k * 40)
+        c.drawPath(lv, P("#2F6B3A", stroke=8))
+    for (x, y, ang) in [(60, 1700, -30), (1020, 1650, 210), (180, 1850, -10), (940, 1880, 190)]:
+        c.save(); c.translate(x, y); c.rotate(ang + math.sin(t * 1.5 + x) * 3)
+        fs(c, oval(120, 0, 160, 60), "#2E7A3A", ow=6); c.drawLine(-30, 0, 270, 0, P("#1E5A2A", stroke=5)); c.restore()
+    if camp:
+        fs(c, poly([(760, 1180), (980, 1180), (870, 1060)]), "#B07A44", ow=6)
+        fs(c, rrect(780, 1180, 960, 1290, 4), "#9C6A3A", ow=6)
+        c.drawRect(skia.Rect.MakeLTRB(850, 1220, 890, 1290), P("#3A2416"))
+        c.drawCircle(700, 1270, 40, rad_grad(700, 1270, 60, [C("#FFB347", 200), C("#FFB347", 0)]))
+        fs(c, poly([(640, 1420), (820, 1420), (790, 1460), (670, 1460)]), "#8A5A30", ow=5)
+    for k in range(10):   # mariposas/insectos
+        bx = (k * 113 + t * 40) % W; by = 500 + (k * 97) % 600 + math.sin(t * 3 + k) * 20
+        c.drawCircle(bx, by, 5, P("#FFD23F", a=200))
+
+# ------------------------------------------------------------------ transatlántico
+def liner(c, t, night=False, name="", iceberg=False):
+    if night:
+        _sky(c, "#060B1E", "#1E2A4A", 1100); _stars(c, t, 120, 1000, seed=17)
+    else:
+        _sky(c, "#7EC8F2", "#E0F4FF", 1100)
+        for (cx, cy, sc, sp) in [(200, 300, 1.0, 10), (800, 420, 0.8, 7)]: cloud(c, (cx + t * sp) % (W + 400) - 200, cy, sc)
+    sea_top = 1180
+    c.drawRect(skia.Rect.MakeLTRB(0, sea_top, W, H), lin_grad(0, sea_top, 0, H, ["#1E3A5A" if night else "#2F8FC2", "#0A1A2E" if night else "#1D5F8A"]))
+    if iceberg:
+        ib = poly([(40, sea_top + 20), (120, 860), (200, 920), (260, 780), (360, 960), (420, sea_top + 20)])
+        fs(c, ib, lin_grad(0, 780, 0, sea_top, ["#F4FAFF", "#BFE0F0"]), ow=7)
+        c.drawPath(poly([(260, 780), (300, 960), (360, 960)]), P("#A9D2E8", a=180))
+    c.save(); c.translate(640, sea_top + 30 + math.sin(t * 1.2) * 6); c.rotate(math.sin(t) * 0.8)
+    hull = skia.Path(); hull.moveTo(-430, -120); hull.lineTo(400, -120); hull.lineTo(360, 60); hull.lineTo(-400, 60); hull.close()
+    fs(c, hull, "#1E1E24", ow=7)
+    c.drawRect(skia.Rect.MakeLTRB(-430, 20, 395, 60), P("#8E2F2A"))
+    fs(c, rrect(-380, -210, 340, -120, 6), "#F6F2E6", ow=6)
+    for k in range(24):
+        lit = night and math.sin(k * 3.7 + t) > -0.6
+        c.drawCircle(-360 + k * 30, -60, 7, P("#FFE7A0" if lit else "#C9D6E6"))
+        c.drawCircle(-360 + k * 30, -165, 6, P("#FFE7A0" if lit else "#7FA8C9"))
+    for k in range(4):
+        x = -290 + k * 170
+        fs(c, poly([(x - 40, -210), (x + 40, -210), (x + 52, -400), (x - 28, -400)]), "#D98A2A", ow=6)
+        c.drawRect(skia.Rect.MakeLTRB(x - 28, -400, x + 52, -360), P("#1E1E24"))
+        for q in range(3):
+            ph = (t * 0.6 + q / 3 + k * 0.2) % 1
+            c.drawCircle(x + 12 - ph * 120, -420 - ph * 160, 30 + 40 * ph, P("#9AA6B2" if not night else "#4A5568", a=int(160 * (1 - ph))))
+    if name: text_c(c, name, -20, 48, 30, fill="#F5D774", path=FONT_SERIF)
+    c.restore()
+    for k in range(7):
+        yy = sea_top + 120 + k * 90
+        c.drawLine((t * 50 + k * 170) % W, yy, (t * 50 + k * 170) % W + 160, yy, P("#FFFFFF", stroke=3, a=70))
+
 def draw_bg(c, t, name, s):
     """Dibuja cualquier fondo por nombre. Devuelve False si no lo conoce."""
     sky = s.get("sky", "day")
@@ -348,9 +505,14 @@ def draw_bg(c, t, name, s):
     elif name == "warroom": warroom(c, t)
     elif name == "beach": beach(c, t)
     elif name == "lisbon": lisbon(c, t)
+    elif name == "bunker": bunker(c, t)
+    elif name == "space": space(c, t)
+    elif name == "sky_storm": sky_storm(c, t)
+    elif name == "jungle": jungle(c, t, s.get("camp", False))
+    elif name == "liner": liner(c, t, s.get("sky", "day") == "night", s.get("sign", ""), s.get("iceberg", False))
     else: return False
     if s.get("dark"): c.drawRect(skia.Rect.MakeWH(W, H), P("#0A0612", a=120))
     return True
 
 SHIP = None
-NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon"]
+NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon", "bunker", "space", "sky_storm", "jungle", "liner"]

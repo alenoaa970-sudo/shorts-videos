@@ -12,3 +12,6 @@ Antes de elegir una historia nueva, comprobar aquí que no se ha hecho ya. Añad
 | 006 | 15/11/2026 21:06 | El manuscrito Voynich (1404–1438) — misterio | El LIBRO que NADIE ha podido leer en 500 años 📜 | Publicado |
 | 007 | 15/11/2026 21:20 | El tesoro escondido de Forrest Fenn (2010–2020) — dinero + misterio | Escondió un COFRE DE ORO y dejó un poema con las pistas 💰🗺️ | Publicado |
 | 008 | 15/11/2026 21:34 | Agente Garbo: Juan Pujol engaña a Hitler (1941–1944) — misterio/espías | El ESPAÑOL que engañó a Hitler con 27 espías FALSOS 🕵️ | Publicado |
+| 009 | 15/11/2026 21:49 | Stanislav Petrov evita una guerra nuclear (1983) — misterio/tensión | El hombre que EVITÓ una guerra nuclear sin hacer nada ☢️ | Publicado |
+| 010 | 15/11/2026 21:50 | Juliane Koepcke sobrevive a la caída y 11 días en el Amazonas (Perú, 1971) | Cayó de un AVIÓN a 3.000 metros… y SOBREVIVIÓ en el Amazonas 🌴 | Publicado |
+| 011 | 15/11/2026 21:51 | Violet Jessop, superviviente del Olympic, Titanic y Britannic (1911–1916) | Sobrevivió al TITANIC… y a otros 2 desastres 🚢 | Publicado |

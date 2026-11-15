@@ -1,0 +1,91 @@
+{
+ "slug": "011-violet-jessop",
+ "voice": "es-MX-JorgeNeural",
+ "music": "epic",
+ "main": {
+  "shirt": "#F6F2E6",
+  "hat": "bowler",
+  "hat_col": "#2E3A5A"
+ },
+ "segments": [
+  {
+   "scene": "place",
+   "bg": "liner",
+   "sky": "night",
+   "iceberg": true,
+   "sign": "TITANIC",
+   "nochar": true,
+   "impact": true,
+   "chip": "MISS INHUNDIBLE",
+   "text": "Esta mujer sobrevivió al Titanic… y no fue su único naufragio."
+  },
+  {
+   "scene": "place",
+   "bg": "town",
+   "sky": "sunset",
+   "sign": "BAHÍA BLANCA",
+   "action": "wave",
+   "mood": "happy",
+   "chip": "ARGENTINA · 1887",
+   "text": "Violet Jessop nació en Argentina en 1887, y trabajó como azafata en los grandes transatlánticos."
+  },
+  {
+   "scene": "place",
+   "bg": "liner",
+   "sign": "OLYMPIC",
+   "action": "point",
+   "mood": "surprised",
+   "symbols": "exclaim",
+   "chip": "1911 · OLYMPIC",
+   "text": "En 1911 iba a bordo del Olympic cuando chocó contra un buque de guerra. Se salvó por los pelos."
+  },
+  {
+   "scene": "place",
+   "bg": "liner",
+   "sky": "night",
+   "iceberg": true,
+   "sign": "TITANIC",
+   "nochar": true,
+   "heartbeat": true,
+   "chip": "1912 · TITANIC",
+   "text": "Al año siguiente la pasaron a su barco gemelo: el Titanic. Se hundió… y ella se salvó en un bote salvavidas."
+  },
+  {
+   "scene": "closeup",
+   "bg": "port",
+   "sky": "sunset",
+   "mood": "worried",
+   "riser": true,
+   "chip": "¿OTRA VEZ AL MAR?",
+   "text": "Cualquiera habría dejado el mar. Ella no."
+  },
+  {
+   "scene": "place",
+   "bg": "liner",
+   "sign": "BRITANNIC",
+   "nochar": true,
+   "impact": true,
+   "chip": "1916 · BRITANNIC",
+   "text": "En 1916 era enfermera en el tercer hermano, el Britannic… que chocó con una mina y se hundió.",
+   "sky": "day"
+  },
+  {
+   "scene": "reveal",
+   "obj": "poster",
+   "lines": [
+    "3 BARCOS",
+    "3 DESASTRES",
+    "SOBREVIVIÓ"
+   ],
+   "color": "#2F5D50",
+   "bg": "beach",
+   "chip": "LA MÁS AFORTUNADA",
+   "text": "Sobrevivió a los tres. Por eso la llamaban Miss Inhundible."
+  },
+  {
+   "scene": "end",
+   "chip": "+ HISTORIAS REALES",
+   "text": "Sígueme para más historias reales."
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{"slug": "010-koepcke", "voice": "es-MX-JorgeNeural", "music": "epic",
+ "main": {"shirt": "#E7F2CF", "hat": "panama", "hat_col": "#C9A27A"},
+ "segments": [
+  {"scene": "place", "bg": "sky_storm", "nochar": true, "impact": true, "chip": "PERÚ · 1971", "text": "Cayó de un avión desde tres mil metros de altura… y sobrevivió."},
+  {"scene": "place", "bg": "sky_storm", "nochar": true, "heartbeat": true, "chip": "NOCHEBUENA DE 1971", "text": "En la Nochebuena de 1971, un avión que cruzaba Perú entró en una tormenta y lo alcanzó un rayo."},
+  {"scene": "place", "bg": "jungle", "action": "point", "mood": "surprised", "symbols": "exclaim", "chip": "3.000 METROS", "text": "Juliane Koepcke, de diecisiete años, cayó atada a su asiento sobre la selva amazónica."},
+  {"scene": "closeup", "bg": "forest", "sky": "night", "mood": "worried", "symbols": "question", "chip": "SOLA EN LA SELVA", "text": "Fue la única superviviente. Herida, sola, en mitad del Amazonas."},
+  {"scene": "place", "bg": "jungle", "action": "point", "mood": "open", "riser": true, "chip": "SIGUE EL AGUA", "text": "Sus padres eran zoólogos, y sabía moverse por la selva. Así que siguió un arroyo hasta un río."},
+  {"scene": "reveal", "obj": "sign", "lines": ["DÍA 11:", "¡RESCATADA!"], "color": "#2F5D50", "bg": "jungle", "camp": true, "impact": true, "chip": "11 DÍAS DESPUÉS", "text": "Once días después encontró un campamento, y unos trabajadores la rescataron."},
+  {"scene": "closeup", "bg": "library", "prop": "book", "mood": "happy", "chip": "HOY", "text": "Hoy es bióloga y estudia los murciélagos de la selva."},
+  {"scene": "end", "chip": "+ HISTORIAS REALES", "text": "Sígueme para más historias reales."}
+ ]}

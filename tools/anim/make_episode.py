@@ -22,8 +22,8 @@ Tipos de escena y parámetros:
   coins     bote que se llena de monedas. label="TEXTO DEBAJO"
   reveal    objeto grande que aparece. obj=book|box|sign|poster|pizza|chest|map|medals, bg=<fondo> (opcional), lines=["LÍNEA 1","LÍNEA 2"], color="#A7322B", obj2 + lines2 (opcional, cambia a mitad)
   (interior y closeup aceptan "dark": true para escenas de misterio)
-  place     protagonista de pie en cualquier fondo. bg=mountains|forest|vault|library|city|office|storm|warroom|beach|lisbon|town|port|interior,
-            action=talk|wave|point|dig, mood, prop, symbols, crowd=0-4 (gente alrededor), sky=day|sunset|night
+  place     protagonista de pie en cualquier fondo. bg=mountains|forest|vault|library|city|office|storm|warroom|beach|lisbon|bunker|space|sky_storm|jungle(camp)|liner(sky,iceberg,sign)|town|port|interior,
+            action=talk|wave|point|dig, mood, prop, symbols, crowd=0-4 (gente alrededor), sky=day|sunset|night, nochar=true (sin personaje)
   closeup   protagonista grande (bg= cualquier fondo). prop=book|newspaper|cigar|none, mood=open|happy|surprised|worried|bored, symbols=letters|question|exclaim|hearts|notes|clock|none
   end       cierre "¡SÍGUEME!". chip="+ OFICIOS OLVIDADOS"
 """
@@ -380,7 +380,9 @@ def sc_place(c, s, tl, d, m, T, ep):
     else: arm = -0.4
     prop = s.get("prop", "none"); prop = None if prop == "none" else prop
     held = prop in ("book", "newspaper")
-    x = 540 if n == 0 else 540
+    x = 540
+    if s.get("nochar"):
+        floaters(c, s.get("symbols", "none"), 540, 880, tl); return
     character(c, x, 1780, 1.2, T, mood=s.get("mood", "open"), mouth=m, blink=(T % 3.1) < 0.12, prop=prop,
               arm_r=-0.9 if held else arm, arm_l=0.9 if held else 0.25, **M(ep))
     floaters(c, s.get("symbols", "none"), 540, 880, tl)

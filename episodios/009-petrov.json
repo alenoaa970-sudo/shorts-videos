@@ -1,0 +1,11 @@
+{"slug": "009-petrov", "voice": "es-MX-JorgeNeural", "music": "epic",
+ "main": {"shirt": "#7A8A6A", "hat": "cap", "hat_col": "#3E4A2E"},
+ "segments": [
+  {"scene": "place", "bg": "bunker", "action": "point", "mood": "surprised", "impact": true, "chip": "26 SEPT 1983", "text": "En 1983, una alarma avisó de que cinco misiles nucleares iban directos hacia la Unión Soviética."},
+  {"scene": "closeup", "bg": "bunker", "mood": "worried", "heartbeat": true, "symbols": "exclaim", "chip": "MINUTOS PARA DECIDIR", "text": "El oficial de guardia, Stanislav Petrov, tenía minutos para avisar a sus jefes. Y eso podía empezar una guerra nuclear."},
+  {"scene": "place", "bg": "warroom", "action": "talk", "mood": "worried", "symbols": "question", "chip": "¿SOLO CINCO?", "text": "Pero algo no le cuadraba: si Estados Unidos atacara de verdad, no lanzaría solo cinco misiles."},
+  {"scene": "closeup", "bg": "bunker", "mood": "open", "riser": true, "chip": "LA DECISIÓN", "text": "Así que decidió no creer a las máquinas… y lo marcó como falsa alarma."},
+  {"scene": "place", "bg": "space", "nochar": true, "impact": true, "symbols": "exclaim", "chip": "¡ERA UN ERROR!", "text": "Tenía razón. El satélite había confundido el reflejo del sol en las nubes con misiles."},
+  {"scene": "reveal", "obj": "poster", "lines": ["SECRETO", "HASTA", "1998"], "color": "#B3262A", "bg": "city", "chip": "NADIE LO SUPO", "text": "Su historia se mantuvo en secreto durante quince años. Hoy le llaman el hombre que salvó el mundo."},
+  {"scene": "end", "chip": "+ HISTORIAS REALES", "text": "Sígueme para más historias reales."}
+ ]}
