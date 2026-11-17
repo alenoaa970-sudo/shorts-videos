@@ -1,0 +1,91 @@
+{
+ "slug": "013-batalla-los-angeles",
+ "voice": "es-MX-JorgeNeural",
+ "music": "epic",
+ "main": {
+  "shirt": "#7A8A6A",
+  "hat": "cap",
+  "hat_col": "#3E4A2E"
+ },
+ "segments": [
+  {
+   "scene": "place",
+   "bg": "la_raid",
+   "action": "point",
+   "mood": "surprised",
+   "symbols": "exclaim",
+   "impact": true,
+   "chip": "LOS ÁNGELES · 1942",
+   "text": "En 1942, Estados Unidos disparó más de mil cuatrocientos cañonazos… contra nada."
+  },
+  {
+   "scene": "place",
+   "bg": "submarine",
+   "nochar": true,
+   "chip": "23 FEB 1942 · CALIFORNIA",
+   "text": "Dos días antes, un submarino japonés había atacado la costa de California."
+  },
+  {
+   "scene": "closeup",
+   "bg": "la_raid",
+   "mood": "worried",
+   "symbols": "question",
+   "riser": true,
+   "chip": "2:25 AM · APAGÓN TOTAL",
+   "text": "De madrugada sonaron las sirenas, y Los Ángeles se quedó a oscuras."
+  },
+  {
+   "scene": "closeup",
+   "bg": "aa_battery",
+   "mood": "surprised",
+   "symbols": "exclaim",
+   "heartbeat": true,
+   "chip": "3:16 AM · ¡FUEGO!",
+   "text": "Los reflectores barrieron el cielo… y los antiaéreos dispararon durante una hora."
+  },
+  {
+   "scene": "place",
+   "bg": "la_raid",
+   "action": "wave",
+   "mood": "surprised",
+   "crowd": 3,
+   "chip": "METRALLA SOBRE LAS CASAS",
+   "text": "Miles de vecinos lo miraban como fuegos artificiales, mientras la metralla rompía tejados."
+  },
+  {
+   "scene": "reveal",
+   "obj": "poster",
+   "bg": "la_raid",
+   "sky": "dawn",
+   "lines": [
+    "0 AVIONES",
+    "0 BOMBAS"
+   ],
+   "color": "#B3262A",
+   "riser": true,
+   "chip": "AL AMANECER",
+   "text": "Al amanecer: cero aviones derribados. Ni una sola bomba."
+  },
+  {
+   "scene": "closeup",
+   "bg": "warroom",
+   "mood": "bored",
+   "symbols": "question",
+   "chip": "«FALSA ALARMA»",
+   "text": "La Marina lo llamó falsa alarma, por los nervios de la guerra."
+  },
+  {
+   "scene": "place",
+   "bg": "balloon",
+   "nochar": true,
+   "impact": true,
+   "chip": "1983 · ¿UN GLOBO?",
+   "text": "Y en 1983, la Fuerza Aérea concluyó que, probablemente, todo empezó por globos meteorológicos."
+  },
+  {
+   "scene": "end",
+   "chip": "+ HISTORIAS REALES",
+   "text": "Sígueme para más historias reales."
+  }
+ ]
+}

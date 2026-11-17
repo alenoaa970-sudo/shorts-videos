@@ -510,9 +510,12 @@ def draw_bg(c, t, name, s):
     elif name == "sky_storm": sky_storm(c, t)
     elif name == "jungle": jungle(c, t, s.get("camp", False))
     elif name == "liner": liner(c, t, s.get("sky", "day") == "night", s.get("sign", ""), s.get("iceberg", False))
-    else: return False
+    else:
+        import bg_guerra
+        if name not in bg_guerra.GUERRA: return False
+        bg_guerra.GUERRA[name](c, t, s.get("sky", "night"))
     if s.get("dark"): c.drawRect(skia.Rect.MakeWH(W, H), P("#0A0612", a=120))
     return True
 
 SHIP = None
-NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon", "bunker", "space", "sky_storm", "jungle", "liner"]
+NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon", "bunker", "space", "sky_storm", "jungle", "liner", "la_raid", "aa_battery", "submarine", "balloon"]
