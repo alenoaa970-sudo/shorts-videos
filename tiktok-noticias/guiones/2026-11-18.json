@@ -1,0 +1,144 @@
+{
+ "fecha": "2026-11-18",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "debate",
+   "text": "Este jueves a las diez de la noche, cara a cara entre Sánchez y Feijóo, a diez días de las elecciones. Los dos cancelan mítines para prepararse. Como yo antes de una actualización: mucho café y cero memoria.",
+   "title": "CARA A CARA SÁNCHEZ - FEIJÓO",
+   "costume": "boxing",
+   "serious": false,
+   "sfx": [
+    [
+     "cara",
+     "vine-boom",
+     0.4
+    ],
+    [
+     "cafe",
+     "mouse-click",
+     0.4
+    ],
+    [
+     "memoria",
+     "switch",
+     0.45
+    ]
+   ]
+  },
+  {
+   "key": "canarias",
+   "text": "Canarias sigue en crisis migratoria. El Hierro monta un hospital de campaña tras un récord: casi mil quinientas llegadas en un solo día. Sánchez pide ayuda a Gambia.",
+   "title": "RÉCORD DE LLEGADAS A CANARIAS",
+   "costume": "vest",
+   "serious": true,
+   "sfx": []
+  },
+  {
+   "key": "tiempo",
+   "text": "Saca el paraguas: lluvia y viento fuerte hasta el viernes. Paraguas barato, paraguas que vuela.",
+   "title": "LLUVIA Y VIENTO HASTA EL VIERNES",
+   "costume": "raincoat",
+   "serious": false,
+   "sfx": [
+    [
+     "viento",
+     "thunder",
+     0.5
+    ],
+    [
+     "vuela",
+     "whip",
+     0.5
+    ]
+   ]
+  },
+  {
+   "key": "bebes",
+   "text": "Buena noticia: los nacimientos en España suben por primera vez en una década. Los fabricantes de pañales, de fiesta.",
+   "title": "SUBEN LOS NACIMIENTOS",
+   "costume": "baby",
+   "serious": false,
+   "sfx": [
+    [
+     "suben",
+     "ding",
+     0.3
+    ],
+    [
+     "fiesta",
+     "anime-wow",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "iran",
+   "text": "En el mundo, Irán ataca una base de Estados Unidos en Kuwait, y también a Baréin, en respuesta a bombardeos americanos.",
+   "title": "IRÁN ATACA KUWAIT Y BARÉIN",
+   "costume": "helmet",
+   "serious": true,
+   "sfx": [
+    [
+     "kuwait",
+     "impact",
+     0.35,
+     0.27
+    ],
+    [
+     "barein",
+     "impact",
+     0.35,
+     0.27
+    ]
+   ]
+  },
+  {
+   "key": "china",
+   "text": "En China, Shi Jinping recibe a Trump a pie de avión, con abrazo incluido. Y el jueves, reunión a tres con Putin.",
+   "title": "XI RECIBE A TRUMP EN CHINA",
+   "costume": "diplomat",
+   "serious": false,
+   "sfx": [
+    [
+     "tres",
+     "ding",
+     0.3
+    ]
+   ]
+  },
+  {
+   "key": "voyager",
+   "text": "Y la sonda Voyager uno ya está a un día luz de la Tierra: un mensaje tarda veinticuatro horas en llegar. Como tu ex contestando. ¡Sígueme para más!",
+   "title": "VOYAGER 1, A UN DÍA LUZ",
+   "costume": "astronaut",
+   "serious": false,
+   "sfx": [
+    [
+     "luz",
+     "ding",
+     0.3
+    ],
+    [
+     "sigueme",
+     "vine-boom",
+     0.35
+    ]
+   ]
+  }
+ ]
+}

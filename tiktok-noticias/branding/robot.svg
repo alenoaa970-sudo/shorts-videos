@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0" stop-color="#1b2f6e"/>
+      <stop offset="0.5" stop-color="#0b1434"/>
+      <stop offset="1" stop-color="#03060f"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#2fd8ff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#2fd8ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.35" stop-color="#dfe6f1"/>
+      <stop offset="0.7" stop-color="#a9b5ca"/>
+      <stop offset="1" stop-color="#6c7891"/>
+    </linearGradient>
+    <linearGradient id="chromeSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7d89a2"/>
+      <stop offset="0.25" stop-color="#eef2f8"/>
+      <stop offset="0.6" stop-color="#c3ccdb"/>
+      <stop offset="1" stop-color="#5e6a82"/>
+    </linearGradient>
+    <linearGradient id="graphite" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5470"/>
+      <stop offset="0.5" stop-color="#262d45"/>
+      <stop offset="1" stop-color="#0f1324"/>
+    </linearGradient>
+    <linearGradient id="graphiteSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1a2034"/>
+      <stop offset="0.3" stop-color="#4b5674"/>
+      <stop offset="0.7" stop-color="#2a3150"/>
+      <stop offset="1" stop-color="#121729"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5a6a"/>
+      <stop offset="1" stop-color="#b3001e"/>
+    </linearGradient>
+    <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c2a52"/>
+      <stop offset="0.5" stop-color="#070c1c"/>
+      <stop offset="1" stop-color="#0d1630"/>
+    </linearGradient>
+    <radialGradient id="ballRed" cx="35%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#ffd0d5"/>
+      <stop offset="0.35" stop-color="#ff3b4e"/>
+      <stop offset="1" stop-color="#8a0014"/>
+    </radialGradient>
+    <radialGradient id="joint" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#6d7a9a"/>
+      <stop offset="1" stop-color="#121729"/>
+    </radialGradient>
+    <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+    <clipPath id="visorClip"><rect x="345" y="315" width="390" height="250" rx="95"/></clipPath>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <g stroke="#3a6bff" stroke-opacity="0.10" stroke-width="2">
+    <path d="M0 780 L1080 780 M0 860 L1080 860 M0 960 L1080 960 M0 1060 L1080 1060"/>
+    <path d="M540 700 L-200 1080 M540 700 L100 1080 M540 700 L380 1080 M540 700 L700 1080 M540 700 L980 1080 M540 700 L1280 1080"/>
+  </g>
+  <circle cx="540" cy="440" r="420" fill="url(#halo)"/>
+  <circle cx="540" cy="470" r="455" fill="none" stroke="#2fd8ff" stroke-opacity="0.35" stroke-width="3"/>
+  <circle cx="540" cy="470" r="475" fill="none" stroke="#2fd8ff" stroke-opacity="0.12" stroke-width="10" stroke-dasharray="40 26"/>
+  <!-- partículas -->
+  <g fill="#7fe9ff">
+    <circle cx="170" cy="260" r="4"/><circle cx="210" cy="330" r="2.5"/><circle cx="905" cy="230" r="3"/>
+    <circle cx="140" cy="560" r="3"/><circle cx="980" cy="700" r="2.5"/><circle cx="120" cy="820" r="3.5"/>
+    <circle cx="300" cy="150" r="2"/><circle cx="830" cy="130" r="2.5"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <!-- Torso -->
+    <path d="M220 1090 L238 820 Q 250 708 360 688 L720 688 Q 830 708 842 820 L860 1090 Z" fill="url(#graphiteSide)" stroke="#05080f" stroke-width="8"/>
+    <!-- solapas blindadas -->
+    <path d="M360 688 L478 688 L520 900 L430 1090 L300 1090 Z" fill="url(#graphite)" stroke="#05080f" stroke-width="6" opacity="0.95"/>
+    <path d="M720 688 L602 688 L560 900 L650 1090 L780 1090 Z" fill="url(#graphite)" stroke="#05080f" stroke-width="6" opacity="0.95"/>
+    <path d="M370 700 L470 700" stroke="#7fe9ff" stroke-opacity="0.5" stroke-width="3"/>
+    <path d="M610 700 L710 700" stroke="#7fe9ff" stroke-opacity="0.5" stroke-width="3"/>
+    <!-- placa central roja (corbata) -->
+    <path d="M488 690 L592 690 L572 760 L582 1090 L498 1090 L508 760 Z" fill="url(#red)" stroke="#05080f" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M500 698 L580 698" stroke="#ffb3bb" stroke-width="4" stroke-linecap="round"/>
+    <!-- pantalla del pecho -->
+    <rect x="462" y="800" width="156" height="92" rx="22" fill="#060a18" stroke="#05080f" stroke-width="6"/>
+    <rect x="470" y="808" width="140" height="76" rx="16" fill="none" stroke="#2fd8ff" stroke-opacity="0.5" stroke-width="2"/>
+    <text x="540" y="865" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold" font-size="46" fill="#5ff0ff" filter="url(#neon)">1:00</text>
+    <!-- tornillos -->
+    <g fill="#9aa6bd" stroke="#05080f" stroke-width="3">
+      <circle cx="330" cy="760" r="7"/><circle cx="750" cy="760" r="7"/>
+      <circle cx="300" cy="960" r="7"/><circle cx="780" cy="960" r="7"/>
+    </g>
+    <!-- hombreras -->
+    <path d="M232 800 Q 230 700 340 690 Q 400 700 400 740 Q 330 760 300 830 Z" fill="url(#chrome)" stroke="#05080f" stroke-width="7"/>
+    <path d="M250 760 Q 280 715 340 706" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+
+    <!-- Cuello -->
+    <rect x="482" y="596" width="116" height="100" rx="16" fill="url(#graphiteSide)" stroke="#05080f" stroke-width="7"/>
+    <rect x="474" y="622" width="132" height="16" rx="8" fill="url(#chromeSide)" stroke="#05080f" stroke-width="5"/>
+    <rect x="474" y="656" width="132" height="16" rx="8" fill="url(#chromeSide)" stroke="#05080f" stroke-width="5"/>
+
+    <!-- Brazo derecho (pulgar arriba) -->
+    <circle cx="805" cy="745" r="56" fill="url(#joint)" stroke="#05080f" stroke-width="7"/>
+    <circle cx="805" cy="745" r="22" fill="none" stroke="#ff3b4e" stroke-width="6"/>
+    <path d="M820 760 L935 860" stroke="#05080f" stroke-width="96" stroke-linecap="round"/>
+    <path d="M820 760 L935 860" stroke="url(#graphiteSide)" stroke-width="80" stroke-linecap="round"/>
+    <path d="M840 755 L925 830" stroke="#7a86a3" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+    <circle cx="940" cy="862" r="46" fill="url(#joint)" stroke="#05080f" stroke-width="7"/>
+    <circle cx="940" cy="862" r="16" fill="#2fd8ff" filter="url(#neon)"/>
+    <path d="M940 860 L922 690" stroke="#05080f" stroke-width="90" stroke-linecap="round"/>
+    <path d="M940 860 L922 690" stroke="url(#chromeSide)" stroke-width="74" stroke-linecap="round"/>
+    <path d="M905 840 L892 720" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    <!-- muñeca -->
+    <rect x="858" y="640" width="128" height="34" rx="14" fill="url(#red)" stroke="#05080f" stroke-width="6"/>
+    <!-- puño -->
+    <rect x="852" y="530" width="142" height="120" rx="34" fill="url(#chromeSide)" stroke="#05080f" stroke-width="7"/>
+    <path d="M940 560 L990 560 M940 592 L992 592 M940 622 L986 622" stroke="#05080f" stroke-width="6" stroke-linecap="round"/>
+    <path d="M938 540 L938 645" stroke="#05080f" stroke-width="5" opacity="0.6"/>
+    <g fill="#5e6a82" stroke="#05080f" stroke-width="3">
+      <circle cx="966" cy="545" r="5"/><circle cx="968" cy="576" r="5"/><circle cx="966" cy="607" r="5"/>
+    </g>
+    <!-- pulgar -->
+    <path d="M868 545 L870 455 Q 872 415 905 415 Q 936 417 934 455 L928 545 Z" fill="url(#chromeSide)" stroke="#05080f" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M871 488 L932 488" stroke="#05080f" stroke-width="6"/>
+    <path d="M884 470 Q 888 440 905 432" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+    <rect x="886" y="420" width="38" height="14" rx="7" fill="#2fd8ff" opacity="0.9" filter="url(#neon)"/>
+
+    <!-- Antena -->
+    <path d="M690 262 L752 150" stroke="#05080f" stroke-width="18" stroke-linecap="round"/>
+    <path d="M690 262 L752 150" stroke="url(#chromeSide)" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="756" cy="142" r="44" fill="#ff3b4e" opacity="0.35" filter="url(#softglow)"/>
+    <circle cx="756" cy="142" r="22" fill="url(#ballRed)" stroke="#05080f" stroke-width="6"/>
+
+    <!-- Cabeza -->
+    <rect x="288" y="232" width="504" height="398" rx="150" fill="url(#chrome)" stroke="#05080f" stroke-width="9"/>
+    <path d="M330 300 Q 420 240 560 246" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+    <path d="M340 600 Q 540 640 740 600" fill="none" stroke="#5e6a82" stroke-width="5" opacity="0.6"/>
+    <path d="M540 236 L540 300" stroke="#8592ab" stroke-width="4"/>
+    <!-- marco del visor -->
+    <rect x="333" y="303" width="414" height="274" rx="106" fill="#0a0f1f" stroke="#05080f" stroke-width="6"/>
+    <rect x="345" y="315" width="390" height="250" rx="95" fill="url(#visor)"/>
+    <g clip-path="url(#visorClip)">
+      <!-- scanlines -->
+      <g stroke="#2fd8ff" stroke-opacity="0.06" stroke-width="2">
+        <path d="M345 330 H735 M345 345 H735 M345 360 H735 M345 375 H735 M345 390 H735 M345 405 H735 M345 420 H735 M345 435 H735 M345 450 H735 M345 465 H735 M345 480 H735 M345 495 H735 M345 510 H735 M345 525 H735 M345 540 H735 M345 555 H735"/>
+      </g>
+      <!-- ojos -->
+      <g filter="url(#neon)">
+        <rect x="414" y="380" width="64" height="88" rx="32" fill="#5ff0ff"/>
+        <path d="M598 452 Q 638 394 678 452" fill="none" stroke="#5ff0ff" stroke-width="22" stroke-linecap="round"/>
+        <path d="M478 512 Q 540 548 602 512" fill="none" stroke="#5ff0ff" stroke-width="13" stroke-linecap="round"/>
+      </g>
+      <path d="M428 400 Q 436 392 448 391" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+      <!-- reflejo del cristal -->
+      <path d="M345 315 L470 315 L360 565 L345 565 Z" fill="#ffffff" opacity="0.07"/>
+      <path d="M500 315 L540 315 L430 565 L400 565 Z" fill="#ffffff" opacity="0.05"/>
+    </g>
+    <rect x="345" y="315" width="390" height="250" rx="95" fill="none" stroke="#2fd8ff" stroke-opacity="0.35" stroke-width="3"/>
+
+    <!-- Módulos laterales (orejas) -->
+    <g>
+      <rect x="248" y="372" width="70" height="140" rx="30" fill="url(#graphiteSide)" stroke="#05080f" stroke-width="7"/>
+      <circle cx="283" cy="442" r="22" fill="#05080f"/>
+      <circle cx="283" cy="442" r="14" fill="#ff3b4e" filter="url(#neon)"/>
+      <rect x="762" y="372" width="70" height="140" rx="30" fill="url(#graphiteSide)" stroke="#05080f" stroke-width="7"/>
+      <circle cx="797" cy="442" r="22" fill="#05080f"/>
+      <circle cx="797" cy="442" r="14" fill="#ff3b4e" filter="url(#neon)"/>
+    </g>
+    <!-- micro de diadema -->
+    <path d="M785 490 Q 760 600 640 588" fill="none" stroke="#05080f" stroke-width="14" stroke-linecap="round"/>
+    <path d="M785 490 Q 760 600 640 588" fill="none" stroke="#3a4462" stroke-width="7" stroke-linecap="round"/>
+    <rect x="606" y="574" width="44" height="28" rx="14" fill="#1a2034" stroke="#05080f" stroke-width="5"/>
+    <circle cx="612" cy="588" r="6" fill="#ff3b4e"/>
+  </g>
+
+  <!-- icono like holográfico -->
+  <g transform="translate(176 360)" filter="url(#neon)" opacity="0.95">
+    <circle r="46" fill="none" stroke="#ff3b6e" stroke-width="6"/>
+    <path d="M0 22 C -38 -4 -27 -36 -9 -29 C -3 -26 0 -19 0 -15 C 0 -19 3 -26 9 -29 C 27 -36 38 -4 0 22 Z" fill="#ff3b6e"/>
+  </g>
+</svg>

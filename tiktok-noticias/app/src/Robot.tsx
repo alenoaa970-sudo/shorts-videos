@@ -1,0 +1,660 @@
+import React from 'react';
+
+export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge';
+export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
+
+export type RobotProps = {
+  t: number; // global frame (for idle loops)
+  expression: Expression;
+  talk: number; // 0..1 mouth opening
+  costume: Costume;
+  arm: ArmPose;
+  armLift?: number; // 0..1 extra lift for punch/thumb
+  timer: string;
+  blink: number; // 0..1 (1 = closed)
+  item?: 'none' | 'umbrella' | 'bottle' | 'flags' | 'glove' | 'briefcase' | 'gavel';
+  umbrellaFly?: number; // 0..1
+  umbrellaFlip?: number; // 0..1
+  partyHat?: number; // 0..1
+  eyeColor?: string;
+  coffee?: number; // 0..1
+};
+
+const OUT = '#05080f';
+const CY = '#5ff0ff';
+
+const Defs: React.FC = () => (
+  <defs>
+    <linearGradient id="rb-chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#ffffff" />
+      <stop offset="0.35" stopColor="#dfe6f1" />
+      <stop offset="0.7" stopColor="#a9b5ca" />
+      <stop offset="1" stopColor="#6c7891" />
+    </linearGradient>
+    <linearGradient id="rb-chromeSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stopColor="#7d89a2" />
+      <stop offset="0.25" stopColor="#eef2f8" />
+      <stop offset="0.6" stopColor="#c3ccdb" />
+      <stop offset="1" stopColor="#5e6a82" />
+    </linearGradient>
+    <linearGradient id="rb-graphite" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#4a5470" />
+      <stop offset="0.5" stopColor="#262d45" />
+      <stop offset="1" stopColor="#0f1324" />
+    </linearGradient>
+    <linearGradient id="rb-graphiteSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stopColor="#1a2034" />
+      <stop offset="0.3" stopColor="#4b5674" />
+      <stop offset="0.7" stopColor="#2a3150" />
+      <stop offset="1" stopColor="#121729" />
+    </linearGradient>
+    <linearGradient id="rb-red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#ff5a6a" />
+      <stop offset="1" stopColor="#b3001e" />
+    </linearGradient>
+    <linearGradient id="rb-visor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#1c2a52" />
+      <stop offset="0.5" stopColor="#070c1c" />
+      <stop offset="1" stopColor="#0d1630" />
+    </linearGradient>
+    <radialGradient id="rb-ballRed" cx="35%" cy="30%" r="70%">
+      <stop offset="0" stopColor="#ffd0d5" />
+      <stop offset="0.35" stopColor="#ff3b4e" />
+      <stop offset="1" stopColor="#8a0014" />
+    </radialGradient>
+    <radialGradient id="rb-joint" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stopColor="#6d7a9a" />
+      <stop offset="1" stopColor="#121729" />
+    </radialGradient>
+    <linearGradient id="rb-orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stopColor="#ffa040" />
+      <stop offset="1" stopColor="#e2560a" />
+    </linearGradient>
+    <linearGradient id="rb-yellow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stopColor="#ffe45c" />
+      <stop offset="1" stopColor="#e9a800" />
+    </linearGradient>
+    <linearGradient id="rb-camo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stopColor="#6f7d3c" />
+      <stop offset="1" stopColor="#38421c" />
+    </linearGradient>
+    <linearGradient id="rb-suit" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stopColor="#c9d2e0" />
+      <stop offset="0.35" stopColor="#ffffff" />
+      <stop offset="1" stopColor="#a4afc2" />
+    </linearGradient>
+    <radialGradient id="rb-glass" cx="35%" cy="25%" r="80%">
+      <stop offset="0" stopColor="#ffffff" stopOpacity="0.35" />
+      <stop offset="0.5" stopColor="#9fe8ff" stopOpacity="0.08" />
+      <stop offset="1" stopColor="#9fe8ff" stopOpacity="0.25" />
+    </radialGradient>
+    <radialGradient id="rb-glove" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stopColor="#ff8a8a" />
+      <stop offset="0.5" stopColor="#e3122b" />
+      <stop offset="1" stopColor="#7a0010" />
+    </radialGradient>
+    <filter id="rb-neon" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b" />
+      <feMerge>
+        <feMergeNode in="b" />
+        <feMergeNode in="b" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="rb-soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14" />
+    </filter>
+    <clipPath id="rb-visorClip">
+      <rect x="345" y="315" width="390" height="250" rx="95" />
+    </clipPath>
+    <clipPath id="rb-headClip">
+      <rect x="288" y="232" width="504" height="398" rx="150" />
+    </clipPath>
+    <clipPath id="rb-torsoClip">
+      <path d="M220 1200 L238 820 Q 250 708 360 688 L720 688 Q 830 708 842 820 L860 1200 Z" />
+    </clipPath>
+  </defs>
+);
+
+/* ---------- Ojos ---------- */
+const Eyes: React.FC<{ e: Expression; blink: number; t: number; color: string }> = ({ e, blink, t, color }) => {
+  const sy = 1 - 0.9 * blink;
+  const eye = (cx: number, cy: number, key: string) => {
+    if (e === 'dizzy') {
+      const r = t * 0.35;
+      return (
+        <g key={key} transform={`rotate(${(r * 180) / Math.PI} ${cx} ${cy})`}>
+          <path
+            d={`M${cx} ${cy} m0 -6 a6 6 0 1 1 -6 6 a14 14 0 1 1 14 -14 a24 24 0 1 1 -24 24 a34 34 0 1 1 34 -34`}
+            fill="none" stroke={color} strokeWidth={9} strokeLinecap="round" />
+        </g>
+      );
+    }
+    if (e === 'hearts') {
+      const s = 1 + 0.12 * Math.sin(t * 0.5);
+      return (
+        <g key={key} transform={`translate(${cx} ${cy}) scale(${s})`}>
+          <path d="M0 34 C -60 -6 -42 -56 -14 -44 C -5 -40 0 -30 0 -24 C 0 -30 5 -40 14 -44 C 42 -56 60 -6 0 34 Z" fill="#ff4d7d" />
+        </g>
+      );
+    }
+    if (e === 'stars') {
+      const s = 1 + 0.15 * Math.sin(t * 0.6);
+      return (
+        <g key={key} transform={`translate(${cx} ${cy}) scale(${s}) rotate(${t * 2})`}>
+          <path d="M0 -46 L12 -14 L46 -14 L18 6 L28 40 L0 20 L-28 40 L-18 6 L-46 -14 L-12 -14 Z" fill="#ffe14d" />
+        </g>
+      );
+    }
+    if (e === 'shock') {
+      return (
+        <g key={key} transform={`translate(${cx} ${cy}) scale(1 ${sy})`}>
+          <circle r={46} fill="none" stroke={color} strokeWidth={14} />
+          <circle r={14} fill={color} />
+        </g>
+      );
+    }
+    if (e === 'serious') {
+      return (
+        <g key={key} transform={`translate(${cx} ${cy}) scale(1 ${sy})`}>
+          <rect x={-40} y={-16} width={80} height={36} rx={16} fill={color} />
+        </g>
+      );
+    }
+    return (
+      <g key={key} transform={`translate(${cx} ${cy}) scale(1 ${sy})`}>
+        <rect x={-32} y={-44} width={64} height={88} rx={32} fill={color} />
+      </g>
+    );
+  };
+  const right =
+    e === 'wink' ? (
+      <path key="w" d="M598 452 Q 638 394 678 452" fill="none" stroke={color} strokeWidth={22} strokeLinecap="round" />
+    ) : (
+      eye(640, 425, 'r')
+    );
+  return (
+    <g filter="url(#rb-neon)">
+      {eye(446, 425, 'l')}
+      {right}
+      {e === 'serious' && (
+        <>
+          <path d="M398 396 L 492 374" stroke={color} strokeWidth={10} strokeLinecap="round" />
+          <path d="M688 396 L 594 374" stroke={color} strokeWidth={10} strokeLinecap="round" />
+        </>
+      )}
+    </g>
+  );
+};
+
+const Mouth: React.FC<{ e: Expression; talk: number; color: string }> = ({ e, talk, color }) => {
+  const a = Math.max(0, Math.min(1, talk));
+  if (e === 'serious' && a < 0.08) {
+    return <path d="M490 520 L590 520" stroke={color} strokeWidth={12} strokeLinecap="round" filter="url(#rb-neon)" />;
+  }
+  if (e === 'shock' && a < 0.08) {
+    return <ellipse cx={540} cy={522} rx={26} ry={30} fill="none" stroke={color} strokeWidth={11} filter="url(#rb-neon)" />;
+  }
+  if (a < 0.08) {
+    return <path d="M478 506 Q 540 542 602 506" fill="none" stroke={color} strokeWidth={13} strokeLinecap="round" filter="url(#rb-neon)" />;
+  }
+  const w = e === 'serious' ? 46 : 62;
+  const top = e === 'serious' ? 506 : 500;
+  const bottom = top + 18 + 52 * a;
+  return (
+    <g filter="url(#rb-neon)">
+      <path
+        d={`M${540 - w} ${top} Q 540 ${top + 10} ${540 + w} ${top} Q 540 ${bottom + 18} ${540 - w} ${top} Z`}
+        fill={color} fillOpacity={0.9} stroke={color} strokeWidth={8} strokeLinejoin="round" />
+      <path d={`M${540 - w * 0.55} ${top + 10 + 30 * a} Q 540 ${top + 22 + 30 * a} ${540 + w * 0.55} ${top + 10 + 30 * a}`}
+        fill="none" stroke="#0a1a3a" strokeOpacity={0.45} strokeWidth={6} strokeLinecap="round" />
+    </g>
+  );
+};
+
+/* ---------- Brazo derecho ---------- */
+const Arm: React.FC<{ pose: ArmPose; lift: number; t: number; item: RobotProps['item']; umbrellaFly: number; umbrellaFlip: number }> = ({
+  pose, lift, t, item, umbrellaFly, umbrellaFlip,
+}) => {
+  if (pose === 'down') {
+    return (
+      <g>
+        <circle cx={805} cy={745} r={56} fill="url(#rb-joint)" stroke={OUT} strokeWidth={7} />
+        <circle cx={805} cy={745} r={22} fill="none" stroke="#ff3b4e" strokeWidth={6} />
+        <path d="M825 770 L870 1000" stroke={OUT} strokeWidth={96} strokeLinecap="round" />
+        <path d="M825 770 L870 1000" stroke="url(#rb-graphiteSide)" strokeWidth={80} strokeLinecap="round" />
+        <path d="M845 790 L880 960" stroke="#7a86a3" strokeWidth={10} strokeLinecap="round" opacity={0.7} />
+      </g>
+    );
+  }
+  // pose thumb / hold / punch: antebrazo levantado
+  const wave = Math.sin(t * 0.18) * 4;
+  const rot = -lift * 14 + wave;
+  return (
+    <g>
+      <circle cx={805} cy={745} r={56} fill="url(#rb-joint)" stroke={OUT} strokeWidth={7} />
+      <circle cx={805} cy={745} r={22} fill="none" stroke="#ff3b4e" strokeWidth={6} />
+      <path d="M820 760 L935 860" stroke={OUT} strokeWidth={96} strokeLinecap="round" />
+      <path d="M820 760 L935 860" stroke="url(#rb-graphiteSide)" strokeWidth={80} strokeLinecap="round" />
+      <path d="M840 755 L925 830" stroke="#7a86a3" strokeWidth={10} strokeLinecap="round" opacity={0.7} />
+      <g transform={`rotate(${rot} 940 862)`}>
+        <circle cx={940} cy={862} r={46} fill="url(#rb-joint)" stroke={OUT} strokeWidth={7} />
+        <circle cx={940} cy={862} r={16} fill="#2fd8ff" filter="url(#rb-neon)" />
+        <path d="M940 860 L922 690" stroke={OUT} strokeWidth={90} strokeLinecap="round" />
+        <path d="M940 860 L922 690" stroke="url(#rb-chromeSide)" strokeWidth={74} strokeLinecap="round" />
+        <path d="M905 840 L892 720" stroke="#ffffff" strokeWidth={8} strokeLinecap="round" opacity={0.7} />
+        <rect x={858} y={640} width={128} height={34} rx={14} fill="url(#rb-red)" stroke={OUT} strokeWidth={6} />
+        {/* objeto detrás del puño */}
+        {item === 'umbrella' && <Umbrella fly={umbrellaFly} flip={umbrellaFlip} t={t} />}
+        {item === 'flags' && <Flags t={t} />}
+        {item === 'bottle' && <Bottle />}
+        {item === 'briefcase' && <Briefcase />}
+        {item === 'gavel' && <Gavel t={t} />}
+        {item === 'glove' || pose === 'punch' ? (
+          <BoxGlove cx={922} cy={585} s={1.15} />
+        ) : (
+          <>
+            <rect x={852} y={530} width={142} height={120} rx={34} fill="url(#rb-chromeSide)" stroke={OUT} strokeWidth={7} />
+            <path d="M940 560 L990 560 M940 592 L992 592 M940 622 L986 622" stroke={OUT} strokeWidth={6} strokeLinecap="round" />
+            <g fill="#5e6a82" stroke={OUT} strokeWidth={3}>
+              <circle cx={966} cy={545} r={5} />
+              <circle cx={968} cy={576} r={5} />
+              <circle cx={966} cy={607} r={5} />
+            </g>
+            {pose === 'thumb' && (
+              <>
+                <path d="M868 545 L870 455 Q 872 415 905 415 Q 936 417 934 455 L928 545 Z" fill="url(#rb-chromeSide)" stroke={OUT} strokeWidth={7} strokeLinejoin="round" />
+                <path d="M871 488 L932 488" stroke={OUT} strokeWidth={6} />
+                <path d="M884 470 Q 888 440 905 432" fill="none" stroke="#ffffff" strokeWidth={7} strokeLinecap="round" />
+                <rect x={886} y={420} width={38} height={14} rx={7} fill="#2fd8ff" opacity={0.9} filter="url(#rb-neon)" />
+              </>
+            )}
+            {pose === 'hold' && (
+              <path d="M862 548 Q 860 520 900 518 Q 935 520 932 548" fill="url(#rb-chromeSide)" stroke={OUT} strokeWidth={6} />
+            )}
+          </>
+        )}
+      </g>
+    </g>
+  );
+};
+
+export const BoxGlove: React.FC<{ cx: number; cy: number; s?: number; flip?: boolean }> = ({ cx, cy, s = 1, flip }) => (
+  <g transform={`translate(${cx} ${cy}) scale(${flip ? -s : s} ${s})`}>
+    <rect x={-58} y={52} width={116} height={46} rx={14} fill="#ffffff" stroke={OUT} strokeWidth={7} />
+    <path d="M-70 10 C -78 -60 -30 -88 14 -84 C 70 -80 84 -30 78 18 C 74 58 40 66 0 64 C -46 62 -66 50 -70 10 Z" fill="url(#rb-glove)" stroke={OUT} strokeWidth={8} />
+    <path d="M-62 4 C -40 24 -6 22 6 -6 C 12 -22 -6 -40 -30 -34" fill="none" stroke={OUT} strokeWidth={6} strokeLinecap="round" />
+    <path d="M-40 -60 Q -10 -76 26 -70" fill="none" stroke="#ffffff" strokeWidth={9} strokeLinecap="round" opacity={0.75} />
+    <path d="M-52 74 L52 74" stroke={OUT} strokeWidth={4} />
+  </g>
+);
+
+const Umbrella: React.FC<{ fly: number; flip: number; t: number }> = ({ fly, flip }) => {
+  const dx = fly * 700;
+  const dy = -fly * 900;
+  const r = fly * 260;
+  const cy = 1 - 2 * flip; // 1 normal, -1 invertido
+  return (
+    <g transform={`translate(${dx} ${dy}) rotate(${r} 905 300)`}>
+      <path d="M905 560 L905 250" stroke={OUT} strokeWidth={16} strokeLinecap="round" />
+      <path d="M905 560 L905 250" stroke="#d9dfe9" strokeWidth={8} strokeLinecap="round" />
+      <g transform={`translate(905 250) scale(1 ${cy}) translate(-905 -250)`}>
+        <path d="M705 250 Q 715 80 905 60 Q 1095 80 1105 250 Q 1072 225 1038 250 Q 1004 225 972 250 Q 938 225 905 250 Q 872 225 838 250 Q 806 225 772 250 Q 738 225 705 250 Z"
+          fill="#ff2d55" stroke={OUT} strokeWidth={8} strokeLinejoin="round" />
+        <path d="M905 60 Q 860 150 838 250 M905 60 Q 950 150 972 250 M905 60 L905 250" fill="none" stroke={OUT} strokeWidth={5} opacity={0.5} />
+        <path d="M760 160 Q 800 100 870 86" fill="none" stroke="#ffffff" strokeWidth={10} strokeLinecap="round" opacity={0.6} />
+        <circle cx={905} cy={52} r={10} fill={OUT} />
+      </g>
+    </g>
+  );
+};
+
+const Briefcase: React.FC = () => (
+  <g transform="translate(0 -40)">
+    <path d="M880 470 Q 880 430 920 430 Q 960 430 960 470" fill="none" stroke={OUT} strokeWidth={14} />
+    <rect x={810} y={460} width={220} height={150} rx={18} fill="#6b3f1e" stroke={OUT} strokeWidth={8} />
+    <rect x={810} y={520} width={220} height={18} fill="#4a2a12" />
+    <rect x={905} y={512} width={30} height={34} rx={5} fill="#ffd23f" stroke={OUT} strokeWidth={5} />
+    <path d="M830 480 L1000 480" stroke="#a0683a" strokeWidth={6} opacity={0.7} />
+  </g>
+);
+
+const Gavel: React.FC<{ t: number }> = ({ t }) => (
+  <g transform={`rotate(${-20 + Math.max(0, Math.sin(t * 0.25)) * 25} 920 560)`}>
+    <rect x={910} y={330} width={22} height={240} rx={8} fill="#8a5a2b" stroke={OUT} strokeWidth={6} />
+    <rect x={850} y={290} width={140} height={60} rx={14} fill="#a8703a" stroke={OUT} strokeWidth={7} />
+    <rect x={850} y={308} width={140} height={10} fill="#ffd23f" />
+    <rect x={850} y={324} width={140} height={10} fill="#ffd23f" />
+  </g>
+);
+
+const Bottle: React.FC = () => (
+  <g transform="rotate(-20 920 480)">
+    <rect x={880} y={380} width={80} height={170} rx={26} fill="#eaf6ff" stroke={OUT} strokeWidth={7} />
+    <rect x={886} y={430} width={68} height={112} rx={20} fill="#fff3d6" />
+    <path d="M890 460 L912 460 M890 490 L912 490 M890 520 L912 520" stroke="#7aa6d6" strokeWidth={5} />
+    <rect x={874} y={360} width={92} height={30} rx={10} fill="#5fb0ff" stroke={OUT} strokeWidth={6} />
+    <path d="M900 360 Q 920 300 940 360 Z" fill="#ffd2a8" stroke={OUT} strokeWidth={6} />
+  </g>
+);
+
+const Flags: React.FC<{ t: number }> = ({ t }) => {
+  const w = Math.sin(t * 0.3) * 6;
+  return (
+    <g>
+      <path d="M890 560 L860 300" stroke={OUT} strokeWidth={10} strokeLinecap="round" />
+      <path d="M935 560 L975 300" stroke={OUT} strokeWidth={10} strokeLinecap="round" />
+      <g transform={`rotate(${-8 + w} 860 300)`}>
+        <ChinaFlag x={700} y={300} w={160} h={106} />
+      </g>
+      <g transform={`rotate(${8 - w} 975 300)`}>
+        <USFlag x={975} y={300} w={160} h={106} />
+      </g>
+    </g>
+  );
+};
+
+export const USFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => {
+  const sh = h / 13;
+  const stars = [];
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) stars.push(<circle key={`${r}-${c}`} cx={x + 8 + c * (w * 0.4 - 12) / 4} cy={y + 8 + r * (h * 0.54 - 14) / 3} r={2.6} fill="#fff" />);
+  return (
+    <g>
+      <rect x={x} y={y} width={w} height={h} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+      {Array.from({ length: 7 }).map((_, i) => (
+        <rect key={i} x={x} y={y + i * 2 * sh} width={w} height={sh} fill="#d61f3a" />
+      ))}
+      <rect x={x} y={y} width={w * 0.42} height={h * 0.54} fill="#22357a" />
+      {stars}
+      <rect x={x} y={y} width={w} height={h} fill="none" stroke={OUT} strokeWidth={5} />
+    </g>
+  );
+};
+
+const star = (cx: number, cy: number, r: number, rot = 0) => {
+  const pts = [];
+  for (let i = 0; i < 10; i++) {
+    const a = (Math.PI / 5) * i - Math.PI / 2 + rot;
+    const rr = i % 2 === 0 ? r : r * 0.42;
+    pts.push(`${cx + rr * Math.cos(a)},${cy + rr * Math.sin(a)}`);
+  }
+  return pts.join(' ');
+};
+
+export const ChinaFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h} fill="#de2910" stroke={OUT} strokeWidth={5} />
+    <polygon points={star(x + w * 0.17, y + h * 0.27, h * 0.16)} fill="#ffde00" />
+    <polygon points={star(x + w * 0.34, y + h * 0.1, h * 0.05, 0.6)} fill="#ffde00" />
+    <polygon points={star(x + w * 0.4, y + h * 0.2, h * 0.05, 0.3)} fill="#ffde00" />
+    <polygon points={star(x + w * 0.4, y + h * 0.35, h * 0.05)} fill="#ffde00" />
+    <polygon points={star(x + w * 0.34, y + h * 0.45, h * 0.05, 0.6)} fill="#ffde00" />
+  </g>
+);
+
+export const RussiaFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h / 3} fill="#ffffff" />
+    <rect x={x} y={y + h / 3} width={w} height={h / 3} fill="#0039a6" />
+    <rect x={x} y={y + (2 * h) / 3} width={w} height={h / 3} fill="#d52b1e" />
+    <rect x={x} y={y} width={w} height={h} fill="none" stroke={OUT} strokeWidth={5} />
+  </g>
+);
+
+/* ---------- Robot ---------- */
+export const Robot: React.FC<RobotProps> = (p) => {
+  const { t, costume } = p;
+  const eyeColor = p.eyeColor ?? CY;
+  const antennaOn = Math.floor(t / 12) % 2 === 0;
+  const astronaut = costume === 'astronaut';
+  return (
+    <g>
+      <Defs />
+      {/* Torso */}
+      <path d="M220 1200 L238 820 Q 250 708 360 688 L720 688 Q 830 708 842 820 L860 1200 Z"
+        fill={astronaut ? 'url(#rb-suit)' : 'url(#rb-graphiteSide)'} stroke={OUT} strokeWidth={8} />
+      {!astronaut && (
+        <>
+          <path d="M360 688 L478 688 L520 900 L430 1200 L300 1200 Z" fill="url(#rb-graphite)" stroke={OUT} strokeWidth={6} opacity={0.95} />
+          <path d="M720 688 L602 688 L560 900 L650 1200 L780 1200 Z" fill="url(#rb-graphite)" stroke={OUT} strokeWidth={6} opacity={0.95} />
+          <path d="M370 700 L470 700" stroke="#7fe9ff" strokeOpacity={0.5} strokeWidth={3} />
+          <path d="M610 700 L710 700" stroke="#7fe9ff" strokeOpacity={0.5} strokeWidth={3} />
+          <path d="M488 690 L592 690 L572 760 L582 1200 L498 1200 L508 760 Z" fill="url(#rb-red)" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M500 698 L580 698" stroke="#ffb3bb" strokeWidth={4} strokeLinecap="round" />
+        </>
+      )}
+      {astronaut && (
+        <g>
+          <rect x={430} y={760} width={220} height={150} rx={20} fill="#dfe6f1" stroke={OUT} strokeWidth={6} />
+          <circle cx={470} cy={800} r={14} fill="#ff3b4e" />
+          <circle cx={510} cy={800} r={14} fill="#2fd8ff" />
+          <circle cx={550} cy={800} r={14} fill="#ffe14d" />
+          <path d="M300 760 Q 300 1000 330 1200 M780 760 Q 780 1000 750 1200" fill="none" stroke="#9aa6bd" strokeWidth={6} />
+          <path d="M250 950 L830 950" stroke="#9aa6bd" strokeWidth={14} />
+          <path d="M250 950 L830 950" stroke="#ff3b4e" strokeWidth={5} />
+        </g>
+      )}
+      {/* Disfraces del torso */}
+      {costume === 'vest' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M230 720 L470 690 L520 1200 L220 1200 Z" fill="url(#rb-orange)" stroke={OUT} strokeWidth={7} />
+          <path d="M850 720 L610 690 L560 1200 L860 1200 Z" fill="url(#rb-orange)" stroke={OUT} strokeWidth={7} />
+          <path d="M235 930 L512 930 M235 990 L518 990 M845 930 L568 930 M845 990 L562 990" stroke="#e8eef6" strokeWidth={22} />
+          <path d="M235 930 L512 930 M235 990 L518 990 M845 930 L568 930 M845 990 L562 990" stroke="#ffffff" strokeWidth={8} opacity={0.8} />
+          <rect x={300} y={760} width={110} height={70} rx={10} fill="url(#rb-orange)" stroke={OUT} strokeWidth={5} />
+          <path d="M500 1050 L580 1050" stroke={OUT} strokeWidth={8} strokeLinecap="round" />
+        </g>
+      )}
+      {costume === 'raincoat' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L540 690 L860 700 L860 1200 L220 1200 Z" fill="url(#rb-yellow)" stroke={OUT} strokeWidth={7} />
+          <path d="M540 700 L540 1200" stroke={OUT} strokeWidth={6} />
+          <g fill="#3b2a00">
+            <circle cx={570} cy={800} r={11} /><circle cx={570} cy={900} r={11} /><circle cx={570} cy={1000} r={11} />
+          </g>
+          <path d="M440 696 L540 760 L640 696" fill="#f2c200" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M300 760 Q 320 900 300 1100" stroke="#fff6b0" strokeWidth={10} opacity={0.6} fill="none" />
+        </g>
+      )}
+      {costume === 'diplomat' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M330 690 L420 690 L760 1200 L650 1200 Z" fill="#1e5bd8" stroke={OUT} strokeWidth={6} />
+          <path d="M360 690 L390 690 L720 1200 L690 1200 Z" fill="#ffd23f" opacity={0.85} />
+          <circle cx={600} cy={960} r={34} fill="#ffd23f" stroke={OUT} strokeWidth={6} />
+          <polygon points={star(600, 960, 22)} fill="#e9a800" />
+        </g>
+      )}
+      {costume === 'helmet' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="url(#rb-camo)" opacity={0.92} />
+          <g fill="#2a3012" opacity={0.75}>
+            <path d="M260 780 q40 -30 90 0 q-20 40 -90 0Z" /><path d="M640 860 q60 -40 120 0 q-40 50 -120 0Z" />
+            <path d="M420 1000 q40 -30 90 0 q-30 40 -90 0Z" /><path d="M700 1080 q40 -30 90 0 q-30 40 -90 0Z" />
+          </g>
+          <path d="M440 700 L540 780 L640 700" fill="#4f5a26" stroke={OUT} strokeWidth={6} />
+          <rect x={290} y={830} width={120} height={70} rx={8} fill="#4f5a26" stroke={OUT} strokeWidth={5} />
+          <rect x={670} y={830} width={120} height={70} rx={8} fill="#4f5a26" stroke={OUT} strokeWidth={5} />
+        </g>
+      )}
+      {costume === 'firefighter' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#c9a86a" stroke={OUT} strokeWidth={7} />
+          <path d="M235 930 L845 930 M235 990 L845 990" stroke="#ffe14d" strokeWidth={24} />
+          <path d="M235 930 L845 930 M235 990 L845 990" stroke="#e8eef6" strokeWidth={8} />
+          <path d="M540 700 L540 1200" stroke={OUT} strokeWidth={6} />
+          <path d="M440 696 L540 770 L640 696" fill="#a8884a" stroke={OUT} strokeWidth={6} />
+        </g>
+      )}
+      {costume === 'judge' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#14151c" stroke={OUT} strokeWidth={7} />
+          <path d="M330 720 Q 300 950 320 1200 M750 720 Q 780 950 760 1200" stroke="#2c2e3a" strokeWidth={10} fill="none" />
+          <path d="M450 696 L540 790 L630 696 Z" fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <path d="M520 760 L500 830 L540 810 L580 830 L560 760" fill="#ffffff" stroke={OUT} strokeWidth={5} />
+        </g>
+      )}
+      {costume === 'business' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M488 690 L592 690 L572 760 L582 1200 L498 1200 L508 760 Z" fill="#ffd23f" stroke={OUT} strokeWidth={6} />
+          <path d="M650 760 L720 760 L715 800 L655 800 Z" fill="#ffffff" stroke={OUT} strokeWidth={4} />
+          <path d="M660 760 L670 740 L680 760 M690 760 L700 742 L710 760" fill="#ff2d55" stroke={OUT} strokeWidth={3} />
+        </g>
+      )}
+      {/* pantalla del pecho */}
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && (
+        <g>
+          <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
+          <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
+          <text x={540} y={865} textAnchor="middle" fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={46} fill="#5ff0ff" filter="url(#rb-neon)">
+            {p.timer}
+          </text>
+        </g>
+      )}
+      {/* hombrera */}
+      <path d="M232 800 Q 230 700 340 690 Q 400 700 400 740 Q 330 760 300 830 Z" fill={costume === 'raincoat' ? 'url(#rb-yellow)' : 'url(#rb-chrome)'} stroke={OUT} strokeWidth={7} />
+      <path d="M250 760 Q 280 715 340 706" fill="none" stroke="#ffffff" strokeWidth={6} strokeLinecap="round" opacity={0.8} />
+
+      {/* Cuello */}
+      <rect x={482} y={596} width={116} height={100} rx={16} fill="url(#rb-graphiteSide)" stroke={OUT} strokeWidth={7} />
+      <rect x={474} y={622} width={132} height={16} rx={8} fill="url(#rb-chromeSide)" stroke={OUT} strokeWidth={5} />
+      <rect x={474} y={656} width={132} height={16} rx={8} fill="url(#rb-chromeSide)" stroke={OUT} strokeWidth={5} />
+
+      {/* Brazo */}
+      <Arm pose={p.arm} lift={p.armLift ?? 0} t={t} item={p.item} umbrellaFly={p.umbrellaFly ?? 0} umbrellaFlip={p.umbrellaFlip ?? 0} />
+
+      {costume === 'boxing' && (
+        <g transform={`translate(${-(p.armLift ?? 0) * 30} ${-(p.armLift ?? 0) * 60})`}>
+          <path d="M300 800 Q 300 860 330 880" stroke={OUT} strokeWidth={70} strokeLinecap="round" fill="none" />
+          <path d="M300 800 Q 300 860 330 880" stroke="url(#rb-graphiteSide)" strokeWidth={56} strokeLinecap="round" fill="none" />
+          <BoxGlove cx={340} cy={860} s={1.1} flip />
+        </g>
+      )}
+      {/* Antena */}
+      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && (
+        <g>
+          <path d="M690 262 L752 150" stroke={OUT} strokeWidth={18} strokeLinecap="round" />
+          <path d="M690 262 L752 150" stroke="url(#rb-chromeSide)" strokeWidth={10} strokeLinecap="round" />
+          {antennaOn && <circle cx={756} cy={142} r={46} fill="#ff3b4e" opacity={0.45} filter="url(#rb-soft)" />}
+          <circle cx={756} cy={142} r={22} fill="url(#rb-ballRed)" stroke={OUT} strokeWidth={6} />
+          {antennaOn && <circle cx={750} cy={136} r={7} fill="#ffffff" opacity={0.9} />}
+        </g>
+      )}
+
+      {/* Cabeza */}
+      <rect x={288} y={232} width={504} height={398} rx={150} fill="url(#rb-chrome)" stroke={OUT} strokeWidth={9} />
+      <path d="M330 300 Q 420 240 560 246" fill="none" stroke="#ffffff" strokeWidth={12} strokeLinecap="round" opacity={0.9} />
+      <path d="M340 600 Q 540 640 740 600" fill="none" stroke="#5e6a82" strokeWidth={5} opacity={0.6} />
+      <path d="M540 236 L540 300" stroke="#8592ab" strokeWidth={4} />
+      {costume === 'boxing' && (
+        <g clipPath="url(#rb-headClip)">
+          <rect x={280} y={262} width={520} height={44} fill="#e3122b" stroke={OUT} strokeWidth={6} />
+          <path d="M290 270 L790 270" stroke="#ff8a8a" strokeWidth={6} opacity={0.7} />
+        </g>
+      )}
+      {/* visor */}
+      <rect x={333} y={303} width={414} height={274} rx={106} fill="#0a0f1f" stroke={OUT} strokeWidth={6} />
+      <rect x={345} y={315} width={390} height={250} rx={95} fill="url(#rb-visor)" />
+      <g clipPath="url(#rb-visorClip)">
+        <g stroke="#2fd8ff" strokeOpacity={0.07} strokeWidth={2}>
+          {Array.from({ length: 17 }).map((_, i) => (
+            <path key={i} d={`M345 ${330 + i * 15 + ((t * 0.6) % 15)} H735`} />
+          ))}
+        </g>
+        <Eyes e={p.expression} blink={p.blink} t={t} color={eyeColor} />
+        <Mouth e={p.expression} talk={p.talk} color={eyeColor} />
+        <path d="M345 315 L470 315 L360 565 L345 565 Z" fill="#ffffff" opacity={0.07} />
+        <path d="M500 315 L540 315 L430 565 L400 565 Z" fill="#ffffff" opacity={0.05} />
+      </g>
+      <rect x={345} y={315} width={390} height={250} rx={95} fill="none" stroke="#2fd8ff" strokeOpacity={0.35} strokeWidth={3} />
+
+      {/* orejas */}
+      <rect x={248} y={372} width={70} height={140} rx={30} fill="url(#rb-graphiteSide)" stroke={OUT} strokeWidth={7} />
+      <circle cx={283} cy={442} r={22} fill={OUT} />
+      <circle cx={283} cy={442} r={14} fill="#ff3b4e" filter="url(#rb-neon)" />
+      <rect x={762} y={372} width={70} height={140} rx={30} fill="url(#rb-graphiteSide)" stroke={OUT} strokeWidth={7} />
+      <circle cx={797} cy={442} r={22} fill={OUT} />
+      <circle cx={797} cy={442} r={14} fill="#ff3b4e" filter="url(#rb-neon)" />
+      {/* micro */}
+      {!astronaut && (
+        <g>
+          <path d="M785 490 Q 760 600 640 588" fill="none" stroke={OUT} strokeWidth={14} strokeLinecap="round" />
+          <path d="M785 490 Q 760 600 640 588" fill="none" stroke="#3a4462" strokeWidth={7} strokeLinecap="round" />
+          <rect x={606} y={574} width={44} height={28} rx={14} fill="#1a2034" stroke={OUT} strokeWidth={5} />
+          <circle cx={612} cy={588} r={6} fill="#ff3b4e" />
+        </g>
+      )}
+
+      {/* Sombreros */}
+      {costume === 'raincoat' && (
+        <g>
+          <path d="M250 300 Q 540 140 830 300 Q 860 330 820 336 Q 540 250 260 336 Q 220 330 250 300 Z" fill="url(#rb-yellow)" stroke={OUT} strokeWidth={8} />
+          <path d="M340 290 Q 360 170 540 160 Q 720 170 740 290 Q 540 230 340 290 Z" fill="url(#rb-yellow)" stroke={OUT} strokeWidth={8} />
+          <path d="M380 240 Q 450 190 540 186" fill="none" stroke="#fff6b0" strokeWidth={10} strokeLinecap="round" />
+        </g>
+      )}
+      {costume === 'helmet' && (
+        <g>
+          <path d="M262 330 Q 270 120 540 110 Q 810 120 818 330 Q 540 290 262 330 Z" fill="url(#rb-camo)" stroke={OUT} strokeWidth={9} />
+          <path d="M230 330 Q 540 280 850 330 L850 350 Q 540 305 230 350 Z" fill="#4f5a26" stroke={OUT} strokeWidth={7} />
+          <g fill="#2a3012" opacity={0.8}>
+            <path d="M350 230 q40 -40 100 -10 q-30 40 -100 10Z" /><path d="M560 170 q50 -20 90 10 q-40 30 -90 -10Z" /><path d="M640 260 q50 -30 100 0 q-40 40 -100 0Z" />
+          </g>
+          <path d="M330 200 Q 420 140 540 136" fill="none" stroke="#a9b56a" strokeWidth={9} strokeLinecap="round" opacity={0.7} />
+          <path d="M300 350 Q 300 560 380 600" fill="none" stroke="#2b2b18" strokeWidth={10} />
+          <path d="M780 350 Q 780 560 700 600" fill="none" stroke="#2b2b18" strokeWidth={10} />
+        </g>
+      )}
+      {costume === 'firefighter' && (
+        <g>
+          <path d="M262 330 Q 270 110 540 100 Q 810 110 818 330 Q 540 290 262 330 Z" fill="#d81f2c" stroke={OUT} strokeWidth={9} />
+          <path d="M200 340 Q 540 270 880 340 L870 370 Q 540 310 210 370 Z" fill="#b3121f" stroke={OUT} strokeWidth={7} />
+          <path d="M540 100 L540 300" stroke="#8a0014" strokeWidth={14} />
+          <path d="M480 150 L600 150 L590 250 L540 280 L490 250 Z" fill="#ffd23f" stroke={OUT} strokeWidth={6} />
+          <path d="M330 200 Q 420 140 520 132" fill="none" stroke="#ff8a8a" strokeWidth={10} strokeLinecap="round" opacity={0.7} />
+        </g>
+      )}
+      {costume === 'judge' && (
+        <g>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <circle key={i} cx={290 + i * 125} cy={250 - Math.sin((i / 4) * Math.PI) * 60} r={58} fill="#f2f2f2" stroke={OUT} strokeWidth={6} />
+          ))}
+          <circle cx={262} cy={360} r={46} fill="#f2f2f2" stroke={OUT} strokeWidth={6} />
+          <circle cx={818} cy={360} r={46} fill="#f2f2f2" stroke={OUT} strokeWidth={6} />
+        </g>
+      )}
+      {(p.partyHat ?? 0) > 0 && (
+        <g transform={`translate(0 ${-(1 - (p.partyHat ?? 0)) * 400}) rotate(-12 600 230)`}>
+          <path d="M520 250 L600 40 L680 250 Z" fill="#ff4d9d" stroke={OUT} strokeWidth={8} strokeLinejoin="round" />
+          <path d="M540 200 L660 200 M560 145 L640 145 M580 92 L620 92" stroke="#ffe14d" strokeWidth={12} />
+          <circle cx={600} cy={36} r={20} fill="#ffe14d" stroke={OUT} strokeWidth={6} />
+        </g>
+      )}
+      {astronaut && (
+        <g>
+          <circle cx={540} cy={430} r={330} fill="url(#rb-glass)" stroke="#dff6ff" strokeWidth={10} strokeOpacity={0.85} />
+          <circle cx={540} cy={430} r={330} fill="none" stroke={OUT} strokeWidth={4} strokeOpacity={0.6} />
+          <path d="M330 280 Q 380 180 500 140" fill="none" stroke="#ffffff" strokeWidth={22} strokeLinecap="round" opacity={0.55} />
+          <path d="M760 560 Q 800 500 812 430" fill="none" stroke="#ffffff" strokeWidth={10} strokeLinecap="round" opacity={0.35} />
+          <path d="M250 680 Q 540 800 830 680 L830 740 Q 540 850 250 740 Z" fill="url(#rb-suit)" stroke={OUT} strokeWidth={8} />
+        </g>
+      )}
+      {/* café */}
+      {(p.coffee ?? 0) > 0 && (
+        <g transform={`translate(210 ${560 + (1 - (p.coffee ?? 0)) * 300}) scale(${p.coffee})`} opacity={p.coffee}>
+          <g transform="rotate(-10)">
+            <path d="M-70 -40 L70 -40 L58 90 Q 0 110 -58 90 Z" fill="#ffffff" stroke={OUT} strokeWidth={8} strokeLinejoin="round" />
+            <path d="M68 -10 Q 120 -6 112 40 Q 104 76 62 66" fill="none" stroke={OUT} strokeWidth={12} />
+            <path d="M68 -10 Q 120 -6 112 40 Q 104 76 62 66" fill="none" stroke="#ffffff" strokeWidth={5} />
+            <ellipse cx={0} cy={-40} rx={70} ry={14} fill="#5a3010" stroke={OUT} strokeWidth={6} />
+            <path d="M-46 20 L46 20" stroke="#ff3b4e" strokeWidth={14} />
+            {[0, 1, 2].map((i) => (
+              <path key={i} d={`M${-30 + i * 30} ${-60} q -16 -30 0 -60 q 16 -30 0 -60`} fill="none" stroke="#ffffff" strokeWidth={8} strokeLinecap="round"
+                opacity={0.6} transform={`translate(0 ${-((t * 2 + i * 20) % 40)})`} />
+            ))}
+          </g>
+        </g>
+      )}
+    </g>
+  );
+};
