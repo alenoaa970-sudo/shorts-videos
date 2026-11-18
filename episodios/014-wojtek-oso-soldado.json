@@ -1,0 +1,128 @@
+{
+ "slug": "014-wojtek-oso-soldado",
+ "voice": "es-MX-JorgeNeural",
+ "music": "epic",
+ "main": {
+  "shirt": "#7D7A52",
+  "hat": "cap",
+  "hat_col": "#4C5530"
+ },
+ "segments": [
+  {
+   "scene": "bear",
+   "bg": "cassino",
+   "sky": "night",
+   "pose": "carry",
+   "mood": "angry",
+   "walk": true,
+   "walk_dx": 120,
+   "impact": true,
+   "chip": "MONTECASSINO · 1944",
+   "text": "En la Segunda Guerra Mundial, un oso fue soldado de verdad… y cargó munición en plena batalla."
+  },
+  {
+   "scene": "bear",
+   "bg": "hamadan",
+   "sky": "sunset",
+   "cub": true,
+   "pose": "wave",
+   "mood": "happy",
+   "soldiers": 2,
+   "soldier_action": "cheer",
+   "y": 1820,
+   "chip": "IRÁN · 1942",
+   "text": "En 1942, unos soldados polacos compraron un osezno en Irán."
+  },
+  {
+   "scene": "bear",
+   "bg": "camp",
+   "sky": "day",
+   "cub": true,
+   "pose": "drink",
+   "mood": "happy",
+   "soldiers": 1,
+   "soldier_action": "cheer",
+   "x": 600,
+   "chip": "EL OSO WOJTEK",
+   "text": "Lo llamaron Wojtek. Tomaba leche en una botella de vodka…"
+  },
+  {
+   "scene": "bear",
+   "bg": "camp",
+   "sky": "night",
+   "pose": "drink",
+   "mood": "happy",
+   "soldiers": 2,
+   "soldier_action": "cheer",
+   "symbols": "notes",
+   "chip": "CAMPAMENTO · ORIENTE MEDIO",
+   "text": "y de mayor, cerveza."
+  },
+  {
+   "scene": "bear",
+   "bg": "troopship",
+   "pose": "stand",
+   "mood": "worried",
+   "x": 470,
+   "symbols": "question",
+   "riser": true,
+   "chip": "EGIPTO · 1944",
+   "text": "En 1944 iban a Italia, pero los barcos británicos no admitían animales."
+  },
+  {
+   "scene": "reveal",
+   "obj": "paybook",
+   "bg": "troopship",
+   "lines": [
+    "SOLDADO",
+    "WOJTEK",
+    "Nº · RACIONES"
+   ],
+   "impact": true,
+   "chip": "¿LA SOLUCIÓN?",
+   "text": "¿La solución? Lo alistaron como soldado, con número y raciones."
+  },
+  {
+   "scene": "bear",
+   "bg": "cassino",
+   "sky": "sunset",
+   "pose": "crate",
+   "mood": "angry",
+   "walk": true,
+   "walk_dx": -140,
+   "soldiers": 2,
+   "soldier_action": "carry",
+   "soldier_mood": "worried",
+   "heartbeat": true,
+   "chip": "MONTECASSINO · MAYO 1944",
+   "text": "En Montecassino, según sus compañeros, cargaba cajas de proyectiles bajo el fuego."
+  },
+  {
+   "scene": "reveal",
+   "obj": "emblem",
+   "bg": "camp",
+   "sky": "day",
+   "lines": [
+    "22.ª COMPAÑÍA"
+   ],
+   "chip": "SU ESCUDO OFICIAL",
+   "text": "Su compañía puso un oso con un proyectil en su escudo."
+  },
+  {
+   "scene": "bear",
+   "bg": "zoo",
+   "pose": "salute",
+   "mood": "happy",
+   "soldiers": 1,
+   "soldier_action": "salute",
+   "x": 620,
+   "chip": "EDIMBURGO · 1963",
+   "text": "Ascendido a cabo, vivió en el zoo de Edimburgo hasta 1963."
+  },
+  {
+   "scene": "end",
+   "chip": "+ HISTORIAS DE GUERRA",
+   "text": "Sígueme para más historias reales."
+  }
+ ]
+}

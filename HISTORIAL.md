@@ -17,3 +17,4 @@ Antes de elegir una historia nueva, comprobar aquí que no se ha hecho ya. Añad
 | 011 | 15/11/2026 21:51 | Violet Jessop, superviviente del Olympic, Titanic y Britannic (1911–1916) | Sobrevivió al TITANIC… y a otros 2 desastres 🚢 | Publicado |
 | 012 | (no publicado) | El Ejército Fantasma: tanques de goma (1944–1945) — primer vídeo 3D | El EJÉRCITO de GOMA que engañó a los nazis 🪖 | ERROR: límite de Metricool alcanzado |
 | 013 | 17/11/2026 17:20 | La Batalla de Los Ángeles: 1.400 cañonazos contra nada (1942) — guerra/misterio | Dispararon 1.400 cañonazos… contra NADA 💥 | Publicado (API) https://youtube.com/shorts/HWjnXE5ulng |
+| 014 | 18/11/2026 19:15 | Wojtek, el oso soldado polaco (1942–1963) — guerra/humor | Este OSO fue SOLDADO en la Segunda Guerra Mundial 🐻 | Publicado (API) https://youtube.com/shorts/6Pm7Vx184IA |

@@ -36,6 +36,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from engine import *
 from sound import music, whoosh, pop, clink, shimmer, SR, music_style, riser, impact, heartbeat
 import backgrounds as BG
+import bg_wojtek as WJ
 
 GAP = 0.28
 SHIRTS = ["#F2D9C9", "#CFE3F2", "#E7F2CF", "#F6F2E6", "#EFD9F2"]
@@ -235,6 +236,8 @@ def big_object(c, obj, lines, color, T, a):
         if lines:
             fs(c, rrect(-250, 230, 250, 320, 20), "#FFD23F", ow=7)
             text_c(c, lines[0], 0, 293, 54, fill="#2A1B12")
+    elif obj == "paybook": WJ.paybook(c, lines, T)
+    elif obj == "emblem": WJ.emblem(c, lines, T)
     else:   # sign / poster
         tall = obj == "poster"
         hw, hh = (230, 320) if tall else (340, 200)
@@ -387,6 +390,26 @@ def sc_place(c, s, tl, d, m, T, ep):
               arm_r=-0.9 if held else arm, arm_l=0.9 if held else 0.25, **M(ep))
     floaters(c, s.get("symbols", "none"), 540, 880, tl)
 
+def sc_bear(c, s, tl, d, m, T, ep):
+    """Oso protagonista (bg, pose=stand|wave|carry|crate|drink|salute|sit, mood, cub, walk, soldiers=0-3, x)."""
+    background(c, s, T, default="camp")
+    n = int(s.get("soldiers", 0))
+    pos = [(200, 1790), (880, 1800), (330, 1700)]
+    for i in range(n):
+        x, y = pos[i]
+        act = s.get("soldier_action", "cheer")
+        if act == "cheer": ar, al = -2.3 - 0.4 * math.sin(tl * 8 + i), 0.3
+        elif act == "salute": ar, al = -2.6, 0.2
+        elif act == "carry": ar, al = -2.9, 2.9
+        else: ar, al = -0.4, 0.3
+        WJ.soldier(c, x, y, 0.95, T, mood=s.get("soldier_mood", "happy"), arm_r=ar, arm_l=al, ph=i * 1.3)
+        if act == "carry": WJ.crate(c, x, y - 640 + math.sin(T * 6 + i) * 6, 0.62)
+    bx = s.get("x", 540)
+    if s.get("walk"): bx += (tl / max(d, 0.1) - 0.5) * s.get("walk_dx", 160)
+    WJ.bear(c, bx, s.get("y", 1830), s.get("scale", 1.0), T, pose=s.get("pose", "stand"), mood=s.get("mood", "happy"),
+            blink=(T % 3.4) < 0.13, cub=s.get("cub", False), walk=s.get("walk", False), look=s.get("look", 0.0))
+    floaters(c, s.get("symbols", "none"), 540, 700, tl)
+
 def sc_end(c, s, tl, d, m, T, ep):
     burst(c, T)
     arm = -0.2 - 2.2 * (0.5 + 0.5 * math.sin(tl * 8))
@@ -398,9 +421,9 @@ def sc_end(c, s, tl, d, m, T, ep):
     c.restore()
 
 SCENES = {"place": sc_place, "town": sc_town, "port": sc_port, "interior": sc_interior, "idea": sc_idea, "speaker": sc_speaker,
-          "coins": sc_coins, "reveal": sc_reveal, "closeup": sc_closeup, "end": sc_end}
+          "coins": sc_coins, "reveal": sc_reveal, "bear": sc_bear, "closeup": sc_closeup, "end": sc_end}
 FOCUS = {"place": (540, 1150), "town": (540, 1150), "port": (540, 1150), "interior": (540, 1150), "idea": (540, 900), "speaker": (540, 1000),
-         "coins": (540, 1200), "reveal": (540, 1150), "closeup": (540, 1250), "end": (540, 1000)}
+         "coins": (540, 1200), "reveal": (540, 1150), "bear": (540, 1250), "closeup": (540, 1250), "end": (540, 1000)}
 CHIP_Y = {"end": 235}
 
 BG.SHIP = ship

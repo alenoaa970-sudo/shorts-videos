@@ -511,11 +511,12 @@ def draw_bg(c, t, name, s):
     elif name == "jungle": jungle(c, t, s.get("camp", False))
     elif name == "liner": liner(c, t, s.get("sky", "day") == "night", s.get("sign", ""), s.get("iceberg", False))
     else:
-        import bg_guerra
-        if name not in bg_guerra.GUERRA: return False
-        bg_guerra.GUERRA[name](c, t, s.get("sky", "night"))
+        import bg_guerra, bg_wojtek
+        if name in bg_guerra.GUERRA: bg_guerra.GUERRA[name](c, t, s.get("sky", "night"))
+        elif name in bg_wojtek.WOJTEK: bg_wojtek.WOJTEK[name](c, t, s.get("sky", "day"))
+        else: return False
     if s.get("dark"): c.drawRect(skia.Rect.MakeWH(W, H), P("#0A0612", a=120))
     return True
 
 SHIP = None
-NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon", "bunker", "space", "sky_storm", "jungle", "liner", "la_raid", "aa_battery", "submarine", "balloon"]
+NEW_BGS = ["mountains", "forest", "vault", "library", "city", "office", "storm", "warroom", "beach", "lisbon", "bunker", "space", "sky_storm", "jungle", "liner", "la_raid", "aa_battery", "submarine", "balloon", "hamadan", "camp", "troopship", "cassino", "zoo"]
