@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -15,6 +15,7 @@ const BODY = "'Montserrat', 'DejaVu Sans', sans-serif";
 const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   intro: IntroScene, debate: DebateScene, canarias: CanariasScene, tiempo: TiempoScene,
   bebes: BebesScene, iran: IranScene, china: ChinaScene, voyager: VoyagerScene,
+  shenzhen: ShenzhenScene, prestamo: PrestamoScene, decretos: DecretosScene, huelga: HuelgaScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -49,6 +50,16 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
     case 'china': {
       const hT = wordAt(seg, 'abrazo');
       return { costume: 'diplomat', arm: 'hold', item: 'flags', expression: f >= hT - 2 && f < hT + 45 ? 'hearts' : 'happy' };
+    }
+    case 'shenzhen':
+      return { costume: 'diplomat', arm: 'hold', item: 'flags', expression: after('kiev') ? 'serious' : 'happy' };
+    case 'prestamo':
+      return { costume: 'business', arm: 'hold', item: 'briefcase', expression: after('cuarenta') && !after('veinticinco') ? 'stars' : after('oponen') ? 'shock' : 'happy' };
+    case 'decretos':
+      return { costume: 'deputy', arm: 'down', expression: 'serious' };
+    case 'huelga': {
+      const sT = wordAt(seg, 'sigueme');
+      return { costume: 'conductor', arm: 'thumb', expression: f >= sT ? 'wink' : after('maquinistas') && !after('horario') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
     }
     case 'voyager': {
       const sT = wordAt(seg, 'sigueme');

@@ -10,6 +10,7 @@ const LIST: [Costume, any][] = [
   ['diplomat', { arm: 'hold', item: 'flags', expression: 'hearts' }], ['astronaut', { arm: 'thumb', expression: 'wink' }],
   ['business', { arm: 'hold', item: 'briefcase', expression: 'happy' }], ['firefighter', { arm: 'down', expression: 'serious' }],
   ['judge', { arm: 'hold', item: 'gavel', expression: 'serious' }],
+  ['deputy', { arm: 'down', expression: 'serious' }], ['conductor', { arm: 'thumb', expression: 'happy' }],
 ];
 export const Disfraces: React.FC = () => {
   const t = useCurrentFrame();

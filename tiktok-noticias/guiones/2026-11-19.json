@@ -1,0 +1,11 @@
+{
+ "fecha": "2026-11-18",
+ "tipo": "diario",
+ "segments": [
+  {"key": "intro", "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!", "title": "", "costume": "anchor", "serious": false, "sfx": [["minuto", "ding", 0.35]]},
+  {"key": "shenzhen", "text": "Shi Jinping y Putin se reúnen en Shenzhen, en la cumbre Asia Pacífico. Shi dice que la relación con Rusia es estable y fiable. Y este jueves, reunión a tres con Trump. En Kiev y en Europa, preocupación.", "title": "XI Y PUTIN, ANTES DE TRUMP", "costume": "diplomat", "serious": false, "sfx": [["shenzhen", "whoosh", 0.35], ["tres", "ding", 0.3]]},
+  {"key": "prestamo", "text": "Bruselas propone otro préstamo a Ucrania: cuarenta y cinco mil millones de euros para dos mil veintisiete. Veinticinco mil para armas y veinte mil para gastos del país. Pero necesita unanimidad, y Hungría, Eslovaquia, Chequia y Bulgaria se oponen.", "title": "45.000 MILLONES PARA UCRANIA", "costume": "business", "serious": false, "sfx": [["cuarenta", "ding", 0.3], ["oponen", "impact", 0.3, 0.27]]},
+  {"key": "decretos", "text": "En plena campaña, la Diputación Permanente del Congreso convalida siete decretos: ayudas a Ceuta por la crisis migratoria, a los afectados por la dana Adam, a las víctimas del accidente de tren de Urda y más seguridad ferroviaria.", "title": "EL CONGRESO SALVA 7 DECRETOS", "costume": "deputy", "serious": true, "sfx": [["siete", "impact", 0.25, 0.27]]},
+  {"key": "huelga", "text": "Y desconvocada la huelga de trenes de este jueves: el Gobierno pacta con los sindicatos revisar en un mes las plantillas de Adif. Pero los maquinistas de Semaf mantienen la huelga del lunes veintitrés. Mira el horario dos veces. ¡Sígueme para más!", "title": "DESCONVOCADA HUELGA DE TRENES", "costume": "conductor", "serious": false, "sfx": [["desconvocada", "whoosh", 0.35], ["veintitres", "vine-boom", 0.3], ["sigueme", "vine-boom", 0.35]]}
+ ]
+}

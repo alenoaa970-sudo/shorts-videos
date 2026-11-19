@@ -770,3 +770,409 @@ export const VoyagerScene: React.FC<P> = ({ f, T, seg }) => {
     </svg>
   );
 };
+
+/* ======================================================================
+   BIBLIOTECA 2026-11-19: Shenzhen (Xi-Putin), préstamo UE, decretos, huelga
+   ====================================================================== */
+export const UkraineFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h / 2} fill="#0057b7" />
+    <rect x={x} y={y + h / 2} width={w} height={h / 2} fill="#ffd700" />
+    <rect x={x} y={y} width={w} height={h} fill="none" stroke={OUT} strokeWidth={5} />
+  </g>
+);
+export const EUFlag: React.FC<{ x: number; y: number; w: number; h: number; spin?: number }> = ({ x, y, w, h, spin = 0 }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h} fill="#003399" stroke={OUT} strokeWidth={5} />
+    {Array.from({ length: 12 }).map((_, i) => {
+      const a = (i / 12) * Math.PI * 2 + spin;
+      const r = h * 0.33;
+      return <polygon key={i} points={star(x + w / 2 + Math.cos(a) * r, y + h / 2 + Math.sin(a) * r, h * 0.065)} fill="#ffcc00" />;
+    })}
+  </g>
+);
+export const SpainFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h} fill="#c60b1e" />
+    <rect x={x} y={y + h / 4} width={w} height={h / 2} fill="#ffc400" />
+    <rect x={x + w * 0.22} y={y + h * 0.36} width={w * 0.12} height={h * 0.28} rx={3} fill="#c60b1e" opacity={0.85} />
+    <rect x={x} y={y} width={w} height={h} fill="none" stroke={OUT} strokeWidth={5} />
+  </g>
+);
+function star(cx: number, cy: number, r: number) {
+  const pts: string[] = [];
+  for (let i = 0; i < 10; i++) {
+    const rr = i % 2 ? r * 0.45 : r;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    pts.push(`${cx + Math.cos(a) * rr},${cy + Math.sin(a) * rr}`);
+  }
+  return pts.join(' ');
+}
+
+const Card: React.FC<{ x: number; y: number; w: number; h: number; s: number; children?: React.ReactNode; bg?: string; rot?: number }> = ({ x, y, w, h, s, children, bg = '#ffffff', rot = 0 }) => (
+  <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} opacity={Math.min(1, s * 1.5)}>
+    <rect x={-w / 2 + 10} y={-h / 2 + 12} width={w} height={h} rx={26} fill={OUT} opacity={0.45} />
+    <rect x={-w / 2} y={-h / 2} width={w} height={h} rx={26} fill={bg} stroke={OUT} strokeWidth={6} />
+    {children}
+  </g>
+);
+
+const Stamp: React.FC<{ x: number; y: number; text: string; s: number; color: string; rot?: number; size?: number }> = ({ x, y, text, s, color, rot = -8, size = 64 }) => {
+  const w = text.length * size * 0.55 + 60;
+  const sc = s > 0 ? 1 + (1 - s) * 1.6 : 0;
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${sc})`} opacity={Math.min(1, s * 2)}>
+      <rect x={-w / 2} y={-size * 0.8} width={w} height={size * 1.5} rx={14} fill="rgba(255,255,255,0.88)" stroke={color} strokeWidth={10} />
+      <rect x={-w / 2 + 12} y={-size * 0.8 + 12} width={w - 24} height={size * 1.5 - 24} rx={8} fill="none" stroke={color} strokeWidth={3} />
+      <text x={0} y={size * 0.36} textAnchor="middle" fontFamily={HEAD} fontSize={size} fill={color} letterSpacing={3}>{text}</text>
+    </g>
+  );
+};
+
+const fmtCount = (v: number) => Math.round(v).toLocaleString('es-ES').replace(/,/g, '.');
+
+/* ===================== SHENZHEN: XI Y PUTIN ===================== */
+export const ShenzhenScene: React.FC<P> = ({ f, T, seg }) => {
+  const xiT = wordAt(seg, 'shi');
+  const puT = wordAt(seg, 'putin');
+  const reT = wordAt(seg, 'reunen');
+  const esT = wordAt(seg, 'estable');
+  const juT = wordAt(seg, 'jueves');
+  const kiT = wordAt(seg, 'kiev');
+  const sXi = pop(f, xiT - 2, 9), sPu = pop(f, puT - 2, 9);
+  const shake = pop(f, reT, 7);
+  const est = pop(f, esT - 2, 9);
+  const ju = pop(f, juT - 2, 9);
+  const us = lerp(f, [juT + 4, juT + 22], [1300, 0]);
+  const ki = pop(f, kiT - 3, 9);
+  const phase2 = lerp(f, [juT - 4, juT + 6], [1, 0], null);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="sz-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#08051f" />
+          <stop offset="0.45" stopColor="#2a0f4f" />
+          <stop offset="0.62" stopColor="#7a1e5a" />
+          <stop offset="0.66" stopColor="#0a1030" />
+          <stop offset="1" stopColor="#030512" />
+        </linearGradient>
+        <linearGradient id="sz-tower" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#1a2150" />
+          <stop offset="0.5" stopColor="#2d3a80" />
+          <stop offset="1" stopColor="#11163a" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#sz-sky)" />
+      <Particles T={T} n={40} color="#ffffff" seed={11} speed={0.05} size={2.5} op={0.7} />
+      {/* rascacielos con neones */}
+      {Array.from({ length: 14 }).map((_, i) => {
+        const w = 60 + rnd(i + 2) * 50;
+        const h = 300 + rnd(i) * 520;
+        const x = i * 80 - 20;
+        const neon = ['#ff2d95', '#2fd8ff', '#ffe14d', '#7a5cff'][i % 4];
+        return (
+          <g key={i}>
+            <rect x={x} y={1270 - h} width={w} height={h} fill="url(#sz-tower)" stroke="#05080f" strokeWidth={3} />
+            <rect x={x} y={1270 - h} width={w} height={8} fill={neon} opacity={0.6 + 0.4 * Math.sin(T * 0.1 + i)} />
+            {Array.from({ length: Math.floor(h / 40) }).map((_, j) => (
+              <rect key={j} x={x + 10} y={1290 - h + j * 40} width={w - 20} height={6} fill="#ffe9a8" opacity={rnd(i * 31 + j) > 0.55 ? 0.65 : 0.12} />
+            ))}
+          </g>
+        );
+      })}
+      {/* Ping An tower */}
+      <path d="M520 1270 L530 420 L540 330 L550 420 L560 1270 Z" fill="#3a4a9a" stroke={OUT} strokeWidth={4} />
+      <circle cx={540} cy={330} r={8} fill="#ff3b4e" opacity={Math.floor(T / 15) % 2 ? 1 : 0.3} />
+      {/* agua */}
+      <rect x={0} y={1270} width={1080} height={650} fill="#050a22" />
+      {Array.from({ length: 10 }).map((_, i) => (
+        <rect key={i} x={((i * 130 + T * 2) % 1200) - 100} y={1290 + i * 14} width={80} height={4} fill="#ff2d95" opacity={0.25} />
+      ))}
+      <text x={540} y={500} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill="#ffd9f0" letterSpacing={6} opacity={0.9}>SHENZHEN · CUMBRE APEC</text>
+      {/* fase 1: Xi y Putin */}
+      <g opacity={phase2}>
+        <g transform={`translate(250 700) scale(${sXi})`}>
+          <Card x={0} y={0} w={330} h={260} s={1}>
+            <ChinaFlag x={-115} y={-105} w={230} h={150} />
+            <text x={0} y={100} textAnchor="middle" fontFamily={HEAD} fontSize={52} fill={OUT}>XI JINPING</text>
+          </Card>
+        </g>
+        <g transform={`translate(830 700) scale(${sPu})`}>
+          <Card x={0} y={0} w={330} h={260} s={1}>
+            <RussiaFlag x={-115} y={-105} w={230} h={150} />
+            <text x={0} y={100} textAnchor="middle" fontFamily={HEAD} fontSize={52} fill={OUT}>PUTIN</text>
+          </Card>
+        </g>
+        {/* apretón de manos */}
+        <g transform={`translate(540 ${700 + Math.sin(f * 0.6) * 6 * shake}) scale(${shake})`}>
+          <circle r={82} fill="#ffe14d" stroke={OUT} strokeWidth={7} />
+          <path d="M-58 8 L-20 -22 L10 -8 L48 -30 L62 0 L22 34 Q 6 44 -8 32 L-40 30 Z" fill="#ffffff" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M-8 6 L12 26 M4 -2 L24 18 M16 -10 L34 8" stroke={OUT} strokeWidth={5} strokeLinecap="round" />
+        </g>
+        <Pill x={540} y={900} text="«ESTABLE Y FIABLE»" s={est} bg="#ff2d55" size={52} rot={-2} />
+      </g>
+      {/* fase 2: reunión a tres */}
+      <Card x={540} y={700} w={900} h={360} s={ju} bg="#ffffff">
+        <g transform="translate(-390 -140)"><ChinaFlag x={0} y={0} w={220} h={145} /></g>
+        <g transform={`translate(${-110 + us} -140)`}><USFlag x={0} y={0} w={220} h={145} /></g>
+        <g transform="translate(170 -140)"><RussiaFlag x={0} y={0} w={220} h={145} /></g>
+        <text x={-140} y={-50} textAnchor="middle" fontFamily={HEAD} fontSize={60} fill={OUT}>+</text>
+        <text x={140} y={-50} textAnchor="middle" fontFamily={HEAD} fontSize={60} fill={OUT}>+</text>
+        <text x={0} y={80} textAnchor="middle" fontFamily={HEAD} fontSize={70} fill={OUT}>JUEVES: REUNIÓN A TRES</text>
+        <g opacity={ki}>
+          <rect x={-420} y={110} width={840} height={60} rx={14} fill="#0057b7" />
+          <text x={0} y={155} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#ffd700">PREOCUPACIÓN EN KIEV Y EN EUROPA</text>
+        </g>
+      </Card>
+    </svg>
+  );
+};
+
+/* ===================== PRÉSTAMO UE A UCRANIA ===================== */
+export const PrestamoScene: React.FC<P> = ({ f, T, seg }) => {
+  const cT = wordAt(seg, 'cuarenta');
+  const vT = wordAt(seg, 'veinticinco');
+  const v2T = wordAt(seg, 'veinte');
+  const unT = wordAt(seg, 'unanimidad');
+  const huT = wordAt(seg, 'hungria');
+  const cnt = lerp(f, [cT - 2, cT + 30], [0, 45000]);
+  const big = pop(f, cT - 4, 9);
+  const bar1 = lerp(f, [vT, vT + 18], [0, 1]);
+  const bar2 = lerp(f, [v2T, v2T + 18], [0, 1]);
+  const un = pop(f, unT - 3, 9);
+  const phase2 = lerp(f, [unT - 6, unT + 2], [1, 0], null);
+  const countries = ['HUNGRÍA', 'ESLOVAQUIA', 'CHEQUIA', 'BULGARIA'];
+  const keys = ['hungria', 'eslovaquia', 'chequia', 'bulgaria'];
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <radialGradient id="pr-bg" cx="50%" cy="35%" r="85%">
+          <stop offset="0" stopColor="#1f4fc4" />
+          <stop offset="0.55" stopColor="#0b1f63" />
+          <stop offset="1" stopColor="#030716" />
+        </radialGradient>
+        <linearGradient id="pr-glass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#8fb4ff" stopOpacity="0.5" />
+          <stop offset="1" stopColor="#1b2f7a" stopOpacity="0.2" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#pr-bg)" />
+      {/* círculo de estrellas gigante */}
+      <g opacity={0.35}>
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2 + T * 0.004;
+          return <polygon key={i} points={star(540 + Math.cos(a) * 470, 760 + Math.sin(a) * 470, 34)} fill="#ffcc00" />;
+        })}
+      </g>
+      {/* edificio Berlaymont estilizado */}
+      <g opacity={0.55}>
+        <path d="M140 1300 L300 1120 L780 1120 L940 1300 Z" fill="url(#pr-glass)" stroke="#9fc0ff" strokeWidth={3} />
+        {Array.from({ length: 12 }).map((_, i) => (
+          <path key={i} d={`M${300 + i * 40} 1120 L${300 + i * 40 - (i - 6) * 10} 1300`} stroke="#9fc0ff" strokeWidth={2} opacity={0.6} />
+        ))}
+      </g>
+      <Particles T={T} n={30} color="#ffcc00" seed={21} speed={0.25} size={3} op={0.5} />
+      {/* banderas */}
+      <g transform={`translate(0 ${lerp(f, [0, 14], [-300, 0])})`}>
+        <EUFlag x={110} y={480} w={190} h={126} spin={T * 0.01} />
+        <UkraineFlag x={780} y={480} w={190} h={126} />
+        <path d="M310 543 L770 543" stroke="#ffcc00" strokeWidth={8} strokeDasharray="22 16" strokeDashoffset={-T * 3} />
+        <polygon points="770,523 800,543 770,563" fill="#ffcc00" />
+      </g>
+      <g opacity={phase2}>
+        <g transform={`translate(540 750) scale(${big})`} opacity={Math.min(1, big * 1.5)}>
+          <text x={6} y={10} textAnchor="middle" fontFamily={HEAD} fontSize={130} fill={OUT} opacity={0.5}>{fmtCount(cnt)} M€</text>
+          <text x={0} y={0} textAnchor="middle" fontFamily={HEAD} fontSize={130} fill="#ffe14d" stroke={OUT} strokeWidth={10} paintOrder="stroke">{fmtCount(cnt)} M€</text>
+          <text x={0} y={52} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={36} fill="#ffffff">PRÉSTAMO PARA 2027</text>
+        </g>
+        {/* barra de reparto */}
+        <g transform="translate(90 845)">
+          <rect x={0} y={0} width={900} height={100} rx={22} fill="rgba(255,255,255,0.15)" stroke={OUT} strokeWidth={6} />
+          <rect x={0} y={0} width={500 * bar1} height={100} rx={22} fill="#ff5a3c" stroke={OUT} strokeWidth={6} />
+          <rect x={500} y={0} width={400 * bar2} height={100} rx={22} fill="#2fd8ff" stroke={OUT} strokeWidth={6} />
+          <g opacity={bar1}>
+            <text x={250} y={62} textAnchor="middle" fontFamily={HEAD} fontSize={46} fill="#fff" stroke={OUT} strokeWidth={4} paintOrder="stroke">25.000 · ARMAS</text>
+          </g>
+          <g opacity={bar2}>
+            <text x={700} y={62} textAnchor="middle" fontFamily={HEAD} fontSize={46} fill={OUT}>20.000 · PAÍS</text>
+          </g>
+        </g>
+      </g>
+      {/* fase 2: unanimidad y vetos */}
+      <g opacity={1 - phase2}>
+        <Pill x={540} y={680} text="HACE FALTA UNANIMIDAD: 27 DE 27" s={un} bg="#ffe14d" color={OUT} size={46} />
+        {countries.map((c, i) => {
+          const s = pop(f, wordAt(seg, keys[i]) - 2, 8);
+          const x = 290 + (i % 2) * 500;
+          const y = 800 + Math.floor(i / 2) * 110;
+          return (
+            <g key={c} transform={`translate(${x} ${y}) scale(${s})`} opacity={Math.min(1, s * 1.5)}>
+              <rect x={-220} y={-44} width={440} height={88} rx={18} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+              <text x={-30} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={50} fill={OUT}>{c}</text>
+              <circle cx={170} cy={0} r={32} fill="#e3122b" stroke={OUT} strokeWidth={5} />
+              <path d="M155 -15 L185 15 M185 -15 L155 15" stroke="#fff" strokeWidth={8} strokeLinecap="round" />
+            </g>
+          );
+        })}
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== DECRETOS EN EL CONGRESO ===================== */
+export const DecretosScene: React.FC<P> = ({ f, T, seg }) => {
+  const sT = wordAt(seg, 'siete');
+  const cvT = wordAt(seg, 'convalida');
+  const sev = pop(f, sT - 3, 9);
+  const stamp = pop(f, cvT, 10);
+  const items: [string, string, string][] = [
+    ['ceuta', 'AYUDAS A CEUTA', '#2fd8ff'],
+    ['dana', 'AFECTADOS DANA ADAM', '#7fb2ff'],
+    ['urda', 'VÍCTIMAS DE URDA', '#ffb15a'],
+    ['seguridad', 'SEGURIDAD FERROVIARIA', '#9cf08a'],
+  ];
+  const listOn = lerp(f, [wordAt(seg, 'ceuta') - 8, wordAt(seg, 'ceuta')], [0, 1], null);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <radialGradient id="dc-bg" cx="50%" cy="40%" r="85%">
+          <stop offset="0" stopColor="#5a1a22" />
+          <stop offset="0.6" stopColor="#24090f" />
+          <stop offset="1" stopColor="#070205" />
+        </radialGradient>
+        <linearGradient id="dc-wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#8a5a2b" />
+          <stop offset="1" stopColor="#4a2a10" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#dc-bg)" />
+      {/* hemiciclo */}
+      {Array.from({ length: 6 }).map((_, r) => {
+        const R = 300 + r * 85;
+        const n = 12 + r * 4;
+        return (
+          <g key={r}>
+            <path d={`M${540 - R} 1260 A ${R} ${R * 0.62} 0 0 1 ${540 + R} 1260`} fill="none" stroke="url(#dc-wood)" strokeWidth={40} opacity={0.75} />
+            {Array.from({ length: n }).map((_, i) => {
+              const a = Math.PI + (i + 0.5) * (Math.PI / n);
+              const x = 540 + Math.cos(a) * R;
+              const y = 1260 + Math.sin(a) * R * 0.62;
+              const lit = rnd(r * 50 + i) < Math.min(1, f / 40);
+              return <rect key={i} x={x - 11} y={y - 30} width={22} height={24} rx={6} fill={lit ? '#c8233a' : '#5a3040'} opacity={0.9} />;
+            })}
+          </g>
+        );
+      })}
+      {/* tribuna */}
+      <rect x={400} y={1150} width={280} height={110} rx={10} fill="url(#dc-wood)" stroke={OUT} strokeWidth={5} />
+      <g transform="translate(110 480)"><SpainFlag x={0} y={0} w={140} h={92} /></g>
+      <path d="M110 480 L110 650" stroke="#c9cfdb" strokeWidth={6} />
+      <text x={640} y={530} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#ffd9c8" letterSpacing={4}>DIPUTACIÓN PERMANENTE</text>
+      {/* gran 7 */}
+      <g transform={`translate(240 ${700 + (1 - listOn) * 60}) scale(${sev * (1 - 0.35 * listOn)})`} opacity={Math.min(1, sev * 1.5)}>
+        <circle r={130} fill="#ffe14d" stroke={OUT} strokeWidth={8} />
+        <text x={0} y={70} textAnchor="middle" fontFamily={HEAD} fontSize={200} fill={OUT}>7</text>
+        <text x={0} y={175} textAnchor="middle" fontFamily={HEAD} fontSize={52} fill="#fff" stroke={OUT} strokeWidth={5} paintOrder="stroke">DECRETOS</text>
+      </g>
+      <g opacity={1 - listOn}>
+        <Stamp x={700} y={760} text="CONVALIDADOS" s={stamp} color="#1f9d55" size={62} />
+      </g>
+      {/* lista de medidas */}
+      {items.map(([k, label, col], i) => {
+        const s = pop(f, wordAt(seg, k) - 3, 10);
+        return (
+          <g key={k} transform={`translate(${650 + (1 - s) * 400} ${615 + i * 98})`} opacity={Math.min(1, s * 1.5)}>
+            <rect x={-290} y={-38} width={580} height={78} rx={16} fill="rgba(5,8,15,0.85)" stroke={col} strokeWidth={5} />
+            <circle cx={-246} cy={1} r={22} fill={col} stroke={OUT} strokeWidth={4} />
+            <path d="M-257 1 L-248 11 L-233 -9" stroke={OUT} strokeWidth={6} fill="none" strokeLinecap="round" />
+            <text x={-205} y={16} fontFamily={HEAD} fontSize={42} fill="#fff">{label}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+};
+
+/* ===================== HUELGA DE TRENES ===================== */
+export const HuelgaScene: React.FC<P> = ({ f, T, seg }) => {
+  const dT = wordAt(seg, 'desconvocada');
+  const mT = wordAt(seg, 'mes');
+  const maT = wordAt(seg, 'maquinistas');
+  const hT = wordAt(seg, 'horario');
+  const sgT = wordAt(seg, 'sigueme');
+  const stamp = pop(f, dT + 4, 10);
+  const mes = pop(f, mT - 3, 9);
+  const row2 = pop(f, maT - 2, 9);
+  const blink = Math.floor(T / 8) % 2 ? 1 : 0.35;
+  const clock = pop(f, hT - 3, 8);
+  const trainX = lerp(f, [0, 40], [1300, -200]) + (f > sgT ? -lerp(f, [sgT, sgT + 30], [0, 1400]) : 0);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="hg-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#0e2a5a" />
+          <stop offset="0.6" stopColor="#123a72" />
+          <stop offset="1" stopColor="#060d1f" />
+        </linearGradient>
+        <linearGradient id="hg-train" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#f4f6fb" />
+          <stop offset="1" stopColor="#aab4c8" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#hg-bg)" />
+      {/* marquesina de estación */}
+      {Array.from({ length: 7 }).map((_, i) => (
+        <path key={i} d={`M${i * 180 - 60} 440 Q ${i * 180 + 30} 380 ${i * 180 + 120} 440`} fill="none" stroke="#3d6bb8" strokeWidth={10} />
+      ))}
+      <rect x={0} y={436} width={1080} height={14} fill="#3d6bb8" />
+      {Array.from({ length: 5 }).map((_, i) => (
+        <g key={i}><rect x={60 + i * 240} y={450} width={18} height={800} fill="#2a4f8f" /><circle cx={69 + i * 240} cy={470} r={14} fill="#ffe9a8" opacity={0.8} /></g>
+      ))}
+      {/* tren */}
+      <g transform={`translate(${trainX} 1110)`}>
+        <path d="M0 0 L1200 0 L1200 150 L0 150 Q -160 150 -200 90 Q -170 10 0 0 Z" fill="url(#hg-train)" stroke={OUT} strokeWidth={6} />
+        <rect x={-150} y={20} width={130} height={50} rx={18} fill="#0b1630" />
+        {Array.from({ length: 9 }).map((_, i) => <rect key={i} x={40 + i * 125} y={25} width={90} height={55} rx={10} fill="#0b1630" />)}
+        <rect x={-180} y={98} width={1380} height={18} fill="#7a2bd6" />
+      </g>
+      <rect x={0} y={1260} width={1080} height={20} fill="#c9cfdb" />
+      <rect x={0} y={1262} width={1080} height={6} fill="#ffe14d" />
+      {/* panel de salidas */}
+      <g transform="translate(540 700)">
+        <rect x={-460} y={-200} width={920} height={400} rx={24} fill="#05080f" stroke="#2a3350" strokeWidth={10} />
+        <rect x={-440} y={-180} width={880} height={56} rx={8} fill="#11182c" />
+        <text x={-420} y={-138} fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={34} fill="#ffb000">DÍA</text>
+        <text x={-160} y={-138} fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={34} fill="#ffb000">ESTADO</text>
+        {/* fila 1 */}
+        <g transform="translate(0 -50)">
+          <text x={-420} y={14} fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={46} fill="#ffe14d">JUE 19</text>
+          <text x={-160} y={14} fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={46} fill={stamp > 0.5 ? '#4dff88' : '#ff4d4d'}>{stamp > 0.5 ? 'HAY SERVICIO' : 'HUELGA'}</text>
+        </g>
+        {/* fila 2 */}
+        <g transform="translate(0 50)" opacity={row2}>
+          <text x={-420} y={14} fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={46} fill="#ffe14d">LUN 23</text>
+          <text x={-160} y={14} fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={46} fill="#ff4d4d" opacity={blink}>HUELGA SEMAF</text>
+        </g>
+        <g transform="translate(0 140)" opacity={mes * (1 - row2)}>
+          <text x={0} y={14} textAnchor="middle" fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={34} fill="#2fd8ff">ADIF REVISA PLANTILLAS EN 1 MES</text>
+        </g>
+        <g transform="translate(0 140)" opacity={row2}>
+          <text x={0} y={14} textAnchor="middle" fontFamily="DejaVu Sans Mono, monospace" fontWeight="bold" fontSize={34} fill="#ff9a9a">MAQUINISTAS MANTIENEN EL PARO</text>
+        </g>
+      </g>
+      <Stamp x={560} y={770} text="DESCONVOCADA" s={stamp * (1 - row2)} color="#1f9d55" size={56} rot={-7} />
+      {/* reloj del horario */}
+      <g transform={`translate(905 ${560}) scale(${clock})`} opacity={Math.min(1, clock * 1.5)}>
+        <circle r={78} fill="#ffffff" stroke={OUT} strokeWidth={8} />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          return <path key={i} d={`M${Math.cos(a) * 60} ${Math.sin(a) * 60} L${Math.cos(a) * 70} ${Math.sin(a) * 70}`} stroke={OUT} strokeWidth={5} />;
+        })}
+        <path d={`M0 0 L${Math.sin((f - hT) * 0.4) * 52} ${-Math.cos((f - hT) * 0.4) * 52}`} stroke="#e3122b" strokeWidth={8} strokeLinecap="round" />
+        <path d={`M0 0 L${Math.sin((f - hT) * 0.05) * 34} ${-Math.cos((f - hT) * 0.05) * 34}`} stroke={OUT} strokeWidth={10} strokeLinecap="round" />
+        <circle r={9} fill={OUT} />
+        <text x={0} y={120} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffe14d" stroke={OUT} strokeWidth={4} paintOrder="stroke">×2</text>
+      </g>
+    </svg>
+  );
+};

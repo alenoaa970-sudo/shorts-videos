@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -501,8 +501,45 @@ export const Robot: React.FC<RobotProps> = (p) => {
           <path d="M660 760 L670 740 L680 760 M690 760 L700 742 L710 760" fill="#ff2d55" stroke={OUT} strokeWidth={3} />
         </g>
       )}
+      {costume === 'deputy' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#1b2340" stroke={OUT} strokeWidth={7} />
+          <path d="M300 760 Q 290 950 310 1200 M780 760 Q 790 950 770 1200" stroke="#2b365e" strokeWidth={8} fill="none" />
+          <path d="M440 694 L540 1010 L640 694 Z" fill="#f4f6fb" stroke={OUT} strokeWidth={6} />
+          <path d="M488 694 L592 694 L572 760 L560 980 L540 1010 L520 980 L508 760 Z" fill="url(#rb-red)" stroke={OUT} strokeWidth={5} strokeLinejoin="round" />
+          <path d="M360 694 L440 694 L540 1010 L470 880 L400 900 L430 800 Z" fill="#26305a" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M720 694 L640 694 L540 1010 L610 880 L680 900 L650 800 Z" fill="#26305a" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <g transform="translate(690 840)">
+            <rect x={-26} y={-18} width={52} height={36} rx={4} fill="#c60b1e" stroke={OUT} strokeWidth={4} />
+            <rect x={-26} y={-9} width={52} height={18} fill="#ffc400" />
+          </g>
+          <rect x={330} y={1010} width={110} height={16} rx={6} fill="#26305a" stroke={OUT} strokeWidth={4} />
+          <circle cx={540} cy={1080} r={12} fill="#0d1226" stroke="#8a93b8" strokeWidth={3} />
+          <circle cx={540} cy={1150} r={12} fill="#0d1226" stroke="#8a93b8" strokeWidth={3} />
+        </g>
+      )}
+      {costume === 'conductor' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#1d3f8f" stroke={OUT} strokeWidth={7} />
+          <path d="M540 700 L540 1200" stroke={OUT} strokeWidth={6} />
+          <path d="M235 700 L235 1200 M845 700 L845 1200" stroke="#e3122b" strokeWidth={14} />
+          <path d="M440 696 L540 770 L640 696" fill="#16316f" stroke={OUT} strokeWidth={6} />
+          <path d="M470 696 L540 748 L610 696 Z" fill="#ffffff" stroke={OUT} strokeWidth={4} />
+          <g fill="#ffd23f" stroke={OUT} strokeWidth={4}>
+            <circle cx={575} cy={960} r={13} /><circle cx={575} cy={1040} r={13} /><circle cx={575} cy={1120} r={13} />
+          </g>
+          <path d="M260 740 L380 740 M260 760 L380 760" stroke="#ffd23f" strokeWidth={8} />
+          <rect x={640} y={920} width={150} height={70} rx={12} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+          <text x={715} y={968} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={40} fill="#1d3f8f">TREN</text>
+          <path d="M600 760 Q 640 860 610 900" fill="none" stroke="#ffd23f" strokeWidth={6} />
+          <g transform="translate(610 910) rotate(20)">
+            <rect x={-30} y={-14} width={60} height={28} rx={14} fill="url(#rb-chrome)" stroke={OUT} strokeWidth={5} />
+            <circle cx={-8} cy={0} r={6} fill={OUT} />
+          </g>
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -531,7 +568,7 @@ export const Robot: React.FC<RobotProps> = (p) => {
         </g>
       )}
       {/* Antena */}
-      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && (
+      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && (
         <g>
           <path d="M690 262 L752 150" stroke={OUT} strokeWidth={18} strokeLinecap="round" />
           <path d="M690 262 L752 150" stroke="url(#rb-chromeSide)" strokeWidth={10} strokeLinecap="round" />
@@ -612,6 +649,20 @@ export const Robot: React.FC<RobotProps> = (p) => {
           <path d="M540 100 L540 300" stroke="#8a0014" strokeWidth={14} />
           <path d="M480 150 L600 150 L590 250 L540 280 L490 250 Z" fill="#ffd23f" stroke={OUT} strokeWidth={6} />
           <path d="M330 200 Q 420 140 520 132" fill="none" stroke="#ff8a8a" strokeWidth={10} strokeLinecap="round" opacity={0.7} />
+        </g>
+      )}
+      {costume === 'conductor' && (
+        <g>
+          <path d="M300 300 Q 290 150 540 140 Q 790 150 780 300 Z" fill="#1d3f8f" stroke={OUT} strokeWidth={9} />
+          <path d="M280 300 Q 540 250 800 300 L800 345 Q 540 295 280 345 Z" fill="#ffd23f" stroke={OUT} strokeWidth={7} />
+          <path d="M300 340 Q 540 300 780 340 Q 760 400 540 385 Q 320 400 300 340 Z" fill="#0b1a3d" stroke={OUT} strokeWidth={7} />
+          <path d="M340 220 Q 420 168 520 162" fill="none" stroke="#6f93e8" strokeWidth={10} strokeLinecap="round" opacity={0.7} />
+          <g transform="translate(540 215)">
+            <circle r={44} fill="#ffd23f" stroke={OUT} strokeWidth={6} />
+            <rect x={-26} y={-22} width={52} height={34} rx={8} fill="#e3122b" stroke={OUT} strokeWidth={4} />
+            <rect x={-18} y={-16} width={14} height={12} rx={2} fill="#ffffff" /><rect x={4} y={-16} width={14} height={12} rx={2} fill="#ffffff" />
+            <circle cx={-14} cy={18} r={7} fill={OUT} /><circle cx={14} cy={18} r={7} fill={OUT} />
+          </g>
         </g>
       )}
       {costume === 'judge' && (
