@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -16,6 +16,7 @@ const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   intro: IntroScene, debate: DebateScene, canarias: CanariasScene, tiempo: TiempoScene,
   bebes: BebesScene, iran: IranScene, china: ChinaScene, voyager: VoyagerScene,
   shenzhen: ShenzhenScene, prestamo: PrestamoScene, decretos: DecretosScene, huelga: HuelgaScene,
+  cumbre: CumbreScene, caraacara: CaraACaraScene, myanmar: MyanmarScene, bolsa: BolsaScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -60,6 +61,19 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
     case 'huelga': {
       const sT = wordAt(seg, 'sigueme');
       return { costume: 'conductor', arm: 'thumb', expression: f >= sT ? 'wink' : after('maquinistas') && !after('horario') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
+    }
+    case 'cumbre':
+      return { costume: 'diplomat', arm: 'hold', item: 'flags', expression: after('ucrania') ? 'serious' : after('primera') && !after('ochenta') ? 'stars' : 'happy' };
+    case 'caraacara': {
+      const punch = (s: number) => Math.max(0, Math.sin(Math.min(Math.PI, Math.max(0, (f - s) / 6) * Math.PI)));
+      const lift = Math.max(punch(wordAt(seg, 'cara')), punch(wordAt(seg, 'sanchez')), punch(wordAt(seg, 'feijoo')));
+      return { costume: 'boxing', arm: 'punch', expression: after('elecciones') ? 'wink' : 'happy', armLift: lift };
+    }
+    case 'myanmar':
+      return { costume: 'judge', arm: 'hold', item: 'gavel', expression: 'serious' };
+    case 'bolsa': {
+      const sT = wordAt(seg, 'sigueme');
+      return { costume: 'business', arm: f >= sT ? 'thumb' : 'hold', item: f >= sT ? undefined : 'briefcase', expression: f >= sT ? 'wink' : after('diecisiete') ? 'stars' : after('mayor') && !after('anthropic') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
     }
     case 'voyager': {
       const sT = wordAt(seg, 'sigueme');

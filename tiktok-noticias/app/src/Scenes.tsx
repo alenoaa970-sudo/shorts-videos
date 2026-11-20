@@ -1176,3 +1176,466 @@ export const HuelgaScene: React.FC<P> = ({ f, T, seg }) => {
     </svg>
   );
 };
+
+/* ======================================================================
+   BIBLIOTECA 2026-11-20: cumbre a tres, cara a cara, CIJ-Myanmar, récord en bolsa
+   ====================================================================== */
+const Lantern: React.FC<{ x: number; y: number; T: number; i: number }> = ({ x, y, T, i }) => {
+  const sw = Math.sin(T * 0.05 + i) * 4;
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${sw})`}>
+      <path d="M0 -80 L0 -30" stroke="#d4a84a" strokeWidth={4} />
+      <ellipse cx={0} cy={10} rx={46} ry={40} fill="#e0242f" stroke={OUT} strokeWidth={5} />
+      <ellipse cx={0} cy={10} rx={20} ry={40} fill="none" stroke="#8a0f17" strokeWidth={3} />
+      <rect x={-22} y={-34} width={44} height={10} fill="#ffcf4a" stroke={OUT} strokeWidth={3} />
+      <rect x={-22} y={46} width={44} height={10} fill="#ffcf4a" stroke={OUT} strokeWidth={3} />
+      <path d="M-8 56 L-8 86 M0 56 L0 92 M8 56 L8 86" stroke="#ffcf4a" strokeWidth={3} />
+      <circle cx={0} cy={10} r={60} fill="#ff6a3c" opacity={0.18 + 0.08 * Math.sin(T * 0.2 + i)} />
+    </g>
+  );
+};
+
+/* ===================== CUMBRE TRUMP-XI-PUTIN ===================== */
+export const CumbreScene: React.FC<P> = ({ f, T, seg }) => {
+  const tT = wordAt(seg, 'trump'), xT = wordAt(seg, 'shi'), pT = wordAt(seg, 'putin');
+  const prT = wordAt(seg, 'primera');
+  const oT = wordAt(seg, 'ochenta'), ceT = wordAt(seg, 'cerrada');
+  const fT = wordAt(seg, 'firman'), nT = wordAt(seg, 'nucleares'), peT = wordAt(seg, 'petroleo'), onT = wordAt(seg, 'onu');
+  const uT = wordAt(seg, 'ucrania');
+  const phA = lerp(f, [oT - 8, oT], [1, 0], null);
+  const phB = lerp(f, [oT - 6, oT + 4], [0, 1], null) * lerp(f, [fT - 8, fT], [1, 0], null);
+  const doc = pop(f, fT - 4, 10);
+  const mins = lerp(f, [oT, oT + 24], [0, 80]);
+  const door = lerp(f, [ceT - 2, ceT + 10], [0, 1]);
+  const flags = [
+    { k: tT, el: <USFlag x={-110} y={-120} w={220} h={145} />, n: 'TRUMP', x: 190 },
+    { k: xT, el: <ChinaFlag x={-110} y={-120} w={220} h={145} />, n: 'XI JINPING', x: 540 },
+    { k: pT, el: <RussiaFlag x={-110} y={-120} w={220} h={145} />, n: 'PUTIN', x: 890 },
+  ];
+  const items = [
+    { k: nT, t: 'ARMAS NUCLEARES' },
+    { k: peT, t: 'PETRÓLEO' },
+    { k: onT, t: 'REFORMA DE LA ONU' },
+  ];
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <radialGradient id="cu-bg" cx="50%" cy="40%" r="85%">
+          <stop offset="0" stopColor="#8a1a22" />
+          <stop offset="0.55" stopColor="#3a0a14" />
+          <stop offset="1" stopColor="#0a0306" />
+        </radialGradient>
+        <linearGradient id="cu-gold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffe08a" />
+          <stop offset="1" stopColor="#b07a1e" />
+        </linearGradient>
+        <linearGradient id="cu-table" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#5a2a14" />
+          <stop offset="1" stopColor="#2a1208" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#cu-bg)" />
+      {/* columnas doradas y celosía */}
+      {[60, 1020].map((x, i) => (
+        <g key={i}>
+          <rect x={x - 34} y={380} width={68} height={1000} fill="url(#cu-gold)" stroke={OUT} strokeWidth={5} />
+          {Array.from({ length: 8 }).map((_, j) => <rect key={j} x={x - 34} y={420 + j * 120} width={68} height={10} fill="#7a4a10" opacity={0.6} />)}
+        </g>
+      ))}
+      <g opacity={0.18} stroke="#ffcf4a" strokeWidth={3} fill="none">
+        {Array.from({ length: 9 }).map((_, i) => <rect key={i} x={140 + i * 90} y={1040} width={70} height={70} transform={`rotate(45 ${175 + i * 90} 1075)`} />)}
+      </g>
+      {[180, 400, 680, 900].map((x, i) => <Lantern key={i} x={x} y={430 + (i % 2) * 30} T={T} i={i} />)}
+      <Particles T={T} n={26} color="#ffcf4a" seed={41} speed={0.15} size={3} op={0.45} />
+      {/* mesa redonda */}
+      <ellipse cx={540} cy={1240} rx={520} ry={90} fill="url(#cu-table)" stroke={OUT} strokeWidth={6} />
+      <ellipse cx={540} cy={1226} rx={480} ry={64} fill="#7a3a1a" opacity={0.5} />
+      <text x={540} y={1300} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffd9a0" letterSpacing={6} opacity={0.6}>SHENZHEN · CUMBRE APEC</text>
+      {/* fase A: los tres */}
+      <g opacity={phA}>
+        {flags.map((g, i) => {
+          const s = pop(f, g.k - 2, 9);
+          return (
+            <g key={i} transform={`translate(${g.x} ${700 + Math.sin(T * 0.08 + i) * 6}) scale(${s})`} opacity={Math.min(1, s * 1.5)}>
+              <rect x={-140} y={-150} width={280} height={250} rx={24} fill="#fff8ea" stroke={OUT} strokeWidth={6} />
+              {g.el}
+              <text x={0} y={72} textAnchor="middle" fontFamily={HEAD} fontSize={g.n.length > 6 ? 42 : 50} fill={OUT}>{g.n}</text>
+            </g>
+          );
+        })}
+        <Pill x={540} y={890} text="JUNTOS POR PRIMERA VEZ" s={pop(f, prT - 3, 9)} bg="#ffcf4a" color={OUT} size={50} rot={-2} />
+      </g>
+      {/* fase B: 80 minutos a puerta cerrada */}
+      <g opacity={phB}>
+        <g transform="translate(320 720)">
+          <circle r={170} fill="#fff8ea" stroke={OUT} strokeWidth={8} />
+          <path d={`M0 0 L0 -170 A170 170 0 ${mins > 60 ? 1 : 0} 1 ${170 * Math.sin((mins / 60) * Math.PI * 2 * 0.75)} ${-170 * Math.cos((mins / 60) * Math.PI * 2 * 0.75)} Z`} fill="#e0242f" opacity={0.85} />
+          <circle r={120} fill="#fff8ea" />
+          <text x={0} y={30} textAnchor="middle" fontFamily={HEAD} fontSize={110} fill={OUT}>{Math.round(mins)}</text>
+          <text x={0} y={84} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={32} fill={OUT}>MINUTOS</text>
+        </g>
+        {/* puerta */}
+        <g transform="translate(780 720)">
+          <rect x={-140} y={-190} width={280} height={360} rx={12} fill="#2a1208" stroke={OUT} strokeWidth={7} />
+          <g transform={`translate(-130 0) scale(${0.15 + 0.85 * door} 1) translate(130 0)`}>
+            <rect x={-130} y={-180} width={130} height={340} fill="#a8551e" stroke={OUT} strokeWidth={5} />
+          </g>
+          <g transform={`translate(130 0) scale(${0.15 + 0.85 * door} 1) translate(-130 0)`}>
+            <rect x={0} y={-180} width={130} height={340} fill="#a8551e" stroke={OUT} strokeWidth={5} />
+          </g>
+          <circle cx={-18} cy={0} r={10} fill="#ffcf4a" opacity={door} />
+          <circle cx={18} cy={0} r={10} fill="#ffcf4a" opacity={door} />
+          <g opacity={door}>
+            <rect x={-120} y={-260} width={240} height={56} rx={12} fill="#e0242f" stroke={OUT} strokeWidth={5} />
+            <text x={0} y={-218} textAnchor="middle" fontFamily={HEAD} fontSize={36} fill="#fff">PUERTA CERRADA</text>
+          </g>
+        </g>
+      </g>
+      {/* fase C: la declaración */}
+      <Card x={540} y={720} w={860} h={420} s={doc} bg="#fff8ea">
+        <text x={0} y={-150} textAnchor="middle" fontFamily={HEAD} fontSize={56} fill={OUT}>DECLARACIÓN CONJUNTA</text>
+        <path d="M-380 -122 H380" stroke="#e0242f" strokeWidth={5} />
+        {items.map((it, i) => {
+          const s = pop(f, it.k - 3, 10);
+          return (
+            <g key={i} transform={`translate(-330 ${-70 + i * 68})`} opacity={Math.min(1, s * 1.4)}>
+              <rect x={-24} y={-26} width={48} height={48} rx={10} fill="#2fbf71" stroke={OUT} strokeWidth={5} transform={`scale(${s})`} />
+              <path d="M-12 0 L-3 10 L14 -12" stroke="#fff" strokeWidth={7} fill="none" strokeLinecap="round" strokeLinejoin="round" transform={`scale(${s})`} />
+              <text x={50} y={14} fontFamily={HEAD} fontSize={46} fill={OUT}>{it.t}</text>
+            </g>
+          );
+        })}
+        <g opacity={Math.min(1, pop(f, uT - 3, 10) * 1.4)}>
+          <path d="M-380 128 H380" stroke={OUT} strokeWidth={3} strokeDasharray="10 10" opacity={0.4} />
+          <g transform="translate(-260 160)"><UkraineFlag x={-60} y={-24} w={92} h={60} /></g>
+          <text x={-170} y={176} fontFamily={HEAD} fontSize={42} fill="#0057b7">UCRANIA</text>
+        </g>
+        <Stamp x={170} y={160} text="NI SE MENCIONA" s={pop(f, uT + 4, 8)} color="#e0242f" rot={-6} size={44} />
+      </Card>
+    </svg>
+  );
+};
+
+/* ===================== CARA A CARA ===================== */
+const TopicTile: React.FC<{ x: number; y: number; s: number; label: string; icon: string; col: string }> = ({ x, y, s, label, icon, col }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`} opacity={Math.min(1, s * 1.5)}>
+    <rect x={-150} y={-46} width={300} height={92} rx={22} fill={OUT} opacity={0.4} transform="translate(6 8)" />
+    <rect x={-150} y={-46} width={300} height={92} rx={22} fill={col} stroke={OUT} strokeWidth={6} />
+    <g transform="translate(-102 0)">
+      <circle r={32} fill="#fff" stroke={OUT} strokeWidth={4} />
+      {icon === 'casa' && <path d="M-18 4 L0 -14 L18 4 L18 18 L-18 18 Z M-6 18 L-6 6 L6 6 L6 18" fill="#ff5a3c" stroke={OUT} strokeWidth={3} strokeLinejoin="round" />}
+      {icon === 'euro' && <text x={0} y={15} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill="#2a7a3a">€</text>}
+      {icon === 'lupa' && <g><circle cx={-4} cy={-4} r={12} fill="none" stroke={OUT} strokeWidth={5} /><path d="M5 5 L16 16" stroke={OUT} strokeWidth={6} strokeLinecap="round" /></g>}
+      {icon === 'barco' && <g><path d="M-20 4 L20 4 L12 16 L-12 16 Z" fill="#2f7bff" stroke={OUT} strokeWidth={3} /><path d="M0 4 L0 -18 L14 -2 Z" fill="#ffe14d" stroke={OUT} strokeWidth={3} /></g>}
+    </g>
+    <text x={30} y={16} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#fff" stroke={OUT} strokeWidth={4} paintOrder="stroke">{label}</text>
+  </g>
+);
+
+const Bubble: React.FC<{ x: number; y: number; s: number; lines: string[]; col: string; tail: number }> = ({ x, y, s, lines, col, tail }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`} opacity={Math.min(1, s * 1.5)}>
+    <rect x={-190} y={-70} width={380} height={140} rx={30} fill={col} stroke={OUT} strokeWidth={6} />
+    <path d={`M${tail * 60} 66 L${tail * 120} 130 L${tail * 120 - tail * 70} 66 Z`} fill={col} stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+    <rect x={-184} y={60} width={368} height={10} fill={col} />
+    {lines.map((l, i) => (
+      <text key={i} x={0} y={-12 + i * 54 - (lines.length - 2) * 26} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#fff" stroke={OUT} strokeWidth={4} paintOrder="stroke">{l}</text>
+    ))}
+  </g>
+);
+
+export const CaraACaraScene: React.FC<P> = ({ f, T, seg }) => {
+  const cT = wordAt(seg, 'cara');
+  const sT = wordAt(seg, 'sanchez'), feT = wordAt(seg, 'feijoo');
+  const viT = wordAt(seg, 'vivienda'), imT = wordAt(seg, 'impuestos'), coT = wordAt(seg, 'corrupcion'), miT = wordAt(seg, 'migracion');
+  const s2T = wordAt(seg, 'sanchez', 1), f2T = wordAt(seg, 'feijoo', 1);
+  const elT = wordAt(seg, 'elecciones');
+  const vs = pop(f, cT, 7);
+  const flash = lerp(f, [cT, cT + 8], [0.6, 0], null);
+  const topics = lerp(f, [viT - 6, viT], [0, 1], null) * lerp(f, [s2T - 8, s2T], [1, 0], null);
+  const vsOp = lerp(f, [viT - 6, viT], [1, 0], null);
+  const elec = pop(f, elT - 3, 9);
+  const bubOp = lerp(f, [elT - 6, elT + 2], [1, 0], null);
+  const tiles = [
+    { k: viT, l: 'VIVIENDA', i: 'casa', c: '#ff5a3c', x: 540, y: 520 },
+    { k: imT, l: 'IMPUESTOS', i: 'euro', c: '#2fbf71', x: 540, y: 630 },
+    { k: coT, l: 'CORRUPCIÓN', i: 'lupa', c: '#7a5cff', x: 540, y: 740 },
+    { k: miT, l: 'MIGRACIÓN', i: 'barco', c: '#2f7bff', x: 540, y: 850 },
+  ];
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <radialGradient id="cc-bg" cx="50%" cy="45%" r="80%">
+          <stop offset="0" stopColor="#1a4a9a" />
+          <stop offset="0.55" stopColor="#0b1d4a" />
+          <stop offset="1" stopColor="#030716" />
+        </radialGradient>
+        <linearGradient id="cc-floor" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#2a6aff" stopOpacity="0.5" />
+          <stop offset="1" stopColor="#030716" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#cc-bg)" />
+      {/* pantallas del plató */}
+      {Array.from({ length: 6 }).map((_, i) => (
+        <g key={i}>
+          <rect x={20 + i * 178} y={420} width={160} height={400} rx={8} fill="#0e2a66" stroke="#4a8aff" strokeWidth={3} opacity={0.6} />
+          {Array.from({ length: 6 }).map((_, j) => (
+            <rect key={j} x={34 + i * 178} y={440 + j * 62} width={132} height={40} rx={4} fill="#4a8aff" opacity={0.12 + 0.12 * Math.abs(Math.sin(T * 0.06 + i + j))} />
+          ))}
+        </g>
+      ))}
+      {/* suelo brillante */}
+      <rect x={0} y={900} width={1080} height={500} fill="url(#cc-floor)" />
+      <ellipse cx={540} cy={1010} rx={460} ry={60} fill="none" stroke="#7fc0ff" strokeWidth={4} opacity={0.5} />
+      <ellipse cx={540} cy={1010} rx={330} ry={40} fill="none" stroke="#7fc0ff" strokeWidth={3} opacity={0.35} />
+      {/* focos */}
+      {[0, 1, 2].map((i) => {
+        const a = Math.sin(T * 0.04 + i * 2) * 14;
+        return (
+          <g key={i} transform={`rotate(${a} ${200 + i * 340} 380)`}>
+            <path d={`M${200 + i * 340} 380 L${110 + i * 340} 1100 L${290 + i * 340} 1100 Z`} fill="#cfe4ff" opacity={0.1} />
+          </g>
+        );
+      })}
+      <Particles T={T} n={30} color="#9fd0ff" seed={51} speed={0.12} size={3} op={0.5} />
+      <Podium x={170} name="SÁNCHEZ" s={pop(f, sT - 3, 10)} T={T} side={1} />
+      <Podium x={910} name="FEIJÓO" s={pop(f, feT - 3, 10)} T={T + 5} side={-1} />
+      {/* VS + único */}
+      <g opacity={vsOp}>
+        <g transform={`translate(540 700) scale(${0.85 * vs}) rotate(${-8 + (1 - vs) * 30})`}>
+          <path d="M-120 -40 L40 -140 L10 -30 L130 -60 L-40 140 L-10 20 L-130 50 Z" fill="#ffe14d" stroke={OUT} strokeWidth={9} strokeLinejoin="round" />
+          <text x={0} y={46} textAnchor="middle" fontFamily={HEAD} fontSize={150} fill="#ff2d55" stroke={OUT} strokeWidth={10} paintOrder="stroke">VS</text>
+        </g>
+        <Pill x={540} y={520} text="EL ÚNICO DE LA CAMPAÑA" s={pop(f, cT + 6, 10)} bg="#ffffff" color={OUT} size={40} />
+      </g>
+      {/* temas */}
+      <g opacity={topics}>
+        {tiles.map((t, i) => <TopicTile key={i} x={t.x} y={t.y} s={pop(f, t.k - 3, 10)} label={t.l} icon={t.i} col={t.c} />)}
+      </g>
+      {/* cada uno su mensaje */}
+      <g opacity={bubOp}>
+        <Bubble x={330} y={560} s={pop(f, s2T - 2, 10)} lines={['DEFIENDE', 'SU GESTIÓN']} col="#e0242f" tail={-1} />
+        <Bubble x={750} y={760} s={pop(f, f2T - 2, 10)} lines={['1 MILLÓN', 'DE VIVIENDAS']} col="#1d6fd6" tail={1} />
+      </g>
+      {/* urna 29-N */}
+      <Pill x={540} y={510} text="ELECCIONES GENERALES" s={elec} bg="#ffe14d" color={OUT} size={44} />
+      <g transform={`translate(540 760) scale(${elec})`} opacity={Math.min(1, elec * 1.5)}>
+        <g transform={`translate(0 ${-60 - lerp(f, [elT, elT + 20], [80, 0])})`}>
+          <rect x={-60} y={-80} width={120} height={150} rx={6} fill="#fff" stroke={OUT} strokeWidth={6} transform="rotate(-6)" />
+          <path d="M-36 -40 H30 M-36 -10 H30 M-36 20 H14" stroke="#9aa4b8" strokeWidth={6} transform="rotate(-6)" />
+        </g>
+        <rect x={-200} y={-40} width={400} height={260} rx={22} fill="rgba(220,240,255,0.85)" stroke={OUT} strokeWidth={8} />
+        <rect x={-90} y={-52} width={180} height={24} rx={8} fill={OUT} />
+        <text x={0} y={130} textAnchor="middle" fontFamily={HEAD} fontSize={130} fill="#1d3a8a">29-N</text>
+      </g>
+      <rect width={1080} height={1920} fill="#ffffff" opacity={flash} />
+    </svg>
+  );
+};
+
+/* ===================== CIJ: MYANMAR ===================== */
+const Scales: React.FC<{ x: number; y: number; s: number; tilt: number }> = ({ x, y, s, tilt }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <rect x={-8} y={-160} width={16} height={260} fill="#d9b25a" stroke={OUT} strokeWidth={4} />
+    <path d="M-70 100 H70 L50 80 H-50 Z" fill="#d9b25a" stroke={OUT} strokeWidth={4} />
+    <circle cx={0} cy={-168} r={16} fill="#d9b25a" stroke={OUT} strokeWidth={4} />
+    <g transform={`rotate(${tilt} 0 -140)`}>
+      <rect x={-170} y={-148} width={340} height={14} rx={6} fill="#d9b25a" stroke={OUT} strokeWidth={4} />
+      {[-1, 1].map((sd) => (
+        <g key={sd} transform={`translate(${sd * 160} -140) rotate(${-tilt})`}>
+          <path d="M0 0 L-50 110 M0 0 L50 110" stroke="#d9b25a" strokeWidth={4} />
+          <path d="M-62 110 H62 Q 0 160 -62 110 Z" fill="#d9b25a" stroke={OUT} strokeWidth={4} />
+        </g>
+      ))}
+    </g>
+  </g>
+);
+
+const Person: React.FC<{ x: number; y: number; s: number; c: string }> = ({ x, y, s, c }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <circle cx={0} cy={-46} r={14} fill={c} />
+    <path d="M-16 -28 Q 0 -34 16 -28 L20 10 L-20 10 Z" fill={c} />
+    <rect x={-14} y={8} width={10} height={28} fill={c} /><rect x={4} y={8} width={10} height={28} fill={c} />
+  </g>
+);
+
+export const MyanmarScene: React.FC<P> = ({ f, T, seg }) => {
+  const hT = wordAt(seg, 'haya'), coT = wordAt(seg, 'corte'), gT = wordAt(seg, 'genocidio');
+  const prT = wordAt(seg, 'primera'), seT = wordAt(seg, 'setecientos'), huT = wordAt(seg, 'huyeron');
+  const orT = wordAt(seg, 'ordena'), juT = wordAt(seg, 'juzgar'), inT = wordAt(seg, 'indemnizar');
+  const ph1 = lerp(f, [seT - 8, seT], [1, 0], null);
+  const ph2 = lerp(f, [seT - 6, seT + 2], [0, 1], null) * lerp(f, [orT - 8, orT], [1, 0], null);
+  const ph3 = lerp(f, [orT - 6, orT + 2], [0, 1], null);
+  const cnt = lerp(f, [seT - 2, seT + 26], [0, 700000]);
+  const walk = lerp(f, [seT, huT + 40], [0, 1], (t) => t);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="my-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#141a2e" />
+          <stop offset="0.6" stopColor="#262c44" />
+          <stop offset="1" stopColor="#07090f" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#my-bg)" />
+      {/* Palacio de la Paz estilizado */}
+      <g opacity={0.5} fill="#3a4262" stroke="#5a6488" strokeWidth={3}>
+        <rect x={140} y={760} width={800} height={340} />
+        <path d="M140 760 L200 700 L880 700 L940 760 Z" />
+        <rect x={820} y={540} width={90} height={220} />
+        <path d="M820 540 L865 470 L910 540 Z" />
+        <rect x={170} y={610} width={70} height={150} />
+        <path d="M170 610 L205 560 L240 610 Z" />
+        {Array.from({ length: 10 }).map((_, i) => <rect key={i} x={180 + i * 76} y={800} width={40} height={90} rx={18} fill="#1a1f33" />)}
+        {Array.from({ length: 10 }).map((_, i) => <rect key={`b${i}`} x={180 + i * 76} y={940} width={40} height={90} rx={18} fill="#1a1f33" />)}
+      </g>
+      <Particles T={T} n={22} color="#c8d0e8" seed={61} speed={0.08} size={2.5} op={0.4} />
+      <text x={540} y={500} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill="#c8d0e8" letterSpacing={6} opacity={pop(f, hT - 3, 12)}>LA HAYA · TRIBUNAL DE LA ONU</text>
+      {/* fase 1: balanza + sello */}
+      <g opacity={ph1}>
+        <Scales x={540} y={760} s={pop(f, coT - 4, 12)} tilt={lerp(f, [gT - 4, gT + 14], [0, -12])} />
+        <Card x={540} y={590} w={560} h={96} s={pop(f, coT - 2, 12)} bg="#ffffff">
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={48} fill={OUT}>CORTE INTERNACIONAL</text>
+        </Card>
+        <Stamp x={540} y={830} text="GENOCIDIO" s={pop(f, gT, 8)} color="#c4001f" rot={-7} size={80} />
+        <Pill x={540} y={930} text="1ª VEZ QUE SEÑALA A UN ESTADO" s={pop(f, prT - 3, 10)} bg="#ffffff" color={OUT} size={40} />
+      </g>
+      {/* fase 2: 700.000 huyen */}
+      <g opacity={ph2}>
+        <g transform="translate(540 640)">
+          <text x={6} y={10} textAnchor="middle" fontFamily={HEAD} fontSize={130} fill={OUT} opacity={0.5}>+{fmtCount(cnt)}</text>
+          <text x={0} y={0} textAnchor="middle" fontFamily={HEAD} fontSize={130} fill="#ffffff" stroke={OUT} strokeWidth={9} paintOrder="stroke">+{fmtCount(cnt)}</text>
+          <text x={0} y={58} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={36} fill="#ffb26b">ROHINYÁS HUYERON</text>
+        </g>
+        <g transform="translate(0 870)">
+          <rect x={60} y={-60} width={250} height={90} rx={16} fill="#3a4262" stroke={OUT} strokeWidth={5} />
+          <text x={185} y={2} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill="#fff">MYANMAR</text>
+          <rect x={770} y={-60} width={260} height={90} rx={16} fill="#006a4e" stroke={OUT} strokeWidth={5} />
+          <text x={900} y={2} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill="#fff">BANGLADÉS</text>
+          <path d="M320 -15 L750 -15" stroke="#ffb26b" strokeWidth={6} strokeDasharray="18 14" strokeDashoffset={-T * 2} />
+          <polygon points="750,-32 778,-15 750,2" fill="#ffb26b" />
+          {Array.from({ length: 9 }).map((_, i) => {
+            const p = (walk * 1.4 + i * 0.11) % 1;
+            const x = 330 + p * 410;
+            return <Person key={i} x={x} y={46 + (i % 2) * 6} s={0.8} c="#c8d0e8" />;
+          })}
+        </g>
+      </g>
+      {/* fase 3: lo que ordena */}
+      <g opacity={ph3}>
+        <Scales x={540} y={760} s={0.7} tilt={0} />
+        <Card x={290} y={700} w={400} h={190} s={pop(f, juT - 3, 10)} bg="#ffffff">
+          <text x={0} y={-24} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={30} fill="#5a6488">ORDENA</text>
+          <text x={0} y={46} textAnchor="middle" fontFamily={HEAD} fontSize={64} fill={OUT}>JUZGAR</text>
+        </Card>
+        <Card x={790} y={700} w={400} h={190} s={pop(f, inT - 3, 10)} bg="#ffffff">
+          <text x={0} y={-24} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={30} fill="#5a6488">ORDENA</text>
+          <text x={0} y={46} textAnchor="middle" fontFamily={HEAD} fontSize={64} fill={OUT}>INDEMNIZAR</text>
+        </Card>
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== RÉCORD EN BOLSA ===================== */
+export const BolsaScene: React.FC<P> = ({ f, T, seg }) => {
+  const maT = wordAt(seg, 'mayor'), hiT = wordAt(seg, 'historia');
+  const anT = wordAt(seg, 'anthropic'), iaT = wordAt(seg, 'inteligencia');
+  const ocT = wordAt(seg, 'ochenta'), saT = wordAt(seg, 'sale'), ciT = wordAt(seg, 'cierra'), diT = wordAt(seg, 'diecisiete');
+  const ph1 = lerp(f, [saT - 8, saT], [1, 0], null);
+  const ph2 = lerp(f, [saT - 6, saT + 2], [0, 1], null);
+  const cnt = lerp(f, [ocT - 2, ocT + 30], [0, 81000]);
+  const line = lerp(f, [saT + 6, ciT + 20], [0, 1]);
+  const price = 83 + (97 - 83) * line;
+  // gráfico de velas
+  const pts = Array.from({ length: 11 }).map((_, i) => {
+    const t = i / 10;
+    const y = 83 + 14 * t + Math.sin(i * 2.3) * 3 * (1 - t) + (i === 3 ? 9 : i === 4 ? 6 : 0);
+    return { x: 150 + i * 78, y: 900 - (y - 78) * 16 };
+  });
+  const tick = 'ANT  ▲17%   NASDAQ   SALIDA A BOLSA RÉCORD   ';
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <radialGradient id="bo-bg" cx="50%" cy="40%" r="85%">
+          <stop offset="0" stopColor="#0f5a3a" />
+          <stop offset="0.55" stopColor="#06261c" />
+          <stop offset="1" stopColor="#020a07" />
+        </radialGradient>
+        <linearGradient id="bo-area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#3dff9a" stopOpacity="0.45" />
+          <stop offset="1" stopColor="#3dff9a" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#bo-bg)" />
+      {/* rejilla */}
+      <g stroke="#3dff9a" strokeOpacity={0.1} strokeWidth={2}>
+        {Array.from({ length: 14 }).map((_, i) => <path key={i} d={`M${i * 80} 380 V1400`} />)}
+        {Array.from({ length: 14 }).map((_, i) => <path key={`h${i}`} d={`M0 ${380 + i * 80} H1080`} />)}
+      </g>
+      {/* velas de fondo */}
+      <g opacity={0.3 * ph1}>
+        {Array.from({ length: 13 }).map((_, i) => {
+          const up = rnd(i + 3) > 0.35;
+          const h = 60 + rnd(i) * 120;
+          const y = 1250 - i * 22 - h;
+          return (
+            <g key={i}>
+              <path d={`M${80 + i * 72} ${y - 20} V${y + h + 20}`} stroke={up ? '#3dff9a' : '#ff4d6a'} strokeWidth={4} />
+              <rect x={62 + i * 72} y={y} width={36} height={h} fill={up ? '#3dff9a' : '#ff4d6a'} />
+            </g>
+          );
+        })}
+      </g>
+      <Particles T={T} n={30} color="#7dffbf" seed={71} speed={0.4} size={3} op={0.45} />
+      {/* cinta de cotizaciones */}
+      <g>
+        <rect x={0} y={1160} width={1080} height={64} fill="#02140d" stroke="#3dff9a" strokeWidth={3} />
+        <text x={-((T * 4) % 900)} y={1205} fontFamily={HEAD} fontSize={42} fill="#3dff9a" letterSpacing={3}>{tick + tick + tick}</text>
+      </g>
+      {/* fase 1 */}
+      <g opacity={ph1}>
+        <g transform={`translate(540 600) scale(${pop(f, maT - 3, 9)})`}>
+          <path d="M-80 -90 H80 V-20 Q80 60 0 70 Q-80 60 -80 -20 Z" fill="#ffcf4a" stroke={OUT} strokeWidth={7} />
+          <path d="M-80 -70 Q-140 -70 -130 -20 Q-120 20 -70 20" fill="none" stroke={OUT} strokeWidth={14} />
+          <path d="M-80 -70 Q-140 -70 -130 -20 Q-120 20 -70 20" fill="none" stroke="#ffcf4a" strokeWidth={8} />
+          <path d="M80 -70 Q140 -70 130 -20 Q120 20 70 20" fill="none" stroke={OUT} strokeWidth={14} />
+          <path d="M80 -70 Q140 -70 130 -20 Q120 20 70 20" fill="none" stroke="#ffcf4a" strokeWidth={8} />
+          <rect x={-20} y={68} width={40} height={40} fill="#d4a020" stroke={OUT} strokeWidth={6} />
+          <rect x={-70} y={104} width={140} height={34} rx={6} fill="#8a5a10" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={2} textAnchor="middle" fontFamily={HEAD} fontSize={54} fill={OUT}>Nº1</text>
+        </g>
+        <Pill x={540} y={480} text="LA MAYOR DE LA HISTORIA" s={pop(f, hiT - 2, 10)} bg="#ffcf4a" color={OUT} size={44} />
+        <Card x={540} y={790} w={640} h={100} s={pop(f, anT - 2, 10) * lerp(f, [ocT - 6, ocT], [1, 0], null)} bg="#ffffff">
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={50} fill={OUT}>ANTHROPIC · EMPRESA DE IA</text>
+        </Card>
+        <g opacity={pop(f, iaT, 10) * lerp(f, [ocT - 6, ocT], [1, 0], null)}>
+          <text x={540} y={900} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={38} fill="#7dffbf">DEBUTA EN EL NASDAQ</text>
+        </g>
+        <g transform={`translate(540 850) scale(${pop(f, ocT - 4, 9)})`} opacity={Math.min(1, pop(f, ocT - 4, 9) * 1.5)}>
+          <text x={6} y={10} textAnchor="middle" fontFamily={HEAD} fontSize={124} fill={OUT} opacity={0.5}>{fmtCount(cnt)} M$</text>
+          <text x={0} y={0} textAnchor="middle" fontFamily={HEAD} fontSize={124} fill="#3dff9a" stroke={OUT} strokeWidth={10} paintOrder="stroke">{fmtCount(cnt)} M$</text>
+          <text x={0} y={52} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={34} fill="#ffffff">CAPTADOS EN SU SALIDA</text>
+        </g>
+      </g>
+      {/* fase 2: gráfico 83 -> 97 */}
+      <g opacity={ph2}>
+        <rect x={110} y={470} width={860} height={480} rx={26} fill="rgba(2,20,13,0.75)" stroke="#3dff9a" strokeWidth={4} />
+        <path d={`M150 ${900 - (83 - 78) * 16} H930`} stroke="#ffffff" strokeWidth={3} strokeDasharray="12 10" opacity={0.5} />
+        <text x={160} y={900 - (83 - 78) * 16 + 40} fontFamily={HEAD} fontSize={36} fill="#ffffff" opacity={0.8}>SALIDA: 83 $</text>
+        <g>
+          <clipPath id="bo-clip"><rect x={140} y={460} width={800 * line + 10} height={500} /></clipPath>
+          <g clipPath="url(#bo-clip)">
+            <path d={`M${pts[0].x} 940 ${pts.map((p) => `L${p.x} ${p.y}`).join(' ')} L${pts[pts.length - 1].x} 940 Z`} fill="url(#bo-area)" />
+            <path d={`M${pts.map((p) => `${p.x} ${p.y}`).join(' L')}`} fill="none" stroke="#3dff9a" strokeWidth={8} strokeLinejoin="round" />
+          </g>
+        </g>
+        <g transform="translate(330 540)">
+          <text x={0} y={20} textAnchor="middle" fontFamily={HEAD} fontSize={76} fill="#ffffff" stroke={OUT} strokeWidth={7} paintOrder="stroke">{price.toFixed(2).replace('.', ',')} $</text>
+        </g>
+        <Pill x={800} y={560} text="CIERRE: 97 $" s={pop(f, ciT + 4, 10)} bg="#ffffff" color={OUT} size={40} />
+        <Pill x={740} y={870} text="▲ +17 %" s={pop(f, diT - 2, 8)} bg="#2fbf71" size={64} rot={-3} />
+      </g>
+    </svg>
+  );
+};

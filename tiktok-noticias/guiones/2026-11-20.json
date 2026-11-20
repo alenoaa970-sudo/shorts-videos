@@ -1,0 +1,101 @@
+{
+ "fecha": "2026-11-19",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "cumbre",
+   "text": "Cumbre histórica en Shenzhen: Trump, Shi Jinping y Putin, juntos por primera vez. Ochenta minutos a puerta cerrada. Firman una declaración sobre armas nucleares, petróleo y la ONU, pero sin mencionar Ucrania.",
+   "title": "TRUMP, XI Y PUTIN, JUNTOS",
+   "costume": "diplomat",
+   "serious": false,
+   "sfx": [
+    [
+     "shenzhen",
+     "whoosh",
+     0.35
+    ],
+    [
+     "ochenta",
+     "ding",
+     0.3
+    ],
+    [
+     "ucrania",
+     "impact",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "caraacara",
+   "text": "Único cara a cara de la campaña: Sánchez contra Feijóo. Vivienda, impuestos, corrupción y migración. Sánchez defiende su gestión; Feijóo promete un millón de viviendas. Elecciones, el veintinueve de noviembre.",
+   "title": "SÁNCHEZ Y FEIJÓO, CARA A CARA",
+   "costume": "boxing",
+   "serious": false,
+   "sfx": [
+    [
+     "cara",
+     "vine-boom",
+     0.3
+    ],
+    [
+     "veintinueve",
+     "ding",
+     0.3
+    ]
+   ]
+  },
+  {
+   "key": "myanmar",
+   "text": "Sentencia histórica en La Haya: la Corte Internacional de Justicia declara que Myanmar cometió genocidio contra los rohinyás. Es la primera vez que señala a un Estado. Más de setecientos mil huyeron. Ordena juzgar a los culpables e indemnizar.",
+   "title": "MYANMAR COMETIÓ GENOCIDIO",
+   "costume": "judge",
+   "serious": true,
+   "sfx": [
+    [
+     "genocidio",
+     "impact",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "bolsa",
+   "text": "Y la mayor salida a bolsa de la historia: Anthropic, la empresa de inteligencia artificial, capta más de ochenta y un mil millones de dólares. Sale a ochenta y tres y cierra en noventa y siete: un diecisiete por ciento más. ¡Sígueme para más!",
+   "title": "RÉCORD HISTÓRICO EN BOLSA",
+   "costume": "business",
+   "serious": false,
+   "sfx": [
+    [
+     "historia",
+     "whoosh",
+     0.35
+    ],
+    [
+     "diecisiete",
+     "ding",
+     0.3
+    ],
+    [
+     "sigueme",
+     "vine-boom",
+     0.35
+    ]
+   ]
+  }
+ ]
+}
