@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -538,8 +538,40 @@ export const Robot: React.FC<RobotProps> = (p) => {
           </g>
         </g>
       )}
+      {costume === 'officer' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#4a5530" stroke={OUT} strokeWidth={7} />
+          <path d="M300 760 Q 290 950 310 1200 M780 760 Q 790 950 770 1200" stroke="#5d6a3c" strokeWidth={8} fill="none" />
+          <path d="M450 694 L540 860 L630 694 Z" fill="#d9d2b8" stroke={OUT} strokeWidth={6} />
+          <path d="M515 700 L565 700 L556 760 L548 850 L540 862 L532 850 L524 760 Z" fill="#2e3520" stroke={OUT} strokeWidth={4} />
+          <path d="M360 694 L450 694 L540 860 L470 820 L410 860 L430 780 Z" fill="#3c4626" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M720 694 L630 694 L540 860 L610 820 L670 860 L650 780 Z" fill="#3c4626" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M540 860 L540 1200" stroke={OUT} strokeWidth={5} />
+          <g fill="#e9c249" stroke={OUT} strokeWidth={4}>
+            <circle cx={570} cy={930} r={13} /><circle cx={570} cy={1010} r={13} /><circle cx={570} cy={1090} r={13} />
+          </g>
+          <g transform="translate(330 900)">
+            {[0, 1, 2].map((i) => (
+              <g key={i}>
+                <rect x={-60 + i * 42} y={-16} width={38} height={18} fill={['#c4001f', '#1e5bd8', '#2fbf71'][i]} stroke={OUT} strokeWidth={3} />
+                <rect x={-50 + i * 42} y={-16} width={6} height={18} fill="#ffffff" opacity={0.8} />
+              </g>
+            ))}
+            {[0, 1].map((i) => (
+              <g key={`m${i}`} transform={`translate(${-30 + i * 56} 40)`}>
+                <path d="M-10 -22 L10 -22 L6 0 L-6 0 Z" fill={i ? '#1e5bd8' : '#c4001f'} stroke={OUT} strokeWidth={3} />
+                <circle cx={0} cy={14} r={16} fill="#e9c249" stroke={OUT} strokeWidth={4} />
+                <polygon points={star(0, 14, 9)} fill="#b8901e" />
+              </g>
+            ))}
+          </g>
+          <rect x={250} y={705} width={120} height={36} rx={8} fill="#2e3520" stroke={OUT} strokeWidth={5} />
+          <path d="M270 723 L350 723" stroke="#e9c249" strokeWidth={6} strokeDasharray="10 8" />
+          <rect x={660} y={1040} width={120} height={16} rx={6} fill="#3c4626" stroke={OUT} strokeWidth={4} />
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -568,7 +600,7 @@ export const Robot: React.FC<RobotProps> = (p) => {
         </g>
       )}
       {/* Antena */}
-      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && (
+      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && costume !== 'officer' && (
         <g>
           <path d="M690 262 L752 150" stroke={OUT} strokeWidth={18} strokeLinecap="round" />
           <path d="M690 262 L752 150" stroke="url(#rb-chromeSide)" strokeWidth={10} strokeLinecap="round" />
@@ -662,6 +694,20 @@ export const Robot: React.FC<RobotProps> = (p) => {
             <rect x={-26} y={-22} width={52} height={34} rx={8} fill="#e3122b" stroke={OUT} strokeWidth={4} />
             <rect x={-18} y={-16} width={14} height={12} rx={2} fill="#ffffff" /><rect x={4} y={-16} width={14} height={12} rx={2} fill="#ffffff" />
             <circle cx={-14} cy={18} r={7} fill={OUT} /><circle cx={14} cy={18} r={7} fill={OUT} />
+          </g>
+        </g>
+      )}
+      {costume === 'officer' && (
+        <g>
+          <path d="M290 300 Q 270 140 540 130 Q 810 140 790 300 Z" fill="#4a5530" stroke={OUT} strokeWidth={9} />
+          <path d="M300 300 Q 540 250 780 300 L780 335 Q 540 290 300 335 Z" fill="#2e3520" stroke={OUT} strokeWidth={7} />
+          <path d="M310 332 Q 540 296 770 332 Q 750 400 540 386 Q 330 400 310 332 Z" fill="#14170e" stroke={OUT} strokeWidth={7} />
+          <path d="M360 318 Q 540 290 720 318" fill="none" stroke="#e9c249" strokeWidth={8} />
+          <path d="M340 210 Q 420 160 520 154" fill="none" stroke="#8a9a5a" strokeWidth={10} strokeLinecap="round" opacity={0.7} />
+          <g transform="translate(540 220)">
+            <path d="M-70 10 Q -40 -20 0 -8 Q 40 -20 70 10 Q 40 0 0 14 Q -40 0 -70 10 Z" fill="#e9c249" stroke={OUT} strokeWidth={4} />
+            <circle r={36} fill="#e9c249" stroke={OUT} strokeWidth={6} />
+            <polygon points={star(0, 0, 24)} fill="#b8901e" stroke={OUT} strokeWidth={2} />
           </g>
         </g>
       )}

@@ -1,0 +1,96 @@
+{
+ "fecha": "2026-11-21",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "ataque",
+   "text": "Ataque masivo de Rusia contra Ucrania: cerca de cien misiles y más de cuatrocientos drones. Ucrania solo derriba tres de los veintisiete misiles balísticos. Al menos ocho muertos, seis en Kiev, y apagones en la capital y en el oeste.",
+   "title": "ATAQUE MASIVO SOBRE UCRANIA",
+   "costume": "helmet",
+   "serious": true,
+   "sfx": [
+    [
+     "ataque",
+     "impact",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "polonia",
+   "text": "En pleno ataque, dos misiles rusos y un dron que iban hacia Ucrania caen en Polonia, país de la OTAN. No hay heridos, pero Varsovia lo llama provocación.",
+   "title": "MISILES RUSOS CAEN EN POLONIA",
+   "costume": "officer",
+   "serious": true,
+   "sfx": [
+    [
+     "polonia",
+     "impact",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "viernesnegro",
+   "text": "Viernes negro en Wall Street por las dudas sobre la inteligencia artificial. El Nasdaq se hunde más de un cinco por ciento, Nvidia casi un catorce y el S and P quinientos entra en corrección. El Ibex cae un uno coma seis y pierde los diecinueve mil puntos.",
+   "title": "VIERNES NEGRO EN LA BOLSA",
+   "costume": "business",
+   "serious": false,
+   "sfx": [
+    [
+     "viernes",
+     "whoosh",
+     0.35
+    ],
+    [
+     "catorce",
+     "vine-boom",
+     0.3
+    ],
+    [
+     "ibex",
+     "whip",
+     0.3
+    ]
+   ]
+  },
+  {
+   "key": "votonietos",
+   "text": "Y a nueve días de las elecciones, el Supremo deja sin voto a ciento sesenta y tres mil nacionalizados por la ley de nietos. Solo podrán votar los que acrediten ser descendientes de exiliados. ¡Sígueme para más!",
+   "title": "163.000 NACIONALIZADOS SIN VOTO",
+   "costume": "judge",
+   "serious": false,
+   "sfx": [
+    [
+     "supremo",
+     "whoosh",
+     0.3
+    ],
+    [
+     "ciento",
+     "ding",
+     0.3
+    ],
+    [
+     "sigueme",
+     "vine-boom",
+     0.35
+    ]
+   ]
+  }
+ ]
+}
