@@ -1,0 +1,18 @@
+{
+ "fecha": "2026-11-22",
+ "tipo": "semanal",
+ "segments": [
+  {"key": "intro", "text": "¡Lo más importante de la semana, en un minuto! ¡Vamos!", "title": "", "costume": "anchor", "serious": false,
+   "sfx": [["minuto", "ding", 0.35], ["vamos", "whoosh", 0.4]]},
+  {"key": "trio", "text": "Cumbre histórica en Shenzhen: Trump, Shi Jinping y Putin, juntos por primera vez. Una hora y veinte minutos, y una declaración de paz sobre armas nucleares y petróleo. Pero ningún plan para Ucrania.", "title": "TRUMP, XI Y PUTIN, JUNTOS", "costume": "diplomat", "serious": false,
+   "sfx": [["cumbre", "whoosh", 0.4], ["primera", "ding", 0.35], ["ningun", "switch", 0.35]]},
+  {"key": "oleada", "text": "Horas después, Rusia lanza sobre Ucrania uno de sus mayores ataques: unos cien misiles y más de cuatrocientos drones. Al menos ocho muertos. Dos misiles y un dron caen en Polonia, y Varsovia lo llama provocación.", "title": "RUSIA ATACA Y TOCA POLONIA", "costume": "helmet", "serious": true,
+   "sfx": [["ataques", "impact", 0.3], ["polonia", "impact", 0.25]]},
+  {"key": "desplome", "text": "En la bolsa, viernes negro por las dudas sobre la inteligencia artificial. El Nasdaq se hunde un cinco por ciento, Nvidia un catorce, y el S and P quinientos entra en corrección. Mi batería también ha bajado.", "title": "VIERNES NEGRO EN WALL STREET", "costume": "business", "serious": false,
+   "sfx": [["viernes", "vine-boom", 0.4], ["catorce", "whip", 0.35], ["bateria", "switch", 0.4]]},
+  {"key": "urnas", "text": "Última semana de campaña: el domingo veintinueve hay elecciones generales. Tras el único cara a cara entre Sánchez y Feijóo, casi todos los sondeos dan ganador al PP.", "title": "ELECCIONES EL 29 DE NOVIEMBRE", "costume": "deputy", "serious": false,
+   "sfx": [["veintinueve", "ding", 0.35], ["sondeos", "mouse-click", 0.4]]},
+  {"key": "golfo", "text": "Y en el Golfo, Irán ataca con misiles y drones dos bases de Estados Unidos en Baréin. Baréin informa de un incendio en una zona industrial. ¡Sígueme para más!", "title": "IRÁN ATACA BASES EN BARÉIN", "costume": "navy", "serious": true,
+   "sfx": [["ataca", "impact", 0.3]]}
+ ]
+}

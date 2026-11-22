@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -598,8 +598,41 @@ export const Robot: React.FC<RobotProps> = (p) => {
           <rect x={510} y={1104} width={60} height={52} rx={8} fill="#c9ced8" stroke={OUT} strokeWidth={5} />
         </g>
       )}
+      {costume === 'navy' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#14234a" stroke={OUT} strokeWidth={7} />
+          <path d="M300 760 Q 290 950 310 1200 M780 760 Q 790 950 770 1200" stroke="#22356b" strokeWidth={8} fill="none" />
+          {/* camisa y corbata */}
+          <path d="M455 694 L540 850 L625 694 Z" fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <path d="M518 700 L562 700 L555 760 L547 840 L540 852 L533 840 L525 760 Z" fill="#0a1022" stroke={OUT} strokeWidth={4} />
+          {/* solapas */}
+          <path d="M350 694 L455 694 L540 850 L470 815 L405 860 L425 775 Z" fill="#1c2f60" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M730 694 L625 694 L540 850 L610 815 L675 860 L655 775 Z" fill="#1c2f60" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          {/* doble fila de botones dorados */}
+          <g fill="#f0c94a" stroke={OUT} strokeWidth={4}>
+            {[0, 1, 2].map((i) => (<g key={i}><circle cx={490} cy={930 + i * 85} r={14} /><circle cx={590} cy={930 + i * 85} r={14} /></g>))}
+          </g>
+          {/* galones en la manga y charreteras */}
+          <path d="M230 1080 L360 1080 M230 1110 L360 1110" stroke="#f0c94a" strokeWidth={10} />
+          <rect x={240} y={700} width={130} height={40} rx={10} fill="#0a1022" stroke={OUT} strokeWidth={5} />
+          <path d="M255 712 L355 712 M255 728 L355 728" stroke="#f0c94a" strokeWidth={5} />
+          <rect x={710} y={700} width={130} height={40} rx={10} fill="#0a1022" stroke={OUT} strokeWidth={5} />
+          <path d="M725 712 L825 712 M725 728 L825 728" stroke="#f0c94a" strokeWidth={5} />
+          {/* ancla bordada */}
+          <g transform="translate(690 880)" stroke="#f0c94a" strokeWidth={7} fill="none" strokeLinecap="round">
+            <circle cx={0} cy={-34} r={10} />
+            <path d="M0 -24 L0 34 M-22 -10 L22 -10 M-30 14 Q -26 40 0 40 Q 26 40 30 14" />
+          </g>
+          {/* pasadores */}
+          <g transform="translate(350 900)">
+            {[0, 1, 2].map((i) => (
+              <rect key={i} x={-55 + i * 38} y={-14} width={34} height={18} fill={['#1e5bd8', '#ffd23f', '#c4001f'][i]} stroke={OUT} strokeWidth={3} />
+            ))}
+          </g>
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -628,7 +661,7 @@ export const Robot: React.FC<RobotProps> = (p) => {
         </g>
       )}
       {/* Antena */}
-      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && costume !== 'officer' && (
+      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && costume !== 'officer' && costume !== 'navy' && (
         <g>
           <path d="M690 262 L752 150" stroke={OUT} strokeWidth={18} strokeLinecap="round" />
           <path d="M690 262 L752 150" stroke="url(#rb-chromeSide)" strokeWidth={10} strokeLinecap="round" />
@@ -752,6 +785,26 @@ export const Robot: React.FC<RobotProps> = (p) => {
           {/* visera transparente levantada a medias */}
           <path d="M268 340 Q 540 270 812 340 L800 470 Q 540 420 280 470 Z" fill="#bfe6ff" fillOpacity={0.22} stroke="#dff3ff" strokeWidth={6} strokeOpacity={0.9} />
           <path d="M320 350 Q 420 320 520 312" fill="none" stroke="#ffffff" strokeWidth={10} strokeLinecap="round" opacity={0.55} />
+        </g>
+      )}
+      {costume === 'navy' && (
+        <g>
+          {/* gorra de plato blanca de oficial de marina */}
+          <path d="M250 250 Q 260 120 540 112 Q 820 120 830 250 Q 540 210 250 250 Z" fill="#ffffff" stroke={OUT} strokeWidth={9} />
+          <path d="M300 200 Q 420 150 540 146" fill="none" stroke="#dfe6f2" strokeWidth={12} strokeLinecap="round" />
+          <path d="M282 250 Q 540 214 798 250 L792 312 Q 540 274 288 312 Z" fill="#0a1022" stroke={OUT} strokeWidth={7} />
+          <path d="M300 300 Q 540 265 780 300" fill="none" stroke="#f0c94a" strokeWidth={7} />
+          <path d="M300 310 Q 540 276 780 310 Q 760 380 540 366 Q 320 380 300 310 Z" fill="#0a1022" stroke={OUT} strokeWidth={7} />
+          <path d="M360 340 Q 450 322 520 320" fill="none" stroke="#3a4a74" strokeWidth={8} strokeLinecap="round" />
+          {/* escudo con ancla y laureles */}
+          <g transform="translate(540 262)">
+            <path d="M-80 8 Q -50 -26 -10 -8 M80 8 Q 50 -26 10 -8" fill="none" stroke="#f0c94a" strokeWidth={10} strokeLinecap="round" />
+            <circle r={32} fill="#f0c94a" stroke={OUT} strokeWidth={5} />
+            <g stroke="#14234a" strokeWidth={5} fill="none" strokeLinecap="round">
+              <circle cx={0} cy={-17} r={5} />
+              <path d="M0 -12 L0 18 M-11 -4 L11 -4 M-16 8 Q -14 22 0 22 Q 14 22 16 8" />
+            </g>
+          </g>
         </g>
       )}
       {costume === 'judge' && (
