@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -18,6 +18,7 @@ const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   shenzhen: ShenzhenScene, prestamo: PrestamoScene, decretos: DecretosScene, huelga: HuelgaScene,
   cumbre: CumbreScene, caraacara: CaraACaraScene, myanmar: MyanmarScene, bolsa: BolsaScene,
   ataque: AtaqueScene, polonia: PoloniaScene, viernesnegro: ViernesNegroScene, votonietos: VotoNietosScene,
+  barein: BareinScene, rutte: RutteScene, campana: CampanaScene, francia: FranciaScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -85,6 +86,16 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
     case 'votonietos': {
       const sT = wordAt(seg, 'sigueme');
       return { costume: 'judge', arm: f >= sT ? 'thumb' : 'hold', item: f >= sT ? undefined : 'gavel', expression: f >= sT ? 'wink' : after('sin') && !after('nacionalizados') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
+    }
+    case 'barein':
+      return { costume: 'helmet', arm: 'down', expression: 'serious' };
+    case 'rutte':
+      return { costume: 'diplomat', arm: 'down', expression: 'serious' };
+    case 'campana':
+      return { costume: 'deputy', arm: 'thumb', expression: after('okupas') && !after('cuarenta') ? 'shock' : after('millones') && !after('vivienda') ? 'stars' : 'happy', armLift: pop(f, wordAt(seg, 'feijoo'), 6) * 0.5 };
+    case 'francia': {
+      const sT = wordAt(seg, 'sigueme');
+      return { costume: 'riot', arm: 'thumb', expression: f >= sT ? 'wink' : after('incidentes') && !after('ciudades') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
     }
     case 'voyager': {
       const sT = wordAt(seg, 'sigueme');

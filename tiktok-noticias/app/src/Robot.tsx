@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -570,8 +570,36 @@ export const Robot: React.FC<RobotProps> = (p) => {
           <rect x={660} y={1040} width={120} height={16} rx={6} fill="#3c4626" stroke={OUT} strokeWidth={4} />
         </g>
       )}
+      {costume === 'riot' && (
+        <g clipPath="url(#rb-torsoClip)">
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#1b2a4a" stroke={OUT} strokeWidth={7} />
+          {/* chaleco antidisturbios con placas */}
+          <path d="M300 720 L780 720 L800 1200 L280 1200 Z" fill="#0f1a30" stroke={OUT} strokeWidth={7} />
+          {[0, 1, 2].map((r) => [0, 1].map((c) => (
+            <rect key={`${r}${c}`} x={330 + c * 220} y={770 + r * 130} width={200} height={110} rx={18} fill="#22355c" stroke={OUT} strokeWidth={5} />
+          )))}
+          {/* hombreras */}
+          <path d="M228 760 Q 250 700 340 694 L360 790 Q 290 800 236 840 Z" fill="#2c3f66" stroke={OUT} strokeWidth={6} />
+          <path d="M852 760 Q 830 700 740 694 L720 790 Q 790 800 844 840 Z" fill="#2c3f66" stroke={OUT} strokeWidth={6} />
+          {/* banda POLICÍA */}
+          <rect x={300} y={905} width={480} height={74} rx={10} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <text x={540} y={962} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={58} fill="#1b2a4a" letterSpacing={6}>POLICÍA</text>
+          {/* placa dorada */}
+          <g transform="translate(650 800)">
+            <path d="M0 -38 L32 -22 L28 18 L0 40 L-28 18 L-32 -22 Z" fill="#e9c249" stroke={OUT} strokeWidth={5} />
+            <polygon points={star(0, 0, 16)} fill="#b8901e" />
+          </g>
+          {/* radio */}
+          <rect x={360} y={780} width={54} height={86} rx={10} fill="#0a0f1c" stroke={OUT} strokeWidth={5} />
+          <path d="M374 780 L374 742" stroke={OUT} strokeWidth={8} strokeLinecap="round" />
+          <circle cx={387} cy={800} r={6} fill={Math.floor(t / 10) % 2 ? '#2fd8ff' : '#ff3b4e'} />
+          {/* cinturón */}
+          <rect x={230} y={1110} width={620} height={40} fill="#0a0f1c" stroke={OUT} strokeWidth={5} />
+          <rect x={510} y={1104} width={60} height={52} rx={8} fill="#c9ced8" stroke={OUT} strokeWidth={5} />
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -709,6 +737,21 @@ export const Robot: React.FC<RobotProps> = (p) => {
             <circle r={36} fill="#e9c249" stroke={OUT} strokeWidth={6} />
             <polygon points={star(0, 0, 24)} fill="#b8901e" stroke={OUT} strokeWidth={2} />
           </g>
+        </g>
+      )}
+      {costume === 'riot' && (
+        <g>
+          {/* casco antidisturbios */}
+          <path d="M250 360 Q 250 110 540 100 Q 830 110 830 360 L800 372 Q 540 300 280 372 Z" fill="#1b2a4a" stroke={OUT} strokeWidth={9} />
+          <path d="M320 210 Q 420 140 540 132" fill="none" stroke="#5d7bb8" strokeWidth={12} strokeLinecap="round" opacity={0.7} />
+          <rect x={470} y={150} width={140} height={50} rx={12} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+          <text x={540} y={188} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={36} fill="#1b2a4a">POLICÍA</text>
+          {/* bisagras */}
+          <circle cx={268} cy={350} r={22} fill="#0a0f1c" stroke={OUT} strokeWidth={5} />
+          <circle cx={812} cy={350} r={22} fill="#0a0f1c" stroke={OUT} strokeWidth={5} />
+          {/* visera transparente levantada a medias */}
+          <path d="M268 340 Q 540 270 812 340 L800 470 Q 540 420 280 470 Z" fill="#bfe6ff" fillOpacity={0.22} stroke="#dff3ff" strokeWidth={6} strokeOpacity={0.9} />
+          <path d="M320 350 Q 420 320 520 312" fill="none" stroke="#ffffff" strokeWidth={10} strokeLinecap="round" opacity={0.55} />
         </g>
       )}
       {costume === 'judge' && (

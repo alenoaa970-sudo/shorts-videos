@@ -1,0 +1,101 @@
+{
+ "fecha": "2026-11-22",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "barein",
+   "text": "Tensión en el Golfo. Irán lanza misiles y drones contra dos bases de Estados Unidos en Baréin. Baréin informa de un incendio en una fábrica, sin heridos. Mientras, Teherán ofrece reabrir el estrecho de Ormuz en dos días si Washington acepta sus condiciones, pero sin sacar su uranio del país.",
+   "title": "IRÁN ATACA BASES EN BARÉIN",
+   "costume": "helmet",
+   "serious": true,
+   "sfx": [
+    [
+     "misiles",
+     "impact",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "rutte",
+   "text": "Tras la caída de dos misiles y un dron rusos en Polonia, el jefe de la OTAN, Mark Rutte, viaja a Varsovia y avisa: la Alianza defenderá cada palmo del territorio polaco. Rutte lo llama peligroso, y Tusk, una provocación.",
+   "title": "LA OTAN BLINDA A POLONIA",
+   "costume": "diplomat",
+   "serious": true,
+   "sfx": [
+    [
+     "otan",
+     "impact",
+     0.2
+    ]
+   ]
+  },
+  {
+   "key": "campana",
+   "text": "A ocho días de las elecciones, Sánchez anuncia que prorrogará el impuesto a la banca hasta dos mil veintisiete: unos mil cuatrocientos millones para vivienda. Feijóo reúne a doce mil personas en Valencia y promete desalojar a los okupas en cuarenta y ocho horas.",
+   "title": "BANCA Y OKUPAS EN CAMPAÑA",
+   "costume": "deputy",
+   "serious": false,
+   "sfx": [
+    [
+     "banca",
+     "whoosh",
+     0.35
+    ],
+    [
+     "millones",
+     "ding",
+     0.3
+    ],
+    [
+     "feijoo",
+     "whip",
+     0.3
+    ],
+    [
+     "okupas",
+     "vine-boom",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "francia",
+   "text": "Y Francia vive su sexto sábado seguido de protestas por el coste de la vida, con setenta mil policías en la calle. Menos manifestantes que otras semanas, pero incidentes en varias ciudades. ¡Sígueme para más!",
+   "title": "FRANCIA SIGUE EN LA CALLE",
+   "costume": "riot",
+   "serious": false,
+   "sfx": [
+    [
+     "francia",
+     "whoosh",
+     0.35
+    ],
+    [
+     "setenta",
+     "switch",
+     0.3
+    ],
+    [
+     "sigueme",
+     "ding",
+     0.35
+    ]
+   ]
+  }
+ ]
+}
