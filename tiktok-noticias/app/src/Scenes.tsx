@@ -3098,3 +3098,521 @@ export const GolfoScene: React.FC<P> = ({ f, T, seg }) => {
     </svg>
   );
 };
+
+/* ===================== 23-11: RUSIA GOLPEA DÍMER Y VISHNEVE ===================== */
+export const DymerScene: React.FC<P> = ({ f, T, seg }) => {
+  const kiT = wordAt(seg, 'kiev'), drT = wordAt(seg, 'dron'), deT = wordAt(seg, 'destroza'), ciT = wordAt(seg, 'cinco');
+  const dmT = wordAt(seg, 'dimer'), otT = wordAt(seg, 'otro'), suT = wordAt(seg, 'supermercado'), viT = wordAt(seg, 'vishneve');
+  const alT = wordAt(seg, 'menos') - 6, seT = wordAt(seg, 'seis'), dsT = wordAt(seg, 'desaparecidos'), reT = wordAt(seg, 'rescatistas'), niT = wordAt(seg, 'nino');
+  const ph1 = lerp(f, [otT - 8, otT], [1, 0], null);
+  const ph2 = lerp(f, [otT - 6, otT + 4], [0, 1], null) * lerp(f, [alT - 8, alT], [1, 0], null);
+  const ph3 = lerp(f, [alT - 6, alT + 4], [0, 1], null);
+  const hit = f >= deT;
+  const dronP = lerp(f, [drT - 6, deT], [0, 1], (t) => t * t);
+  const flash = hit ? Math.max(0, 1 - (f - deT) / 14) : 0;
+  const shake = hit && f < deT + 12 ? Math.sin(f * 4) * 7 : 0;
+  const win = (r: number, c: number) => rnd(r * 13 + c * 7 + 5) > 0.45;
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="dy-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#060a1c" />
+          <stop offset="0.45" stopColor="#1a1430" />
+          <stop offset="0.62" stopColor="#4a1e1a" />
+          <stop offset="1" stopColor="#05070f" />
+        </linearGradient>
+        <radialGradient id="dy-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#ff9a3a" stopOpacity="0.85" />
+          <stop offset="1" stopColor="#ff3b1a" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="dy-beam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff7c2" stopOpacity="0.55" />
+          <stop offset="1" stopColor="#fff7c2" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#dy-sky)" />
+      <Particles T={T} n={40} color="#ffffff" seed={77} speed={0.02} size={2} op={0.5} />
+      {/* ceniza que sube */}
+      <Particles T={T} n={26} color="#ffb070" seed={91} speed={0.9} size={3} op={0.35} />
+      {/* fase 1: el bloque de cinco plantas */}
+      <g opacity={ph1} transform={`translate(${shake} 0)`}>
+        {/* silueta de ciudad */}
+        <path d="M0 960 L0 820 L70 820 L70 780 L150 780 L150 840 L220 840 L220 800 L860 800 L860 760 L940 760 L940 830 L1080 830 L1080 960 Z" fill="#0b0f20" />
+        <circle cx={540} cy={760} r={260} fill="url(#dy-glow)" opacity={hit ? 0.55 + 0.15 * Math.sin(T * 0.4) : 0} />
+        {/* edificio */}
+        <g transform="translate(0 0)">
+          <rect x={290} y={570} width={500} height={390} fill="#5a5f74" stroke={OUT} strokeWidth={7} />
+          <rect x={280} y={556} width={520} height={20} fill="#3e4256" stroke={OUT} strokeWidth={5} />
+          {Array.from({ length: 5 }).map((_, r) => Array.from({ length: 7 }).map((__, c) => {
+            const x = 312 + c * 68, y = 592 + r * 74;
+            const broken = hit && c >= 3 && c <= 4;
+            if (broken) return null;
+            return <rect key={`${r}-${c}`} x={x} y={y} width={44} height={46} rx={4} fill={win(r, c) ? '#ffcf6a' : '#1d2236'} stroke={OUT} strokeWidth={3} opacity={win(r, c) ? 0.9 : 1} />;
+          }))}
+          {/* entrada destruida */}
+          {hit && (
+            <g>
+              <path d="M500 560 L520 600 L505 640 L530 700 L510 760 L528 830 L512 960 L650 960 L640 860 L660 780 L640 700 L662 640 L645 590 L660 560 Z" fill="#120d14" stroke={OUT} strokeWidth={6} />
+              {/* forjados colgando */}
+              {[0, 1, 2, 3].map((i) => (
+                <path key={i} d={`M505 ${640 + i * 74} L${560 + i * 6} ${660 + i * 74} L${548 + i * 6} ${668 + i * 74} L500 ${652 + i * 74}`} fill="#7a7f94" stroke={OUT} strokeWidth={3} />
+              ))}
+              {/* escombros */}
+              <path d="M440 960 L470 920 L520 930 L560 890 L610 910 L650 880 L700 925 L740 960 Z" fill="#6a6f84" stroke={OUT} strokeWidth={5} />
+              {[0, 1, 2, 3, 4, 5].map((i) => <rect key={i} x={460 + i * 45} y={925 + (i % 2) * 10} width={28} height={16} fill="#8a8fa4" stroke={OUT} strokeWidth={2} transform={`rotate(${i * 23 - 40} ${474 + i * 45} 933)`} />)}
+              <Flame x={575} y={800} s={0.8} T={T} />
+              <Flame x={540} y={700} s={0.55} T={T + 9} />
+              {[0, 1, 2, 3].map((i) => {
+                const g = (T * 0.7 + i * 25) % 100;
+                return <circle key={i} cx={580 + Math.sin(g * 0.08 + i) * 30} cy={640 - g * 1.6} r={22 + g * 0.5} fill="#3a3a48" opacity={0.55 * (1 - g / 100)} />;
+              })}
+            </g>
+          )}
+        </g>
+        {/* dron entrando */}
+        {!hit && dronP > 0 && (
+          <g>
+            <path d={`M1100 480 L${1100 - dronP * 520} ${480 + dronP * 220}`} stroke="#ff9a3a" strokeWidth={4} strokeDasharray="12 10" opacity={0.7} />
+            <Drone x={1100 - dronP * 520} y={480 + dronP * 220} s={1.8} c="#c9ced8" />
+          </g>
+        )}
+        <rect width={1080} height={1920} fill="#fff2d0" opacity={flash * 0.6} />
+        <g transform={`translate(190 520) scale(${pop(f, kiT - 4, 10)})`}>
+          <rect x={-130} y={-40} width={260} height={80} rx={18} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <UkraineFlag x={-114} y={-24} w={64} h={48} />
+          <text x={36} y={16} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill={OUT}>KIEV</text>
+        </g>
+        <Pill x={860} y={520} text="DRON" s={pop(f, drT, 10)} bg="#ff3b4e" size={40} />
+        <Pill x={200} y={880} text="5 PLANTAS" s={pop(f, ciT - 2, 10)} bg="#ffffff" color={OUT} size={38} />
+        <Pill x={880} y={890} text="DÍMER" s={pop(f, dmT - 2, 10)} bg="#ffc400" color={OUT} size={42} />
+      </g>
+      {/* fase 2: mapa de la región */}
+      <g opacity={ph2}>
+        <g transform={`translate(540 715) scale(${0.9 + 0.1 * pop(f, otT - 4, 14)})`}>
+          <path d="M-380 -200 Q -200 -250 0 -230 Q 220 -250 380 -190 Q 420 0 370 200 Q 160 250 -40 230 Q -260 250 -390 190 Q -430 0 -380 -200 Z" fill="#1e2a44" stroke="#7fa2d8" strokeWidth={5} />
+          {/* río Dniéper */}
+          <path d="M60 -240 Q 30 -120 70 -40 Q 110 40 60 120 Q 20 190 60 240" fill="none" stroke="#3b8cff" strokeWidth={18} opacity={0.8} />
+          <text x={-300} y={-160} fontFamily={BODY} fontWeight={900} fontSize={24} fill="#7fa2d8">REGIÓN DE KIEV</text>
+          {/* Kiev */}
+          <circle cx={20} cy={20} r={34} fill="#ffd23f" stroke={OUT} strokeWidth={5} />
+          <text x={20} y={86} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffffff">KIEV</text>
+          {/* Dímer al norte */}
+          {[{ x: -10, y: -150, n: 'DÍMER', t: otT - 4 }, { x: -170, y: 60, n: 'VISHNEVE', t: viT - 6 }].map((m) => {
+            const s = pop(f, m.t, 10);
+            const pulse = (T % 30) / 30;
+            return (
+              <g key={m.n} transform={`translate(${m.x} ${m.y})`}>
+                <circle r={20 + pulse * 46} fill="none" stroke="#ff3b4e" strokeWidth={5} opacity={(1 - pulse) * s} />
+                <g transform={`scale(${s})`}>
+                  <circle r={20} fill="#ff3b4e" stroke={OUT} strokeWidth={5} />
+                  <text x={0} y={-34} textAnchor="middle" fontFamily={HEAD} fontSize={38} fill="#ffffff" stroke={OUT} strokeWidth={5} paintOrder="stroke">{m.n}</text>
+                </g>
+              </g>
+            );
+          })}
+        </g>
+        {/* supermercado */}
+        <g transform={`translate(240 900) scale(${pop(f, suT - 4, 10)})`}>
+          <rect x={-120} y={-50} width={240} height={100} rx={10} fill="#f4f6fb" stroke={OUT} strokeWidth={6} />
+          <path d="M-130 -50 L130 -50 L115 -80 L-115 -80 Z" fill="#ff3b4e" stroke={OUT} strokeWidth={5} />
+          <g transform="translate(-60 10)" stroke={OUT} strokeWidth={5} fill="none" strokeLinecap="round">
+            <path d="M-26 -22 L-16 -22 L-6 14 L26 14 L32 -12 L-10 -12" />
+            <circle cx={-2} cy={26} r={5} fill={OUT} /><circle cx={22} cy={26} r={5} fill={OUT} />
+          </g>
+          <text x={40} y={16} textAnchor="middle" fontFamily={HEAD} fontSize={38} fill={OUT}>SÚPER</text>
+          <Flame x={90} y={-80} s={0.45} T={T} />
+        </g>
+      </g>
+      {/* fase 3: balance y rescate */}
+      <g opacity={ph3}>
+        {/* montaña de escombros con linternas */}
+        <path d="M120 960 L230 860 L330 880 L420 800 L520 830 L620 780 L720 840 L820 820 L960 960 Z" fill="#4a4e60" stroke={OUT} strokeWidth={6} />
+        {Array.from({ length: 12 }).map((_, i) => (
+          <rect key={i} x={200 + i * 58} y={870 + (i % 3) * 18} width={40} height={18} fill="#6a6f84" stroke={OUT} strokeWidth={2} transform={`rotate(${i * 31 - 50} ${220 + i * 58} ${880 + (i % 3) * 18})`} />
+        ))}
+        {[0, 1, 2].map((i) => {
+          const s = pop(f, reT - 4 + i * 4, 10);
+          const a = Math.sin(T * 0.06 + i * 2) * 14;
+          const x = 300 + i * 240, y = 810 - (i === 1 ? 30 : 0);
+          return (
+            <g key={i} opacity={s}>
+              <path d={`M${x} ${y} L${x - 70} ${y + 160} L${x + 70} ${y + 160} Z`} fill="url(#dy-beam)" transform={`rotate(${a + 180} ${x} ${y})`} />
+              <g transform={`translate(${x} ${y})`}>
+                <path d="M-18 -6 Q -18 -26 0 -26 Q 18 -26 18 -6 Z" fill="#ffffff" stroke={OUT} strokeWidth={3} />
+                <rect x={-16} y={-6} width={32} height={34} rx={6} fill="#ff8a1f" stroke={OUT} strokeWidth={3} />
+                <rect x={-16} y={8} width={32} height={6} fill="#f4f6fb" />
+              </g>
+            </g>
+          );
+        })}
+        <Card x={300} y={600} w={380} h={190} s={pop(f, seT - 4, 11)} bg="#ffffff">
+          <text x={0} y={-46} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={28} fill="#5a6488">AL MENOS</text>
+          <text x={0} y={46} textAnchor="middle" fontFamily={HEAD} fontSize={110} fill="#c4001f">6</text>
+          <text x={0} y={80} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={26} fill={OUT}>MUERTOS</text>
+        </Card>
+        <Pill x={780} y={560} text="DESAPARECIDOS" s={pop(f, dsT - 2, 10)} bg="#3a3f52" size={36} />
+        <Pill x={780} y={660} text="BAJO LOS ESCOMBROS" s={pop(f, dsT + 10, 10)} bg="#ffffff" color={OUT} size={28} />
+        <g transform={`translate(540 790) scale(${pop(f, niT - 4, 10)})`}>
+          <rect x={-250} y={-44} width={500} height={88} rx={44} fill="#2fbf71" stroke={OUT} strokeWidth={6} />
+          <path d="M-205 0 L-190 16 L-160 -18" fill="none" stroke="#ffffff" strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" />
+          <text x={20} y={14} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffffff">NIÑO RESCATADO CON VIDA</text>
+        </g>
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 23-11: TRUMP AMENAZA A IRÁN PARA 2027 ===================== */
+export const UltimatumScene: React.FC<P> = ({ f, T, seg }) => {
+  const trT = wordAt(seg, 'trump'), irT = wordAt(seg, 'iran'), acT = wordAt(seg, 'acuerdo'), orT = wordAt(seg, 'ormuz');
+  const atT = wordAt(seg, 'atacar'), coT = wordAt(seg, 'comienzos'), veT = wordAt(seg, 'veintisiete'), inT = wordAt(seg, 'inutiles');
+  const neT = wordAt(seg, 'negociaciones'), toT = wordAt(seg, 'todo'), miT = wordAt(seg, 'misiles'), baT = wordAt(seg, 'bases'), bhT = wordAt(seg, 'barein');
+  const ph1 = lerp(f, [toT - 8, toT], [1, 0], null);
+  const ph2 = lerp(f, [toT - 6, toT + 4], [0, 1], null);
+  const flip = lerp(f, [coT, veT + 4], [0, 1]);
+  const year = flip < 0.5 ? '2026' : '2027';
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="ul-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#0b1430" />
+          <stop offset="0.5" stopColor="#1a1f3e" />
+          <stop offset="1" stopColor="#05070f" />
+        </linearGradient>
+        <radialGradient id="ul-spot" cx="50%" cy="0%" r="90%">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.22" />
+          <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#ul-bg)" />
+      <Particles T={T} n={30} color="#9fc0ff" seed={57} speed={0.05} size={2} op={0.4} />
+      {/* fase 1: el aviso */}
+      <g opacity={ph1}>
+        {/* rejilla de sala de situación */}
+        <g stroke="#2fd8ff" strokeOpacity={0.08} strokeWidth={2}>
+          {Array.from({ length: 12 }).map((_, i) => <path key={i} d={`M${i * 100} 470 V960`} />)}
+          {Array.from({ length: 6 }).map((_, i) => <path key={`h${i}`} d={`M0 ${480 + i * 96} H1080`} />)}
+        </g>
+        <path d="M60 470 L240 470 L300 960 L0 960 Z" fill="url(#ul-spot)" />
+        {/* atril de Trump */}
+        <g transform={`translate(190 760) scale(${pop(f, trT - 2, 11)})`}>
+          <rect x={-150} y={-230} width={300} height={170} rx={10} fill="#ffffff" stroke={OUT} strokeWidth={5} opacity={0.0} />
+          <USFlag x={-110} y={-250} w={150} h={100} />
+          <path d="M40 -250 L40 -100" stroke="#c9a74a" strokeWidth={6} />
+          <path d="M-100 0 L100 0 L80 190 L-80 190 Z" fill="#6b4a2b" stroke={OUT} strokeWidth={6} />
+          <rect x={-120} y={-28} width={240} height={36} rx={10} fill="#8a6038" stroke={OUT} strokeWidth={6} />
+          <circle cx={0} cy={90} r={46} fill="#1e3a8a" stroke="#e9c249" strokeWidth={6} />
+          <polygon points={`0,62 8,82 30,82 12,96 18,118 0,104 -18,118 -12,96 -30,82 -8,82`} fill="#e9c249" />
+          <path d="M-8 -28 L-20 -100" stroke="#9aa3b5" strokeWidth={6} />
+          <circle cx={-22} cy={-106} r={12} fill="#3a3f52" stroke={OUT} strokeWidth={3} />
+          <rect x={-90} y={150} width={180} height={50} rx={10} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+          <text x={0} y={188} textAnchor="middle" fontFamily={HEAD} fontSize={36} fill={OUT}>TRUMP</text>
+        </g>
+        {/* bocadillo */}
+        <g transform={`translate(640 560) scale(${pop(f, acT - 4, 10)})`}>
+          <path d="M-280 -70 Q -280 -100 -250 -100 L250 -100 Q 280 -100 280 -70 L280 50 Q 280 80 250 80 L-150 80 L-220 130 L-200 80 L-250 80 Q -280 80 -280 50 Z" fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={-20} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={34} fill="#5a6488">¿ACUERDO SOBRE</text>
+          <text x={0} y={46} textAnchor="middle" fontFamily={HEAD} fontSize={66} fill="#1e5bd8" opacity={pop(f, orT - 4, 8)}>ORMUZ?</text>
+        </g>
+        {/* calendario que pasa a 2027 */}
+        <g transform={`translate(560 830) scale(${pop(f, coT - 6, 10)})`}>
+          <rect x={-120} y={-110} width={240} height={220} rx={20} fill="#ffffff" stroke={OUT} strokeWidth={7} />
+          <rect x={-120} y={-110} width={240} height={64} rx={20} fill="#c4001f" stroke={OUT} strokeWidth={7} />
+          <text x={0} y={-62} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffffff">{flip < 0.5 ? 'DICIEMBRE' : 'ENERO'}</text>
+          <g transform={`scale(1 ${Math.abs(Math.cos(flip * Math.PI))})`}>
+            <text x={0} y={60} textAnchor="middle" fontFamily={HEAD} fontSize={96} fill={flip < 0.5 ? '#5a6488' : '#c4001f'}>{year}</text>
+          </g>
+          {[-70, 0, 70].map((x) => <rect key={x} x={x - 8} y={-128} width={16} height={34} rx={6} fill="#9aa3b5" stroke={OUT} strokeWidth={3} />)}
+        </g>
+        {/* diana sobre Irán */}
+        <g transform={`translate(880 790) scale(${pop(f, irT - 4, 10)})`}>
+          {[90, 64, 38].map((r, i) => <circle key={r} r={r} fill="none" stroke="#ff3b4e" strokeWidth={8} opacity={(0.6 + i * 0.15) * (f >= atT ? 1 : 0.35)} />)}
+          <path d="M-110 0 H-40 M40 0 H110 M0 -110 V-40 M0 40 V110" stroke="#ff3b4e" strokeWidth={6} />
+          <g transform={`rotate(${Math.sin(T * 0.1) * 3})`}><IranFlag x={-36} y={-24} w={72} h={48} /></g>
+        </g>
+        <Pill x={880} y={915} text="IRÁN" s={pop(f, irT - 2, 10)} bg="#ffffff" color={OUT} size={34} />
+        <Stamp x={640} y={560} text="INÚTILES" s={pop(f, inT - 2, 8)} color="#c4001f" size={70} rot={-10} />
+        <Pill x={640} y={680} text="DICE DE LAS NEGOCIACIONES" s={pop(f, neT, 10)} bg="#ffc400" color={OUT} size={28} />
+      </g>
+      {/* fase 2: el contexto del Golfo */}
+      <g opacity={ph2}>
+        <path d="M300 470 L520 470 L700 490 L860 520 L1080 540 L1080 700 L960 690 L860 650 L760 610 L640 580 L520 560 L420 530 L330 520 Z" fill="#4a3a2a" stroke="#ffcf8a" strokeWidth={4} />
+        <path d="M0 640 L120 660 L260 700 L360 760 L420 820 L440 900 L500 940 L640 930 L720 900 L780 940 L860 960 L0 960 Z" fill="#5a4a30" stroke="#ffcf8a" strokeWidth={4} />
+        <path d="M500 800 Q 530 790 545 820 Q 560 870 540 900 Q 505 905 495 860 Z" fill="#7a6440" stroke="#ffffff" strokeWidth={5} />
+        <text x={820} y={610} textAnchor="middle" fontFamily={HEAD} fontSize={56} fill="#ffe2b8" letterSpacing={3}>IRÁN</text>
+        <text x={330} y={840} textAnchor="middle" fontFamily={HEAD} fontSize={50} fill="#ffffff" opacity={pop(f, bhT - 6, 10)}>BARÉIN</text>
+        {[0, 1, 2, 3].map((i) => {
+          const p = lerp(f, [miT + i * 6, miT + 30 + i * 6], [0, 1]);
+          if (p <= 0) return null;
+          const sx = 900, sy = 580, ex = 515 + (i % 2) * 20, ey = 840 + (i % 2) * 20;
+          const cx = (sx + ex) / 2, cy = 470 + i * 10;
+          const pt = (t: number) => ({ x: (1 - t) * (1 - t) * sx + 2 * (1 - t) * t * cx + t * t * ex, y: (1 - t) * (1 - t) * sy + 2 * (1 - t) * t * cy + t * t * ey });
+          let d = '';
+          for (let k = 0; k <= 24 * p; k++) { const q = pt(k / 24); d += `${k ? 'L' : 'M'}${q.x} ${q.y} `; }
+          const a = pt(Math.min(p, 0.99)), b = pt(Math.min(p + 0.01, 1));
+          return (
+            <g key={i}>
+              <path d={d} fill="none" stroke={i % 2 ? '#ffb347' : '#ff3b4e'} strokeWidth={5} strokeDasharray="14 10" />
+              {p < 1 ? (i < 2 ? <Missile x={a.x} y={a.y} r={(Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI} s={0.7} /> : <Drone x={a.x} y={a.y} s={1.2} />) :
+                <circle cx={ex} cy={ey} r={20 + ((T + i * 7) % 20) * 2} fill="#ff9a3a" opacity={0.5 - ((T + i * 7) % 20) / 40} />}
+            </g>
+          );
+        })}
+        <g transform={`translate(760 860) scale(${pop(f, baT - 4, 10)})`}>
+          <rect x={-170} y={-50} width={340} height={100} rx={18} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <USFlag x={-150} y={-30} w={86} h={60} />
+          <text x={50} y={-4} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill={OUT}>BASES</text>
+          <text x={50} y={32} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={24} fill="#5a6488">DE EE. UU.</text>
+        </g>
+        <Pill x={250} y={560} text="MISILES + DRONES" s={pop(f, miT, 10)} bg="#ff3b4e" size={36} />
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 23-11: ÚLTIMO DOMINGO DE CAMPAÑA ===================== */
+export const DomingoScene: React.FC<P> = ({ f, T, seg }) => {
+  const doT = wordAt(seg, 'domingo'), caT = wordAt(seg, 'campana'), veT = wordAt(seg, 'veintinueve'), saT = wordAt(seg, 'sanchez');
+  const feT = wordAt(seg, 'feijoo'), muT = wordAt(seg, 'murcia'), kmT = wordAt(seg, 'kilometros'), vcT = wordAt(seg, 'vecinos');
+  const reT = wordAt(seg, 'remontada'), voT = wordAt(seg, 'voto'), esT = wordAt(seg, 'este'), luT = wordAt(seg, 'lunes'), ocT = wordAt(seg, 'ocho'), rtT = wordAt(seg, 'radiotelevision');
+  const ph0 = lerp(f, [saT - 6, saT + 2], [1, 0], null);
+  const ph1 = lerp(f, [saT - 4, saT + 4], [0, 1], null) * lerp(f, [esT - 8, esT], [1, 0], null);
+  const ph2 = lerp(f, [esT - 6, esT + 4], [0, 1], null);
+  const Atril: React.FC<{ x: number; y: number; name: string; s: number }> = ({ x, y, name, s }) => (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <path d="M-90 0 L90 0 L72 150 L-72 150 Z" fill="#1d2440" stroke={OUT} strokeWidth={6} />
+      <rect x={-108} y={-26} width={216} height={34} rx={10} fill="#6a74a8" stroke={OUT} strokeWidth={6} />
+      <rect x={-80} y={34} width={160} height={50} rx={10} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+      <text x={0} y={72} textAnchor="middle" fontFamily={HEAD} fontSize={32} fill={OUT}>{name}</text>
+      <path d="M-8 -26 L-20 -90" stroke="#9aa3b5" strokeWidth={6} />
+      <circle cx={-22} cy={-96} r={12} fill="#3a3f52" stroke={OUT} strokeWidth={3} />
+    </g>
+  );
+  const dash = lerp(f, [muT + 6, kmT + 4], [0, 1]);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="do-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#1d0f3a" />
+          <stop offset="0.55" stopColor="#142050" />
+          <stop offset="1" stopColor="#050816" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#do-bg)" />
+      {[0, 1, 2, 3].map((i) => (
+        <path key={i} d="M0 0 L-70 900 L70 900 Z" fill="#ffffff" opacity={0.05 + 0.03 * Math.sin(T * 0.08 + i)} transform={`translate(${140 + i * 270} 380) rotate(${Math.sin(T * 0.04 + i * 1.7) * 16})`} />
+      ))}
+      <Particles T={T} n={44} color="#ffe14d" seed={23} speed={-0.7} size={3} op={0.35} />
+      {/* fase 0: calendario */}
+      <g opacity={ph0}>
+        <g transform={`translate(540 690) scale(${pop(f, doT - 4, 10)})`}>
+          <rect x={-200} y={-170} width={400} height={330} rx={30} fill="#ffffff" stroke={OUT} strokeWidth={8} />
+          <rect x={-200} y={-170} width={400} height={80} rx={30} fill="#ff2d55" stroke={OUT} strokeWidth={8} />
+          <text x={0} y={-112} textAnchor="middle" fontFamily={HEAD} fontSize={48} fill="#ffffff">NOVIEMBRE</text>
+          <text x={0} y={70} textAnchor="middle" fontFamily={HEAD} fontSize={190} fill={OUT}>{f < veT ? '22' : '29'}</text>
+          <text x={0} y={130} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={32} fill="#5a6488">{f < veT ? 'ÚLTIMO DOMINGO' : 'ELECCIONES'}</text>
+          {f >= veT && (
+            <g transform={`translate(0 0) scale(${pop(f, veT, 8)})`}>
+              <rect x={60} y={-80} width={110} height={90} rx={10} fill="#f4f6fb" stroke={OUT} strokeWidth={5} transform="rotate(10 115 -35)" />
+              <path d="M80 -40 L105 -15 L150 -70" fill="none" stroke="#2fbf71" strokeWidth={10} strokeLinecap="round" transform="rotate(10 115 -35)" />
+            </g>
+          )}
+        </g>
+        <Pill x={540} y={930} text="DE CAMPAÑA" s={pop(f, caT - 2, 10)} bg="#ffc400" color={OUT} size={42} />
+        <SpainFlag x={110} y={500} w={130} h={86} />
+      </g>
+      {/* fase 1: Murcia, dos mítines a dos kilómetros */}
+      <g opacity={ph1}>
+        {/* plano de calles */}
+        <g opacity={pop(f, muT - 6, 14)}>
+          <rect x={40} y={480} width={1000} height={480} rx={30} fill="#1a2a4a" stroke="#5a7ab8" strokeWidth={4} />
+          <g stroke="#2d4470" strokeWidth={14}>
+            {[0, 1, 2, 3, 4].map((i) => <path key={i} d={`M${120 + i * 200} 490 L${90 + i * 210} 950`} />)}
+            {[0, 1, 2].map((i) => <path key={`h${i}`} d={`M50 ${580 + i * 130} L1030 ${560 + i * 140}`} />)}
+          </g>
+          {/* río Segura */}
+          <path d="M40 900 Q 300 820 540 880 Q 780 940 1040 860" fill="none" stroke="#3b8cff" strokeWidth={22} opacity={0.6} />
+          <text x={540} y={540} textAnchor="middle" fontFamily={HEAD} fontSize={52} fill="#ffffff" letterSpacing={4}>MURCIA</text>
+        </g>
+        <Atril x={230} y={700} name="SÁNCHEZ" s={pop(f, saT - 2, 11)} />
+        <Atril x={850} y={700} name="FEIJÓO" s={pop(f, feT - 2, 11)} />
+        {/* línea de distancia */}
+        <path d={`M340 640 L${340 + dash * 400} 640`} stroke="#ffe14d" strokeWidth={7} strokeDasharray="18 12" />
+        <path d="M340 620 V660 M740 620 V660" stroke="#ffe14d" strokeWidth={7} opacity={dash > 0.98 ? 1 : 0} />
+        <g transform={`translate(540 600) scale(${pop(f, kmT - 4, 10)})`}>
+          <rect x={-90} y={-40} width={180} height={80} rx={40} fill="#ffe14d" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={52} fill={OUT}>2 KM</text>
+        </g>
+        {/* casitas de vecinos con felpudo */}
+        <g transform={`translate(540 760) scale(${pop(f, vcT - 2, 10)}) rotate(${Math.sin(T * 0.2) * 3})`}>
+          {[-60, 60].map((dx) => (
+            <g key={dx} transform={`translate(${dx} 0)`}>
+              <path d="M-50 -10 L0 -56 L50 -10 Z" fill="#ff5a3c" stroke={OUT} strokeWidth={5} />
+              <rect x={-40} y={-10} width={80} height={64} fill="#fff3d6" stroke={OUT} strokeWidth={5} />
+              <rect x={-12} y={18} width={24} height={36} fill="#8a5a2b" stroke={OUT} strokeWidth={3} />
+            </g>
+          ))}
+          <text x={0} y={92} textAnchor="middle" fontFamily={HEAD} fontSize={36} fill="#ffffff" stroke={OUT} strokeWidth={5} paintOrder="stroke">¿VECINOS?</text>
+        </g>
+        {/* remontada: flecha que sube */}
+        <g transform={`translate(230 900) scale(${pop(f, reT - 4, 10)})`}>
+          <path d="M-110 30 L-40 -10 L10 10 L90 -50" fill="none" stroke="#2fbf71" strokeWidth={12} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M70 -62 L104 -60 L96 -28" fill="none" stroke="#2fbf71" strokeWidth={12} strokeLinecap="round" strokeLinejoin="round" />
+          <rect x={-120} y={36} width={240} height={50} rx={25} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+          <text x={0} y={72} textAnchor="middle" fontFamily={HEAD} fontSize={34} fill={OUT}>REMONTADA</text>
+        </g>
+        {/* voto a voto: papeletas */}
+        <g transform={`translate(850 900) scale(${pop(f, voT - 4, 10)})`}>
+          {[0, 1, 2].map((i) => {
+            const k = Math.max(0, f - voT - i * 5);
+            return <rect key={i} x={-90 + i * 60} y={-60 + (k < 10 ? 0 : 0)} width={50} height={64} rx={6} fill="#f4f6fb" stroke={OUT} strokeWidth={4} opacity={k > 0 ? 1 : 0.3} transform={`rotate(${-10 + i * 10} ${-65 + i * 60} -28)`} />;
+          })}
+          <rect x={-120} y={36} width={240} height={50} rx={25} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+          <text x={0} y={72} textAnchor="middle" fontFamily={HEAD} fontSize={34} fill={OUT}>VOTO A VOTO</text>
+        </g>
+      </g>
+      {/* fase 2: debate a ocho */}
+      <g opacity={ph2}>
+        <g transform={`translate(540 745) scale(${0.9 * pop(f, luT - 4, 12)})`}>
+          <rect x={-440} y={-230} width={880} height={440} rx={30} fill="#0a0f22" stroke={OUT} strokeWidth={10} />
+          <rect x={-420} y={-210} width={840} height={400} rx={20} fill="#1b2f6e" />
+          <path d="M-420 120 L420 120 L420 190 L-420 190 Z" fill="#0d1a44" />
+          {Array.from({ length: 8 }).map((_, i) => {
+            const s = pop(f, ocT - 6 + i * 2, 8);
+            const x = -360 + i * 103;
+            return (
+              <g key={i} transform={`translate(${x} 40) scale(${s})`}>
+                <rect x={-34} y={-10} width={68} height={90} rx={6} fill="#26305a" stroke={OUT} strokeWidth={4} />
+                <rect x={-40} y={-24} width={80} height={18} rx={6} fill={['#e3122b', '#1e5bd8', '#2fbf71', '#7a3ab8', '#ffb000', '#00a8a8', '#ff6a00', '#8a93b8'][i]} stroke={OUT} strokeWidth={3} />
+                <circle cx={0} cy={-50} r={9} fill="#3a3f52" />
+              </g>
+            );
+          })}
+          <text x={0} y={-120} textAnchor="middle" fontFamily={HEAD} fontSize={88} fill="#ffffff">DEBATE A 8</text>
+          <g opacity={pop(f, rtT - 4, 10)}>
+            <rect x={-130} y={140} width={260} height={56} rx={12} fill="#ffffff" />
+            <text x={0} y={182} textAnchor="middle" fontFamily={HEAD} fontSize={42} fill="#1b2f6e">RTVE</text>
+          </g>
+          <circle cx={380} cy={-170} r={12} fill="#ff2d55" opacity={0.5 + 0.5 * Math.sin(T * 0.3)} />
+        </g>
+        <Pill x={540} y={492} text="ESTE LUNES" s={pop(f, luT - 2, 10)} bg="#ffc400" color={OUT} size={34} />
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 23-11: FRACASA LA COP31 ===================== */
+export const TurkeyFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h} fill="#e30a17" stroke={OUT} strokeWidth={5} />
+    <circle cx={x + w * 0.38} cy={y + h / 2} r={h * 0.25} fill="#ffffff" />
+    <circle cx={x + w * 0.43} cy={y + h / 2} r={h * 0.2} fill="#e30a17" />
+    <polygon points={star(x + w * 0.6, y + h / 2, h * 0.12)} fill="#ffffff" />
+  </g>
+);
+
+export const Cop31Scene: React.FC<P> = ({ f, T, seg }) => {
+  const frT = wordAt(seg, 'fracasa'), cuT = wordAt(seg, 'cumbre'), onT = wordAt(seg, 'onu'), tuT = wordAt(seg, 'turquia');
+  const coT = wordAt(seg, 'conferencia'), laT = wordAt(seg, 'larga'), hiT = wordAt(seg, 'historia'), ciT = wordAt(seg, 'cierra'), siT = wordAt(seg, 'sin');
+  const unT = wordAt(seg, 'union'), reT = wordAt(seg, 'rechaza'), teT = wordAt(seg, 'texto'), peT = wordAt(seg, 'petroleo'), gaT = wordAt(seg, 'gas'), caT = wordAt(seg, 'carbon'), sgT = wordAt(seg, 'sigueme');
+  const ph1 = lerp(f, [unT - 8, unT], [1, 0], null);
+  const ph2 = lerp(f, [unT - 6, unT + 4], [0, 1], null);
+  const hours = lerp(f, [laT - 4, hiT + 10], [0, 1]);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="cp-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#06233a" />
+          <stop offset="0.55" stopColor="#0b3a4a" />
+          <stop offset="1" stopColor="#04101a" />
+        </linearGradient>
+        <radialGradient id="cp-earth" cx="40%" cy="35%" r="70%">
+          <stop offset="0" stopColor="#5fc8ff" />
+          <stop offset="0.7" stopColor="#1e6bd8" />
+          <stop offset="1" stopColor="#0b2a6a" />
+        </radialGradient>
+        <radialGradient id="cp-heat" cx="50%" cy="50%" r="50%">
+          <stop offset="0.6" stopColor="#ff6a3a" stopOpacity="0" />
+          <stop offset="1" stopColor="#ff6a3a" stopOpacity="0.6" />
+        </radialGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#cp-bg)" />
+      <Particles T={T} n={36} color="#9ff0d0" seed={31} speed={0.25} size={3} op={0.35} />
+      {/* fase 1: la cumbre de Antalya */}
+      <g opacity={ph1}>
+        {/* Tierra con calor */}
+        <g transform={`translate(260 640) scale(${pop(f, cuT - 6, 12)})`}>
+          <circle r={150} fill="url(#cp-earth)" stroke={OUT} strokeWidth={7} />
+          <g fill="#3fbf6a" stroke={OUT} strokeWidth={4} transform={`translate(${((T * 0.8) % 80) - 40} 0)`}>
+            <path d="M-90 -60 Q -40 -100 10 -70 Q 30 -30 -20 -10 Q -60 10 -90 -20 Z" />
+            <path d="M30 20 Q 80 0 110 40 Q 90 90 40 80 Q 10 60 30 20 Z" />
+          </g>
+          <circle r={150} fill="url(#cp-heat)" opacity={0.6 + 0.3 * Math.sin(T * 0.15)} />
+          {/* termómetro */}
+          <g transform="translate(170 -20)">
+            <rect x={-16} y={-110} width={32} height={180} rx={16} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+            <rect x={-8} y={-90 + 20 * Math.sin(T * 0.1)} width={16} height={160 - 20 * Math.sin(T * 0.1)} rx={8} fill="#ff3b4e" />
+            <circle cx={0} cy={86} r={28} fill="#ff3b4e" stroke={OUT} strokeWidth={5} />
+          </g>
+        </g>
+        <g transform={`translate(760 560) scale(${pop(f, onT - 4, 10)})`}>
+          <rect x={-200} y={-70} width={400} height={140} rx={22} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <text x={40} y={-6} textAnchor="middle" fontFamily={HEAD} fontSize={64} fill="#1e6bd8">COP31</text>
+          <text x={40} y={44} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={26} fill="#5a6488">ANTALYA · ONU</text>
+          <g transform="translate(-130 0)">
+            <TurkeyFlag x={-50} y={-34} w={100} h={68} />
+          </g>
+        </g>
+        <Pill x={760} y={680} text="TURQUÍA" s={pop(f, tuT - 2, 10)} bg="#e30a17" size={32} />
+        {/* reloj de horas extra */}
+        <g transform={`translate(760 840) scale(${pop(f, coT - 4, 10)})`}>
+          <circle r={90} fill="#ffffff" stroke={OUT} strokeWidth={7} />
+          {Array.from({ length: 12 }).map((_, i) => <path key={i} d="M0 -78 V-66" stroke={OUT} strokeWidth={5} transform={`rotate(${i * 30})`} />)}
+          <path d={`M0 0 L0 -60`} stroke={OUT} strokeWidth={8} strokeLinecap="round" transform={`rotate(${hours * 360 * 6})`} />
+          <path d={`M0 0 L0 -40`} stroke="#ff3b4e" strokeWidth={10} strokeLinecap="round" transform={`rotate(${hours * 360})`} />
+          <circle r={8} fill={OUT} />
+          <g transform={`translate(150 -10) scale(${pop(f, laT, 10)})`}>
+            <rect x={-60} y={-34} width={120} height={68} rx={16} fill="#ffc400" stroke={OUT} strokeWidth={5} />
+            <text x={0} y={14} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill={OUT}>+40 H</text>
+          </g>
+        </g>
+        <Pill x={300} y={880} text="LA MÁS LARGA DE LA HISTORIA" s={pop(f, hiT - 4, 10)} bg="#ffffff" color={OUT} size={28} />
+        <Stamp x={300} y={640} text="SIN ACUERDO" s={pop(f, siT - 2, 8)} color="#c4001f" size={60} rot={-12} />
+      </g>
+      {/* fase 2: la UE rechaza el texto */}
+      <g opacity={ph2}>
+        <g transform={`translate(230 620) scale(${pop(f, unT - 2, 11)})`}>
+          <EUFlag x={-120} y={-80} w={240} h={160} spin={T * 0.5} />
+        </g>
+        <Pill x={230} y={760} text="LA UE RECHAZA" s={pop(f, reT - 2, 10)} bg="#1e5bd8" size={36} />
+        {/* documento */}
+        <g transform={`translate(720 700) rotate(4) scale(${pop(f, teT - 4, 10)})`}>
+          <rect x={-200} y={-220} width={400} height={440} rx={16} fill="#fbfbf5" stroke={OUT} strokeWidth={7} />
+          <text x={0} y={-160} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill={OUT}>TEXTO FINAL</text>
+          {[0, 1, 2, 3].map((i) => <path key={i} d={`M-150 ${-110 + i * 30} H${150 - (i % 2) * 60}`} stroke="#c9ced8" strokeWidth={10} strokeLinecap="round" />)}
+          {[
+            { y: 40, t: peT, n: 'PETRÓLEO', icon: 'barrel' },
+            { y: 110, t: gaT, n: 'GAS', icon: 'flame' },
+            { y: 180, t: caT, n: 'CARBÓN', icon: 'coal' },
+          ].map((it) => {
+            const s = pop(f, it.t - 4, 9);
+            return (
+              <g key={it.n} transform={`translate(0 ${it.y})`} opacity={s}>
+                <g transform="translate(-130 -10)">
+                  {it.icon === 'barrel' && <g><rect x={-22} y={-28} width={44} height={56} rx={8} fill="#2a2f40" stroke={OUT} strokeWidth={4} /><path d="M-22 -8 H22 M-22 10 H22" stroke="#ffc400" strokeWidth={4} /></g>}
+                  {it.icon === 'flame' && <g transform="translate(-14 26) scale(0.4)"><path d="M0 0 Q -46 -40 -20 -100 Q -6 -60 6 -150 Q 40 -90 30 -60 Q 52 -70 46 -100 Q 76 -40 40 0 Z" fill="#3b8cff" stroke={OUT} strokeWidth={8} /></g>}
+                  {it.icon === 'coal' && <g fill="#1a1a1a" stroke={OUT} strokeWidth={3}><path d="M-26 20 L-14 -8 L6 -14 L24 4 L18 22 Z" /><path d="M-6 -14 L8 -28 L22 -16 L12 -4 Z" fill="#3a3a3a" /></g>}
+                </g>
+                <text x={-80} y={6} fontFamily={HEAD} fontSize={44} fill="#5a6488">{it.n}</text>
+                <path d="M-90 -6 L170 -6" stroke="#c4001f" strokeWidth={8} opacity={s} />
+                <text x={150} y={10} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#c4001f">?</text>
+              </g>
+            );
+          })}
+        </g>
+        <Pill x={230} y={870} text="NI LOS MENCIONA" s={pop(f, caT + 8, 10)} bg="#ffc400" color={OUT} size={34} />
+        {f >= sgT && <Pill x={300} y={900} text="SÍGUEME" s={pop(f, sgT, 8)} bg="#ff2d55" size={40} />}
+      </g>
+    </svg>
+  );
+};

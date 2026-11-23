@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -631,8 +631,49 @@ export const Robot: React.FC<RobotProps> = (p) => {
           </g>
         </g>
       )}
+      {costume === 'rescuer' && (
+        <g clipPath="url(#rb-torsoClip)">
+          {/* mono de rescatista con chaleco reflectante */}
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#26304a" stroke={OUT} strokeWidth={7} />
+          <path d="M230 720 L470 690 L515 1200 L220 1200 Z" fill="#c8f031" stroke={OUT} strokeWidth={7} />
+          <path d="M850 720 L610 690 L565 1200 L860 1200 Z" fill="#c8f031" stroke={OUT} strokeWidth={7} />
+          <path d="M235 960 L512 960 M235 1030 L518 1030 M845 960 L568 960 M845 1030 L562 1030" stroke="#e8eef6" strokeWidth={22} />
+          <path d="M235 960 L512 960 M235 1030 L518 1030 M845 960 L568 960 M845 1030 L562 1030" stroke="#9aa6bd" strokeWidth={4} opacity={0.7} />
+          <rect x={290} y={780} width={170} height={56} rx={10} fill="#e3122b" stroke={OUT} strokeWidth={5} />
+          <text x={375} y={820} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={34} fill="#ffffff">RESCATE</text>
+          <g transform="translate(700 810)">
+            <rect x={-34} y={-34} width={68} height={68} rx={10} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+            <path d="M-10 -24 H10 V-10 H24 V10 H10 V24 H-10 V10 H-24 V-10 H-10 Z" fill="#e3122b" />
+          </g>
+          {/* radio */}
+          <rect x={640} y={880} width={44} height={70} rx={8} fill="#14151c" stroke={OUT} strokeWidth={4} />
+          <path d="M650 880 L650 846" stroke={OUT} strokeWidth={6} strokeLinecap="round" />
+          <circle cx={662} cy={900} r={6} fill="#2fbf71" />
+          <path d="M540 700 L540 1200" stroke={OUT} strokeWidth={5} opacity={0.6} />
+        </g>
+      )}
+      {costume === 'eco' && (
+        <g clipPath="url(#rb-torsoClip)">
+          {/* chaleco de expedición verde con planeta y hojas */}
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#e9e2c8" stroke={OUT} strokeWidth={7} />
+          <path d="M230 720 L462 690 L505 1200 L220 1200 Z" fill="#2f8a4a" stroke={OUT} strokeWidth={7} />
+          <path d="M850 720 L618 690 L575 1200 L860 1200 Z" fill="#2f8a4a" stroke={OUT} strokeWidth={7} />
+          <rect x={280} y={950} width={150} height={110} rx={12} fill="#277a40" stroke={OUT} strokeWidth={5} />
+          <path d="M280 985 H430" stroke={OUT} strokeWidth={4} />
+          <rect x={650} y={950} width={150} height={110} rx={12} fill="#277a40" stroke={OUT} strokeWidth={5} />
+          <path d="M650 985 H800" stroke={OUT} strokeWidth={4} />
+          <g transform="translate(360 820)">
+            <circle r={44} fill="#3b8cff" stroke={OUT} strokeWidth={5} />
+            <path d="M-30 -18 Q -10 -38 12 -24 Q 18 -6 -4 2 Q -22 8 -30 -8 Z M8 14 Q 30 6 38 22 Q 26 40 6 34 Z" fill="#3fbf6a" stroke={OUT} strokeWidth={3} />
+          </g>
+          <g transform="translate(720 820) rotate(-20)">
+            <path d="M0 40 Q -46 0 0 -46 Q 46 0 0 40 Z" fill="#7be07b" stroke={OUT} strokeWidth={5} />
+            <path d="M0 40 V-40" stroke={OUT} strokeWidth={4} />
+          </g>
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -661,7 +702,7 @@ export const Robot: React.FC<RobotProps> = (p) => {
         </g>
       )}
       {/* Antena */}
-      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && costume !== 'officer' && costume !== 'navy' && (
+      {costume !== 'helmet' && costume !== 'firefighter' && costume !== 'judge' && costume !== 'conductor' && costume !== 'officer' && costume !== 'navy' && costume !== 'rescuer' && costume !== 'eco' && (
         <g>
           <path d="M690 262 L752 150" stroke={OUT} strokeWidth={18} strokeLinecap="round" />
           <path d="M690 262 L752 150" stroke="url(#rb-chromeSide)" strokeWidth={10} strokeLinecap="round" />
@@ -804,6 +845,38 @@ export const Robot: React.FC<RobotProps> = (p) => {
               <circle cx={0} cy={-17} r={5} />
               <path d="M0 -12 L0 18 M-11 -4 L11 -4 M-16 8 Q -14 22 0 22 Q 14 22 16 8" />
             </g>
+          </g>
+        </g>
+      )}
+      {costume === 'rescuer' && (
+        <g>
+          {/* casco blanco de rescate con linterna */}
+          <path d="M262 330 Q 270 110 540 100 Q 810 110 818 330 Q 540 290 262 330 Z" fill="#f4f6fb" stroke={OUT} strokeWidth={9} />
+          <path d="M230 335 Q 540 285 850 335 L846 360 Q 540 312 234 360 Z" fill="#d7dde8" stroke={OUT} strokeWidth={7} />
+          <path d="M540 104 L540 300" stroke="#c9d0dc" strokeWidth={22} />
+          <path d="M300 250 Q 540 210 780 250" fill="none" stroke="#ff8a1f" strokeWidth={16} />
+          <path d="M300 250 Q 540 210 780 250" fill="none" stroke="#e8eef6" strokeWidth={5} />
+          <path d="M340 200 Q 420 145 520 136" fill="none" stroke="#ffffff" strokeWidth={10} strokeLinecap="round" />
+          <g transform="translate(540 205)">
+            <rect x={-46} y={-30} width={92} height={56} rx={14} fill="#2a2f40" stroke={OUT} strokeWidth={6} />
+            <circle r={20} fill="#fff7c2" stroke={OUT} strokeWidth={4} />
+            <circle r={36} fill="#fff7c2" opacity={0.35 + 0.2 * Math.sin(t * 0.3)} />
+          </g>
+        </g>
+      )}
+      {costume === 'eco' && (
+        <g>
+          {/* sombrero de explorador con hojas */}
+          <path d="M190 330 Q 540 250 890 330 Q 900 360 860 362 Q 540 300 220 362 Q 180 360 190 330 Z" fill="#b89a5a" stroke={OUT} strokeWidth={8} />
+          <path d="M320 320 Q 320 160 540 150 Q 760 160 760 320 Q 540 280 320 320 Z" fill="#c9ab6a" stroke={OUT} strokeWidth={8} />
+          <path d="M322 300 Q 540 262 758 300 L758 322 Q 540 282 322 322 Z" fill="#2f8a4a" stroke={OUT} strokeWidth={5} />
+          <path d="M370 230 Q 440 180 530 176" fill="none" stroke="#e6d29a" strokeWidth={10} strokeLinecap="round" />
+          <g transform="translate(700 292) rotate(-35)">
+            <path d="M0 0 Q -24 -36 0 -76 Q 24 -36 0 0 Z" fill="#7be07b" stroke={OUT} strokeWidth={4} />
+            <path d="M0 0 V-70" stroke={OUT} strokeWidth={3} />
+          </g>
+          <g transform="translate(730 300) rotate(10)">
+            <path d="M0 0 Q -18 -28 0 -58 Q 18 -28 0 0 Z" fill="#3fbf6a" stroke={OUT} strokeWidth={4} />
           </g>
         </g>
       )}

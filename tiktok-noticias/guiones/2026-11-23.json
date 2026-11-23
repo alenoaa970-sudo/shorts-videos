@@ -1,0 +1,101 @@
+{
+ "fecha": "2026-11-23",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "dymer",
+   "text": "Rusia vuelve a golpear la región de Kiev. Un dron destroza un bloque de cinco plantas en Dímer, y otro ataque alcanza un supermercado en Vishneve. Al menos seis muertos y desaparecidos bajo los escombros. Los rescatistas sacaron con vida a un niño.",
+   "title": "RUSIA GOLPEA CERCA DE KIEV",
+   "costume": "rescuer",
+   "serious": true,
+   "sfx": [
+    [
+     "dron",
+     "impact",
+     0.22
+    ]
+   ]
+  },
+  {
+   "key": "ultimatum",
+   "text": "Trump avisa a Irán: si no hay acuerdo sobre Ormuz, volverá a atacar a comienzos de dos mil veintisiete. Llama inútiles a las negociaciones. Todo, tras los misiles y drones de Irán contra bases de Estados Unidos en Baréin.",
+   "title": "TRUMP AMENAZA A IRÁN",
+   "costume": "helmet",
+   "serious": true,
+   "sfx": [
+    [
+     "trump",
+     "impact",
+     0.2
+    ]
+   ]
+  },
+  {
+   "key": "domingo",
+   "text": "Último domingo de campaña antes del veintinueve de noviembre. Sánchez y Feijóo dan mitin a la vez en Murcia, a dos kilómetros: casi vecinos. Sánchez pide remontada; Feijóo, pelear voto a voto. Este lunes, debate a ocho en Radiotelevisión Española.",
+   "title": "ÚLTIMO DOMINGO DE CAMPAÑA",
+   "costume": "deputy",
+   "serious": false,
+   "sfx": [
+    [
+     "murcia",
+     "whoosh",
+     0.35
+    ],
+    [
+     "vecinos",
+     "vine-boom",
+     0.25
+    ],
+    [
+     "remontada",
+     "whip",
+     0.3
+    ],
+    [
+     "voto",
+     "ding",
+     0.3
+    ]
+   ]
+  },
+  {
+   "key": "cop31",
+   "text": "Y fracasa la cumbre del clima de la ONU en Turquía. Tras la conferencia más larga de la historia, cierra sin acuerdo: la Unión Europea rechaza un texto que ni menciona el petróleo, el gas o el carbón. ¡Sígueme para más!",
+   "title": "FRACASA LA CUMBRE DEL CLIMA",
+   "costume": "eco",
+   "serious": false,
+   "sfx": [
+    [
+     "fracasa",
+     "vine-boom",
+     0.25
+    ],
+    [
+     "rechaza",
+     "whip",
+     0.3
+    ],
+    [
+     "sigueme",
+     "ding",
+     0.3
+    ]
+   ]
+  }
+ ]
+}
