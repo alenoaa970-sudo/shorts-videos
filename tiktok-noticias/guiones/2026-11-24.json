@@ -1,0 +1,11 @@
+{
+ "fecha": "2026-11-24",
+ "tipo": "diario",
+ "segments": [
+  {"key": "intro", "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!", "title": "", "costume": "anchor", "serious": false, "sfx": [["minuto", "ding", 0.35]]},
+  {"key": "amnistia", "text": "El Tribunal Supremo aplica la amnistía a Carles Puigdemont y archiva su causa del procés, también la malversación. Nueve años después, el expresident ya puede volver a España. Dice que no lo hará en campaña: quizá en diciembre.", "title": "AMNISTÍA PARA PUIGDEMONT", "costume": "judge", "serious": false, "sfx": [["supremo", "impact", 0.25], ["archiva", "ding", 0.3]]},
+  {"key": "debateocho", "text": "Debate a ocho en Radiotelevisión Española: bronco, con choques sobre vivienda, pactos y ETA. Y último día de encuestas: casi todas dan mayoría a PP y Vox; el CIS, en cambio, da ganador al PSOE. Votamos el domingo.", "title": "DEBATE A OCHO Y ENCUESTAS", "costume": "boxing", "serious": false, "sfx": [["bronco", "vine-boom", 0.25], ["encuestas", "whoosh", 0.3], ["domingo", "ding", 0.3]]},
+  {"key": "huang", "text": "Nvidia readmite a Jensen Huang como jefe, dos semanas después de su dimisión. Sus acciones se disparan un treinta y uno por ciento, la mayor subida en veintitrés años. El Nasdaq sube un seis y medio, y el Ibex, un uno coma seis.", "title": "NVIDIA RECUPERA A SU JEFE", "costume": "business", "serious": false, "sfx": [["readmite", "whoosh", 0.3], ["disparan", "anime-wow", 0.25], ["ibex", "ding", 0.3]]},
+  {"key": "cayucos", "text": "Y en Canarias, ochocientos quince migrantes llegan en ocho cayucos en un solo día: seis a El Hierro y dos a Tenerife. Entre ellos, cuarenta y ocho menores. ¡Sígueme para más!", "title": "815 MIGRANTES EN UN DÍA", "costume": "vest", "serious": true, "sfx": [["cayucos", "impact", 0.2]]}
+ ]
+}

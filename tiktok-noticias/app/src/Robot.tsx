@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -672,8 +672,37 @@ export const Robot: React.FC<RobotProps> = (p) => {
           </g>
         </g>
       )}
+      {costume === 'maritime' && (
+        <g clipPath="url(#rb-torsoClip)">
+          {/* traje de Salvamento Marítimo: mono rojo-naranja con chaleco salvavidas inflable */}
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#d9381e" stroke={OUT} strokeWidth={7} />
+          <path d="M300 760 Q 290 950 310 1200 M780 760 Q 790 950 770 1200" stroke="#b02a14" strokeWidth={8} fill="none" />
+          {/* collarín y tubos del chaleco salvavidas */}
+          <path d="M330 700 Q 540 790 750 700 L760 760 Q 540 860 320 760 Z" fill="#ffb21f" stroke={OUT} strokeWidth={7} />
+          <path d="M360 760 Q 330 900 350 1080 L470 1080 Q 470 900 490 800 Z" fill="#ffb21f" stroke={OUT} strokeWidth={7} strokeLinejoin="round" />
+          <path d="M720 760 Q 750 900 730 1080 L610 1080 Q 610 900 590 800 Z" fill="#ffb21f" stroke={OUT} strokeWidth={7} strokeLinejoin="round" />
+          <path d="M380 820 Q 370 940 380 1050 M700 820 Q 710 940 700 1050" stroke="#ffe08a" strokeWidth={9} fill="none" strokeLinecap="round" />
+          {/* bandas reflectantes */}
+          <path d="M352 1000 L470 1000 M610 1000 L728 1000" stroke="#e8eef6" strokeWidth={22} />
+          <path d="M352 1000 L470 1000 M610 1000 L728 1000" stroke="#9aa6bd" strokeWidth={4} opacity={0.7} />
+          {/* hebillas y correa */}
+          <path d="M470 1110 L610 1110" stroke="#14151c" strokeWidth={18} />
+          <rect x={518} y={1092} width={44} height={36} rx={6} fill="#c9ced8" stroke={OUT} strokeWidth={4} />
+          {/* silbato y luz de posición */}
+          <path d="M470 870 Q 500 900 520 880" stroke="#14151c" strokeWidth={4} fill="none" />
+          <rect x={510} y={866} width={34} height={20} rx={6} fill="#ffd23f" stroke={OUT} strokeWidth={4} />
+          <g transform="translate(410 900)">
+            <rect x={-16} y={-24} width={32} height={48} rx={8} fill="#2a2f40" stroke={OUT} strokeWidth={4} />
+            <circle r={10} fill="#ffffff" opacity={0.6 + 0.4 * Math.abs(Math.sin(t * 0.25))} />
+          </g>
+          {/* parche SALVAMENTO */}
+          <rect x={268} y={1130} width={250} height={56} rx={10} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+          <text x={393} y={1170} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={32} fill="#d9381e">SALVAMENTO</text>
+          <path d="M540 780 L540 1200" stroke={OUT} strokeWidth={5} opacity={0.5} />
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && costume !== 'maritime' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -877,6 +906,23 @@ export const Robot: React.FC<RobotProps> = (p) => {
           </g>
           <g transform="translate(730 300) rotate(10)">
             <path d="M0 0 Q -18 -28 0 -58 Q 18 -28 0 0 Z" fill="#3fbf6a" stroke={OUT} strokeWidth={4} />
+          </g>
+        </g>
+      )}
+      {costume === 'maritime' && (
+        <g>
+          {/* casco blanco de Salvamento Marítimo con franja roja y gafas de agua */}
+          <path d="M262 330 Q 270 110 540 100 Q 810 110 818 330 Q 540 290 262 330 Z" fill="#f4f6fb" stroke={OUT} strokeWidth={9} />
+          <path d="M276 270 Q 540 220 804 270 L812 312 Q 540 262 268 312 Z" fill="#d9381e" stroke={OUT} strokeWidth={6} />
+          <path d="M340 200 Q 420 145 520 136" fill="none" stroke="#ffffff" strokeWidth={10} strokeLinecap="round" />
+          <path d="M230 335 Q 540 285 850 335 L846 360 Q 540 312 234 360 Z" fill="#d7dde8" stroke={OUT} strokeWidth={7} />
+          {/* gafas subidas sobre el casco */}
+          <path d="M330 232 Q 540 190 750 232" fill="none" stroke="#14151c" strokeWidth={14} />
+          <g>
+            <rect x={420} y={170} width={100} height={64} rx={26} fill="#7fd6ff" fillOpacity={0.7} stroke={OUT} strokeWidth={6} />
+            <rect x={560} y={170} width={100} height={64} rx={26} fill="#7fd6ff" fillOpacity={0.7} stroke={OUT} strokeWidth={6} />
+            <path d="M520 202 L560 202" stroke={OUT} strokeWidth={8} />
+            <path d="M440 186 Q 460 178 480 180 M580 186 Q 600 178 620 180" stroke="#ffffff" strokeWidth={6} strokeLinecap="round" />
           </g>
         </g>
       )}

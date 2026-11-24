@@ -3616,3 +3616,431 @@ export const Cop31Scene: React.FC<P> = ({ f, T, seg }) => {
     </svg>
   );
 };
+
+/* ======================================================================
+   BIBLIOTECA 2026-11-24 (noticias del 23-11): amnistía a Puigdemont, debate a ocho y encuestas,
+   vuelta de Huang a Nvidia y rebote en bolsa, 815 migrantes en Canarias
+   ====================================================================== */
+const Column: React.FC<{ x: number; y: number; h: number }> = ({ x, y, h }) => (
+  <g>
+    <rect x={x - 30} y={y} width={60} height={h} fill="#d8cfb8" stroke={OUT} strokeWidth={4} />
+    {[-14, 0, 14].map((d) => <path key={d} d={`M${x + d} ${y + 10} V${y + h - 10}`} stroke="#b3a88c" strokeWidth={4} />)}
+    <rect x={x - 40} y={y - 16} width={80} height={18} fill="#e8e0c8" stroke={OUT} strokeWidth={4} />
+    <rect x={x - 40} y={y + h} width={80} height={16} fill="#e8e0c8" stroke={OUT} strokeWidth={4} />
+  </g>
+);
+
+/* ===================== 23-11: AMNISTÍA A PUIGDEMONT ===================== */
+export const AmnistiaScene: React.FC<P> = ({ f, T, seg }) => {
+  const trT = wordAt(seg, 'tribunal'), amT = wordAt(seg, 'amnistia'), puT = wordAt(seg, 'puigdemont'), arT = wordAt(seg, 'archiva');
+  const prT = wordAt(seg, 'proces'), maT = wordAt(seg, 'malversacion'), nuT = wordAt(seg, 'nueve'), voT = wordAt(seg, 'volver');
+  const caT = wordAt(seg, 'campana'), diT = wordAt(seg, 'diciembre');
+  const ph1 = lerp(f, [nuT - 8, nuT], [1, 0], null);
+  const ph2 = lerp(f, [nuT - 6, nuT + 2], [0, 1], null);
+  // la carpeta vuela al archivador
+  const fly = lerp(f, [arT + 4, arT + 26], [0, 1]);
+  const drawer = lerp(f, [arT - 4, arT + 6], [0, 1]) * (1 - lerp(f, [arT + 26, arT + 36], [0, 1]));
+  const years = Math.round(lerp(f, [nuT, nuT + 30], [2017, 2026]));
+  const trip = lerp(f, [voT - 4, voT + 26], [0, 1]);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="am-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#2b1a12" />
+          <stop offset="0.55" stopColor="#4a2a1a" />
+          <stop offset="1" stopColor="#0d0806" />
+        </linearGradient>
+        <radialGradient id="am-glow" cx="50%" cy="40%" r="60%">
+          <stop offset="0" stopColor="#ffd98a" stopOpacity="0.35" />
+          <stop offset="1" stopColor="#ffd98a" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#am-bg)" />
+      <rect width={1080} height={1200} fill="url(#am-glow)" />
+      {/* fachada del Supremo */}
+      <g opacity={0.5}>
+        <path d="M90 560 L540 420 L990 560 Z" fill="#cfc4a8" stroke={OUT} strokeWidth={5} />
+        <circle cx={540} cy={510} r={30} fill="#b89b5a" stroke={OUT} strokeWidth={4} />
+        <rect x={110} y={560} width={860} height={34} fill="#e8e0c8" stroke={OUT} strokeWidth={4} />
+        {Array.from({ length: 7 }).map((_, i) => <Column key={i} x={170 + i * 123} y={610} h={380} />)}
+      </g>
+      <Particles T={T} n={30} color="#ffe2a8" seed={41} speed={0.12} size={2.5} op={0.45} />
+      {/* fase 1: Supremo, ley y carpeta archivada */}
+      <g opacity={ph1}>
+        <Card x={540} y={505} w={600} h={90} s={pop(f, trT - 2, 10)} bg="#ffffff">
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={50} fill={OUT}>TRIBUNAL SUPREMO</text>
+        </Card>
+        {/* ley de amnistía */}
+        <g transform={`translate(260 740) rotate(-6) scale(${pop(f, amT - 2, 10)})`}>
+          <rect x={-130} y={-160} width={260} height={320} rx={10} fill="#fbf7ec" stroke={OUT} strokeWidth={6} />
+          <rect x={-130} y={-160} width={260} height={70} rx={10} fill="#c60b1e" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={-112} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffffff">LEY DE</text>
+          <text x={0} y={-30} textAnchor="middle" fontFamily={HEAD} fontSize={50} fill={OUT}>AMNISTÍA</text>
+          {[0, 1, 2, 3].map((i) => <path key={i} d={`M-96 ${10 + i * 30} H96`} stroke="#b8ae96" strokeWidth={7} strokeLinecap="round" />)}
+          <circle cx={70} cy={120} r={26} fill="#c9a227" stroke={OUT} strokeWidth={4} />
+        </g>
+        {/* archivador */}
+        <g transform="translate(790 790)">
+          <rect x={-150} y={-180} width={300} height={360} rx={14} fill="#5a6276" stroke={OUT} strokeWidth={6} />
+          {[0, 1].map((i) => (
+            <g key={i}>
+              <rect x={-130} y={-160 + i * 175} width={260} height={150} rx={10} fill="#7a8398" stroke={OUT} strokeWidth={5}
+                transform={i === 0 ? `translate(0 ${-drawer * 0}) translate(${drawer * 0} 0)` : ''} />
+              <rect x={-40} y={-100 + i * 175} width={80} height={20} rx={10} fill="#c9ced8" stroke={OUT} strokeWidth={4} />
+            </g>
+          ))}
+          {/* cajón abierto */}
+          <g transform={`translate(0 ${-drawer * 40}) scale(${1 + drawer * 0.06})`} opacity={drawer}>
+            <path d="M-140 -170 L140 -170 L130 -110 L-130 -110 Z" fill="#9aa3b8" stroke={OUT} strokeWidth={5} />
+          </g>
+        </g>
+        {/* carpeta de la causa */}
+        {f < arT + 28 && (
+          <g transform={`translate(${lerp(fly, [0, 1], [540, 790], null)} ${lerp(fly, [0, 0.5, 1], [760, 560, 640], null)}) rotate(${fly * 20}) scale(${pop(f, puT - 4, 10) * (1 - fly * 0.5)})`}>
+            <path d="M-120 -80 L-40 -80 L-20 -100 L120 -100 L120 90 L-120 90 Z" fill="#f2c14e" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+            <rect x={-96} y={-56} width={192} height={60} rx={8} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+            <text x={0} y={-14} textAnchor="middle" fontFamily={HEAD} fontSize={34} fill={OUT}>PUIGDEMONT</text>
+            <text x={0} y={50} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#7a4a00" opacity={f >= prT - 4 ? 1 : 0}>CAUSA DEL PROCÉS</text>
+          </g>
+        )}
+        <Stamp x={790} y={600} text="ARCHIVADA" s={pop(f, arT + 30, 10)} color="#c4001f" size={52} />
+        <g transform={`translate(540 925) scale(${pop(f, maT - 2, 10)})`} opacity={pop(f, maT - 2, 10)}>
+          <rect x={-250} y={-40} width={500} height={80} rx={40} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={46} fill={OUT}>+ MALVERSACIÓN</text>
+          <path d={`M-200 0 L${-200 + lerp(f, [maT + 10, maT + 22], [0, 400])} 0`} stroke="#c4001f" strokeWidth={10} strokeLinecap="round" />
+        </g>
+      </g>
+      {/* fase 2: nueve años y vuelta */}
+      <g opacity={ph2}>
+        <g transform={`translate(270 640) scale(${pop(f, nuT - 2, 10)})`}>
+          <rect x={-190} y={-140} width={380} height={280} rx={28} fill="#ffffff" stroke={OUT} strokeWidth={7} />
+          <rect x={-190} y={-140} width={380} height={76} rx={28} fill="#c60b1e" stroke={OUT} strokeWidth={7} />
+          <text x={0} y={-86} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#ffffff">{years}</text>
+          <text x={0} y={60} textAnchor="middle" fontFamily={HEAD} fontSize={140} fill={OUT}>9</text>
+          <text x={0} y={116} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={32} fill="#5a6488">AÑOS</text>
+        </g>
+        {/* mapa: de Bélgica a España */}
+        <g transform="translate(760 650)" opacity={pop(f, voT - 8, 12)}>
+          <rect x={-250} y={-170} width={500} height={340} rx={24} fill="#16324f" stroke="#7fb4e8" strokeWidth={4} />
+          <g transform="translate(-150 40) scale(0.62)">
+            <path d={SPAIN} fill="#e9dcb8" stroke={OUT} strokeWidth={6} transform="translate(-190 -150)" />
+          </g>
+          <path d="M150 -110 Q 190 -120 205 -90 Q 200 -60 160 -60 Q 135 -80 150 -110 Z" fill="#e9dcb8" stroke={OUT} strokeWidth={5} />
+          <text x={175} y={-28} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={22} fill="#cfe6ff">BÉLGICA</text>
+          <path d={`M170 -85 Q 40 -150 ${lerp(trip, [0, 1], [170, -60])} ${lerp(trip, [0, 1], [-85, -10])}`} fill="none" stroke="#ffd23f" strokeWidth={7} strokeDasharray="16 10" />
+          <circle cx={170} cy={-85} r={10} fill="#ffd23f" stroke={OUT} strokeWidth={3} />
+          <g transform={`translate(${-60} ${-10})`} opacity={trip > 0.95 ? 1 : 0}>
+            <circle r={12 + ((f % 30) / 30) * 26} fill="none" stroke="#ffd23f" strokeWidth={5} opacity={1 - (f % 30) / 30} />
+            <circle r={12} fill="#ffd23f" stroke={OUT} strokeWidth={3} />
+          </g>
+          {/* maleta */}
+          <g transform={`translate(${lerp(trip, [0, 1], [150, -40])} ${lerp(trip, [0, 0.5, 1], [60, 20, 90])}) scale(0.9)`}>
+            <rect x={-46} y={-34} width={92} height={70} rx={10} fill="#8a4b2a" stroke={OUT} strokeWidth={5} />
+            <path d="M-18 -34 V-50 H18 V-34" fill="none" stroke={OUT} strokeWidth={6} />
+            <path d="M-46 -6 H46" stroke="#c9a227" strokeWidth={5} />
+          </g>
+        </g>
+        <Pill x={540} y={860} text={f < diT - 2 ? 'NO EN CAMPAÑA' : '¿EN DICIEMBRE?'} s={pop(f, caT - 4, 10)} bg={f < diT - 2 ? '#ffffff' : '#ffc400'} color={OUT} size={44} />
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 23-11: DEBATE A OCHO Y ENCUESTAS ===================== */
+const PARTIES: { n: string; c: string }[] = [
+  { n: 'PP', c: '#1e5bd8' }, { n: 'PSOE', c: '#e3122b' }, { n: 'VOX', c: '#5fbf3a' }, { n: 'F. AMPLIO', c: '#8a3ab8' },
+  { n: 'ERC', c: '#ffb000' }, { n: 'JUNTS', c: '#00b3a4' }, { n: 'BILDU', c: '#2f9a5a' }, { n: 'PNV', c: '#2a8a3a' },
+];
+export const DebateOchoScene: React.FC<P> = ({ f, T, seg }) => {
+  const deT = wordAt(seg, 'debate'), ocT = wordAt(seg, 'ocho'), rtT = wordAt(seg, 'radiotelevision'), brT = wordAt(seg, 'bronco');
+  const viT = wordAt(seg, 'vivienda'), paT = wordAt(seg, 'pactos'), etT = wordAt(seg, 'eta'), enT = wordAt(seg, 'encuestas');
+  const caT = wordAt(seg, 'casi'), maT = wordAt(seg, 'mayoria'), ciT = wordAt(seg, 'cis'), gaT = wordAt(seg, 'ganador');
+  const voT = wordAt(seg, 'votamos'), doT = wordAt(seg, 'domingo');
+  const ph1 = lerp(f, [enT - 8, enT], [1, 0], null);
+  const ph2 = lerp(f, [enT - 6, enT + 2], [0, 1], null) * lerp(f, [voT - 8, voT], [1, 0], null);
+  const ph3 = lerp(f, [voT - 6, voT + 2], [0, 1], null);
+  const shake = f >= brT && f < etT + 30 ? Math.sin(f * 1.7) * 3 : 0;
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="d8-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#0b1440" />
+          <stop offset="0.6" stopColor="#1a2a78" />
+          <stop offset="1" stopColor="#05081a" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#d8-bg)" />
+      {/* pantalla de plató */}
+      <g opacity={0.25}>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <rect key={i} x={(i % 6) * 180} y={420 + Math.floor(i / 6) * 260} width={170} height={250} fill="#3a6bff" opacity={0.3 + 0.3 * Math.sin(T * 0.07 + i)} />
+        ))}
+      </g>
+      {[0, 1, 2].map((i) => (
+        <path key={i} d="M0 0 L-80 900 L80 900 Z" fill="#9fc0ff" opacity={0.06} transform={`translate(${200 + i * 340} 380) rotate(${Math.sin(T * 0.05 + i * 2) * 14})`} />
+      ))}
+      <Particles T={T} n={30} color="#9fc0ff" seed={57} speed={0.2} size={2.5} op={0.4} />
+      {/* fase 1: plató con ocho atriles */}
+      <g opacity={ph1} transform={`translate(${shake} 0)`}>
+        <g transform={`translate(540 520) scale(${pop(f, deT - 2, 10)})`}>
+          <rect x={-250} y={-50} width={500} height={100} rx={20} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={24} textAnchor="middle" fontFamily={HEAD} fontSize={66} fill="#1b2f6e">DEBATE A 8</text>
+          <g opacity={pop(f, rtT - 2, 10)}>
+            <rect x={150} y={-74} width={130} height={46} rx={10} fill="#e3122b" stroke={OUT} strokeWidth={4} />
+            <text x={215} y={-40} textAnchor="middle" fontFamily={HEAD} fontSize={32} fill="#ffffff">RTVE</text>
+          </g>
+        </g>
+        {PARTIES.map((p, i) => {
+          const row = Math.floor(i / 4), col = i % 4;
+          const x = 150 + col * 260, y = 650 + row * 140;
+          const s = pop(f, ocT - 4 + i * 2, 9);
+          return (
+            <g key={p.n} transform={`translate(${x} ${y}) scale(${0.85 * s})`}>
+              <path d="M-80 0 L80 0 L66 110 L-66 110 Z" fill="#1d2440" stroke={OUT} strokeWidth={5} />
+              <rect x={-92} y={-20} width={184} height={28} rx={8} fill={p.c} stroke={OUT} strokeWidth={5} />
+              <rect x={-70} y={30} width={140} height={46} rx={8} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+              <text x={0} y={64} textAnchor="middle" fontFamily={HEAD} fontSize={p.n.length > 6 ? 26 : 34} fill={OUT}>{p.n}</text>
+              <path d="M-6 -20 L-16 -70" stroke="#9aa3b5" strokeWidth={5} />
+              <circle cx={-18} cy={-76} r={10} fill="#3a3f52" stroke={OUT} strokeWidth={3} />
+            </g>
+          );
+        })}
+        {/* rayos de choque */}
+        {f >= brT && [0, 1, 2].map((i) => {
+          const k = ((f - brT + i * 9) % 26) / 26;
+          return (
+            <path key={i} d="M0 -40 L-14 0 L8 0 L-8 44 L22 -8 L0 -8 L12 -40 Z" fill="#ffe14d" stroke={OUT} strokeWidth={4}
+              transform={`translate(${280 + i * 260} ${720}) scale(${1.2 * Math.sin(k * Math.PI)})`} opacity={Math.sin(k * Math.PI)} />
+          );
+        })}
+        <Pill x={540} y={600} text="BRONCO" s={pop(f, brT - 2, 8) * (1 - lerp(f, [viT - 4, viT], [0, 1]))} bg="#ff2d55" size={44} rot={-4} />
+        {[['VIVIENDA', viT, '#ffc400'], ['PACTOS', paT, '#2fd8ff'], ['ETA', etT, '#ffffff']].map(([t, w, c], i) => (
+          <Pill key={t as string} x={200 + i * 340} y={940} text={t as string} s={pop(f, (w as number) - 2, 9)} bg={c as string} color={OUT} size={40} />
+        ))}
+      </g>
+      {/* fase 2: encuestas */}
+      <g opacity={ph2}>
+        <Pill x={540} y={500} text="ÚLTIMO DÍA DE ENCUESTAS" s={pop(f, enT - 2, 10)} bg="#ffc400" color={OUT} size={40} />
+        <Card x={300} y={740} w={440} h={340} s={pop(f, caT - 2, 10)} bg="#ffffff">
+          <text x={0} y={-110} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={28} fill="#5a6488">CASI TODAS</text>
+          {['40dB', 'SIGMA DOS', 'NC REPORT', 'SOCIOMÉTRICA'].map((n, i) => (
+            <text key={n} x={0} y={-62 + i * 34} textAnchor="middle" fontFamily={BODY} fontWeight={800} fontSize={24} fill="#8a93b8">{n}</text>
+          ))}
+          <g opacity={pop(f, maT - 2, 10)}>
+            <rect x={-180} y={86} width={360} height={60} rx={14} fill="#1e5bd8" />
+            <rect x={-180 + 360 * 0.62} y={86} width={360 * 0.38} height={60} fill="#5fbf3a" />
+            <rect x={-180} y={86} width={360} height={60} rx={14} fill="none" stroke={OUT} strokeWidth={4} />
+            <text x={0} y={128} textAnchor="middle" fontFamily={HEAD} fontSize={36} fill="#ffffff" stroke={OUT} strokeWidth={5} paintOrder="stroke">PP + VOX: MAYORÍA</text>
+          </g>
+        </Card>
+        <Card x={790} y={740} w={420} h={340} s={pop(f, ciT - 2, 10)} bg="#ffffff">
+          <text x={0} y={-90} textAnchor="middle" fontFamily={HEAD} fontSize={86} fill={OUT}>CIS</text>
+          <text x={0} y={-40} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={26} fill="#5a6488">EN CAMBIO</text>
+          <g opacity={pop(f, gaT - 2, 10)}>
+            <rect x={-170} y={20} width={340} height={60} rx={14} fill="#e3122b" stroke={OUT} strokeWidth={4} />
+            <text x={0} y={63} textAnchor="middle" fontFamily={HEAD} fontSize={38} fill="#ffffff">GANA EL PSOE</text>
+            <text x={0} y={130} textAnchor="middle" fontFamily={BODY} fontWeight={800} fontSize={24} fill="#8a93b8">MAYORÍA ABSOLUTA: 176</text>
+          </g>
+        </Card>
+        <text x={540} y={752} textAnchor="middle" fontFamily={HEAD} fontSize={60} fill="#ffe14d" stroke={OUT} strokeWidth={6} paintOrder="stroke" opacity={pop(f, ciT - 2, 10)}>VS</text>
+      </g>
+      {/* fase 3: urna del domingo */}
+      <g opacity={ph3}>
+        <g transform={`translate(540 760) scale(${pop(f, voT - 2, 10)})`}>
+          <path d="M-170 -60 L170 -60 L150 170 L-150 170 Z" fill="#dfe8f5" fillOpacity={0.85} stroke={OUT} strokeWidth={7} />
+          <rect x={-185} y={-90} width={370} height={40} rx={10} fill="#c9d6ea" stroke={OUT} strokeWidth={6} />
+          <rect x={-80} y={-80} width={160} height={14} rx={7} fill={OUT} />
+          {[0, 1, 2].map((i) => {
+            const k = lerp(f, [voT + i * 8, voT + i * 8 + 16], [0, 1]);
+            return (
+              <g key={i} transform={`translate(${-40 + i * 40} ${-200 + k * 120})`} opacity={1 - lerp(k, [0.85, 1], [0, 1], null)}>
+                <rect x={-34} y={-44} width={68} height={88} rx={5} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+                <path d="M-18 -10 L-4 6 L20 -22" stroke="#2fbf71" strokeWidth={7} fill="none" strokeLinecap="round" />
+              </g>
+            );
+          })}
+          <text x={0} y={90} textAnchor="middle" fontFamily={HEAD} fontSize={80} fill="#1b2f6e">29-N</text>
+        </g>
+        <Pill x={540} y={520} text="VOTAMOS EL DOMINGO" s={pop(f, doT - 4, 10)} bg="#ffc400" color={OUT} size={44} />
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 23-11: HUANG VUELVE A NVIDIA Y REBOTE ===================== */
+export const HuangScene: React.FC<P> = ({ f, T, seg }) => {
+  const nvT = wordAt(seg, 'nvidia'), reT = wordAt(seg, 'readmite'), jeT = wordAt(seg, 'jefe'), seT = wordAt(seg, 'semanas');
+  const diT = wordAt(seg, 'dimision'), acT = wordAt(seg, 'acciones'), dsT = wordAt(seg, 'disparan'), trT = wordAt(seg, 'treinta');
+  const maT = wordAt(seg, 'mayor'), veT = wordAt(seg, 'veintitres'), naT = wordAt(seg, 'nasdaq'), ibT = wordAt(seg, 'ibex');
+  const ph1 = lerp(f, [acT - 8, acT], [1, 0], null);
+  const ph2 = lerp(f, [acT - 6, acT + 2], [0, 1], null) * lerp(f, [naT - 8, naT], [1, 0], null);
+  const ph3 = lerp(f, [naT - 6, naT + 2], [0, 1], null);
+  const chair = lerp(f, [reT, reT + 18], [0, 1]);
+  const pct = lerp(f, [trT - 4, trT + 26], [0, 31.5]);
+  const grow = lerp(f, [dsT - 4, dsT + 30], [0, 1]);
+  const pts = Array.from({ length: 24 }).map((_, i) => {
+    const x = -380 + i * 33;
+    const base = 120 - Math.sin(i * 0.9) * 18 + (i < 16 ? i * 2 : 0);
+    const y = i < 16 ? base : base - (i - 15) * 30 * grow;
+    return `${x},${y}`;
+  });
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="hu-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#061a10" />
+          <stop offset="0.55" stopColor="#0d3a22" />
+          <stop offset="1" stopColor="#030a06" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#hu-bg)" />
+      {/* rejilla tipo chip */}
+      <g stroke="#2fdc7a" strokeOpacity={0.12} strokeWidth={3}>
+        {Array.from({ length: 10 }).map((_, i) => <path key={i} d={`M0 ${420 + i * 60} H1080`} />)}
+        {Array.from({ length: 12 }).map((_, i) => <path key={`v${i}`} d={`M${i * 100} 400 V1000`} />)}
+      </g>
+      <Particles T={T} n={40} color="#7dffb0" seed={71} speed={-0.6} size={3} op={0.35} />
+      {/* fase 1: el sillón del jefe */}
+      <g opacity={ph1}>
+        <Card x={540} y={505} w={420} h={90} s={pop(f, nvT - 2, 10)} bg="#0b0f0c">
+          <text x={0} y={20} textAnchor="middle" fontFamily={HEAD} fontSize={60} fill="#76d43a" letterSpacing={6}>NVIDIA</text>
+        </Card>
+        {/* despacho */}
+        <g transform="translate(330 770)">
+          <rect x={-220} y={60} width={440} height={30} rx={8} fill="#5a3a22" stroke={OUT} strokeWidth={5} />
+          <rect x={-200} y={90} width={24} height={90} fill="#3d2616" stroke={OUT} strokeWidth={4} />
+          <rect x={176} y={90} width={24} height={90} fill="#3d2616" stroke={OUT} strokeWidth={4} />
+          {/* silla que vuelve */}
+          <g transform={`translate(${lerp(chair, [0, 1], [-260, 0], null)} 0) rotate(${(1 - chair) * -12})`} opacity={0.3 + chair * 0.7}>
+            <rect x={-80} y={-170} width={160} height={190} rx={30} fill="#1a1d22" stroke={OUT} strokeWidth={6} />
+            <rect x={-64} y={-156} width={128} height={30} rx={10} fill="#76d43a" opacity={0.8} />
+            <rect x={-90} y={10} width={180} height={34} rx={12} fill="#262a31" stroke={OUT} strokeWidth={5} />
+            <path d="M0 44 V60" stroke={OUT} strokeWidth={10} />
+          </g>
+          <g transform={`translate(0 76) scale(${pop(f, jeT - 2, 10)})`}>
+            <rect x={-110} y={-24} width={220} height={48} rx={8} fill="#c9a227" stroke={OUT} strokeWidth={4} />
+            <text x={0} y={12} textAnchor="middle" fontFamily={HEAD} fontSize={30} fill={OUT}>JENSEN HUANG</text>
+          </g>
+        </g>
+        {/* calendario */}
+        <g transform={`translate(800 720) scale(${pop(f, seT - 4, 10)})`}>
+          <rect x={-170} y={-150} width={340} height={300} rx={24} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <rect x={-170} y={-150} width={340} height={64} rx={24} fill="#76d43a" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={-106} textAnchor="middle" fontFamily={HEAD} fontSize={36} fill={OUT}>NOVIEMBRE</text>
+          <text x={-70} y={0} textAnchor="middle" fontFamily={HEAD} fontSize={78} fill="#9aa3b5">12</text>
+          <text x={-70} y={40} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={20} fill="#c4001f" opacity={pop(f, diT - 4, 10)}>SE VA</text>
+          <path d="M-20 -20 L40 -20" stroke={OUT} strokeWidth={6} markerEnd="" />
+          <path d="M30 -32 L44 -20 L30 -8" fill="none" stroke={OUT} strokeWidth={6} />
+          <text x={90} y={0} textAnchor="middle" fontFamily={HEAD} fontSize={78} fill={OUT}>23</text>
+          <text x={90} y={40} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={20} fill="#1d8a3a">VUELVE</text>
+          <text x={0} y={110} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill={OUT}>2 SEMANAS</text>
+        </g>
+      </g>
+      {/* fase 2: cohete en bolsa */}
+      <g opacity={ph2}>
+        <g transform="translate(540 760)">
+          <rect x={-420} y={-230} width={840} height={420} rx={26} fill="#04130b" stroke="#2fdc7a" strokeWidth={4} opacity={0.92} />
+          <polyline points={pts.join(' ')} fill="none" stroke="#2fdc7a" strokeWidth={10} strokeLinejoin="round" strokeLinecap="round" />
+          {grow > 0.9 && (
+            <g transform={`translate(${-380 + 23 * 33} ${120 - Math.sin(23 * 0.9) * 18 - 8 * 30}) rotate(-35)`}>
+              <path d="M0 -36 Q 22 -10 18 26 L-18 26 Q -22 -10 0 -36 Z" fill="#ffffff" stroke={OUT} strokeWidth={4} />
+              <circle cx={0} cy={-4} r={8} fill="#2fd8ff" stroke={OUT} strokeWidth={3} />
+              <path d={`M-12 26 L0 ${46 + Math.sin(T) * 8} L12 26 Z`} fill="#ff8a1f" />
+            </g>
+          )}
+          <text x={-150} y={-120} textAnchor="middle" fontFamily={HEAD} fontSize={130} fill="#ffffff" stroke={OUT} strokeWidth={8} paintOrder="stroke" opacity={f >= trT - 4 ? 1 : 0}>
+            +{pct.toFixed(1).replace('.', ',')}%
+          </text>
+        </g>
+        <Pill x={540} y={940} text="MAYOR SUBIDA EN 23 AÑOS" s={pop(f, maT - 2, 10)} bg="#ffc400" color={OUT} size={40} />
+        <Stamp x={820} y={560} text="RÉCORD" s={pop(f, veT, 10)} color="#1d8a3a" size={46} rot={8} />
+      </g>
+      {/* fase 3: marcadores */}
+      <g opacity={ph3}>
+        {[
+          ['NASDAQ', '+6,5%', naT], ['S&P 500', '+4,7%', naT + 8], ['IBEX 35', '+1,6%', ibT],
+        ].map(([n, v, w], i) => (
+          <g key={n as string} transform={`translate(540 ${560 + i * 140}) scale(${pop(f, (w as number) - 2, 10)})`}>
+            <rect x={-360} y={-56} width={720} height={112} rx={22} fill="#0b0f0c" stroke="#2fdc7a" strokeWidth={5} />
+            <text x={-320} y={20} fontFamily={HEAD} fontSize={60} fill="#ffffff">{n}</text>
+            <path d="M150 20 L180 -20 L210 20 Z" fill="#2fdc7a" />
+            <text x={330} y={22} textAnchor="end" fontFamily={HEAD} fontSize={64} fill="#2fdc7a">{v}</text>
+          </g>
+        ))}
+        <Pill x={540} y={950} text="LUNES 23 DE NOVIEMBRE" s={pop(f, naT + 4, 10)} bg="#ffffff" color={OUT} size={34} />
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 23-11: 815 MIGRANTES EN CANARIAS ===================== */
+const Cayuco: React.FC<{ x: number; y: number; s: number; r?: number }> = ({ x, y, s, r = 0 }) => (
+  <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`}>
+    <path d="M-50 -6 Q 0 4 50 -6 L40 14 Q 0 22 -40 14 Z" fill="#e9a23b" stroke={OUT} strokeWidth={4} />
+    <path d="M-44 0 L44 0" stroke="#2a6bd8" strokeWidth={4} />
+    {[-30, -15, 0, 15, 30].map((d) => <circle key={d} cx={d} cy={-12} r={6} fill="#2a2f40" />)}
+  </g>
+);
+export const CayucosScene: React.FC<P> = ({ f, T, seg }) => {
+  const caT = wordAt(seg, 'canarias'), ocT = wordAt(seg, 'ochocientos'), cyT = wordAt(seg, 'cayucos'), soT = wordAt(seg, 'solo');
+  const seT = wordAt(seg, 'seis'), hiT = wordAt(seg, 'hierro'), teT = wordAt(seg, 'tenerife'), enT = wordAt(seg, 'entre');
+  const meT = wordAt(seg, 'menores'), sgT = wordAt(seg, 'sigueme');
+  const map = pop(f, caT - 6, 14);
+  const cnt = lerp(f, [ocT - 2, ocT + 40], [0, 815]);
+  const sail = (i: number) => lerp(f, [cyT + i * 4, cyT + 60 + i * 4], [0, 1]);
+  const hl = (name: string) => (name === 'El Hierro' && f >= hiT) || (name === 'Tenerife' && f >= teT);
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="cy-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#050b1c" />
+          <stop offset="0.5" stopColor="#0d2a4a" />
+          <stop offset="1" stopColor="#020610" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#cy-bg)" />
+      {Array.from({ length: 9 }).map((_, i) => {
+        const y = 470 + i * 60;
+        const ph = T * 0.05 * (1 + i * 0.1) + i;
+        let d = `M-20 ${y}`;
+        for (let x = -20; x <= 1100; x += 40) d += ` L${x} ${y + Math.sin(x * 0.012 + ph) * (6 + i)}`;
+        return <path key={i} d={d} fill="none" stroke="#7fd6ff" strokeOpacity={0.08 + i * 0.015} strokeWidth={3} />;
+      })}
+      <Particles T={T} n={24} color="#ffffff" seed={93} speed={0.04} size={2} op={0.4} />
+      <text x={540} y={545} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#9fd8ff" letterSpacing={6} opacity={pop(f, caT - 6, 14) * (1 - lerp(f, [enT - 6, enT + 4], [0, 1], null))}>ISLAS CANARIAS</text>
+      {/* mapa de las islas */}
+      <g opacity={map * (1 - lerp(f, [enT - 6, enT + 4], [0, 0.55], null))} transform={`translate(0 ${50 + (1 - map) * 40})`}>
+        {ISLANDS.map((is) => (
+          <g key={is.name} transform={`translate(${is.x} ${is.y})`}>
+            <path d={is.d} fill={hl(is.name) ? '#ffb020' : '#e9dcb8'} stroke={OUT} strokeWidth={5} />
+            {(is.name === 'El Hierro' || is.name === 'Tenerife') && (
+              <text x={0} y={is.name === 'Tenerife' ? -70 : -40} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={26} fill={hl(is.name) ? '#ffb020' : '#cfe6ff'}>{is.name.toUpperCase()}</text>
+            )}
+          </g>
+        ))}
+        {/* ocho cayucos: seis a El Hierro, dos a Tenerife */}
+        {Array.from({ length: 8 }).map((_, i) => {
+          const toH = i < 6;
+          const k = sail(i);
+          const sx = toH ? 30 + (i % 3) * 40 : 330 + (i - 6) * 60, sy = toH ? 880 + Math.floor(i / 3) * 20 : 880;
+          const tx = toH ? 90 + (i % 3) * 44 : 470 + (i - 6) * 56, ty = toH ? 770 + Math.floor(i / 3) * 32 : 690 - (i - 6) * 8;
+          return <Cayuco key={i} x={lerp(k, [0, 1], [sx, tx], null)} y={lerp(k, [0, 1], [sy, ty], null) + Math.sin(T * 0.15 + i) * 4} s={0.6 * pop(f, cyT - 4 + i * 2, 12)} r={toH ? -20 : -8} />;
+        })}
+        <Pill x={150} y={850} text="6 CAYUCOS" s={pop(f, seT - 2, 10)} bg="#ffb020" color={OUT} size={32} />
+        <Pill x={460} y={770} text="2 CAYUCOS" s={pop(f, teT - 6, 10)} bg="#ffb020" color={OUT} size={32} />
+      </g>
+      {/* contador */}
+      <g transform={`translate(800 885) scale(${0.75 * pop(f, ocT - 4, 10)})`} opacity={1 - lerp(f, [enT - 6, enT + 2], [0, 1], null)}>
+        <rect x={-250} y={-90} width={500} height={190} rx={26} fill="#0a1830" stroke="#ffb020" strokeWidth={6} opacity={0.94} />
+        <text x={0} y={24} textAnchor="middle" fontFamily={HEAD} fontSize={116} fill="#ffffff">{Math.round(cnt)}</text>
+        <text x={0} y={76} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={23} fill="#ffb020" letterSpacing={1}>PERSONAS · 8 CAYUCOS · 1 DÍA</text>
+      </g>
+      {/* menores */}
+      <Card x={540} y={700} w={560} h={170} s={pop(f, meT - 6, 11)} bg="#ffffff">
+        <text x={0} y={10} textAnchor="middle" fontFamily={HEAD} fontSize={78} fill={OUT}>48 MENORES</text>
+        <text x={0} y={52} textAnchor="middle" fontFamily={BODY} fontWeight={800} fontSize={24} fill="#5a6488">Y AL MENOS 73 MUJERES</text>
+      </Card>
+      <Pill x={540} y={890} text="SÍGUEME PARA MÁS" s={pop(f, sgT, 9)} bg="#ff2d55" size={40} />
+    </svg>
+  );
+};

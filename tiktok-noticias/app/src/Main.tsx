@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -21,6 +21,7 @@ const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   barein: BareinScene, rutte: RutteScene, campana: CampanaScene, francia: FranciaScene,
   trio: TrioScene, oleada: OleadaScene, desplome: DesplomeScene, urnas: UrnasScene, golfo: GolfoScene,
   dymer: DymerScene, ultimatum: UltimatumScene, domingo: DomingoScene, cop31: Cop31Scene,
+  amnistia: AmnistiaScene, debateocho: DebateOchoScene, huang: HuangScene, cayucos: CayucosScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -119,6 +120,17 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
       const sT = wordAt(seg, 'sigueme');
       return { costume: 'eco', arm: 'thumb', expression: f >= sT ? 'wink' : after('fracasa') && !after('cumbre') ? 'shock' : after('sin') && !after('union') ? 'dizzy' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
     }
+    case 'amnistia':
+      return { costume: 'judge', arm: 'hold', item: 'gavel', expression: after('archiva') && !after('tambien') ? 'shock' : after('diciembre') ? 'wink' : 'happy' };
+    case 'debateocho': {
+      const punch = (s: number) => Math.max(0, Math.sin(Math.min(Math.PI, Math.max(0, (f - s) / 6) * Math.PI)));
+      const lift = Math.max(punch(wordAt(seg, 'bronco')), punch(wordAt(seg, 'choques')), punch(wordAt(seg, 'eta')));
+      return { costume: 'boxing', arm: 'punch', expression: after('bronco') && !after('vivienda') ? 'shock' : after('domingo') ? 'wink' : 'happy', armLift: lift };
+    }
+    case 'huang':
+      return { costume: 'business', arm: 'hold', item: 'briefcase', expression: after('disparan') && !after('mayor') ? 'stars' : after('readmite') && !after('jefe') ? 'shock' : 'happy' };
+    case 'cayucos':
+      return { costume: 'maritime', arm: 'down', expression: 'serious' };
     case 'voyager': {
       const sT = wordAt(seg, 'sigueme');
       return { costume: 'astronaut', arm: 'thumb', expression: f >= sT ? 'wink' : after('ex') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
