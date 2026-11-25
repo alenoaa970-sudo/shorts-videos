@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene, MinasScene, PermisosScene, DeficitScene, ZaporiyiaScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -22,6 +22,7 @@ const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   trio: TrioScene, oleada: OleadaScene, desplome: DesplomeScene, urnas: UrnasScene, golfo: GolfoScene,
   dymer: DymerScene, ultimatum: UltimatumScene, domingo: DomingoScene, cop31: Cop31Scene,
   amnistia: AmnistiaScene, debateocho: DebateOchoScene, huang: HuangScene, cayucos: CayucosScene,
+  minas: MinasScene, permisos: PermisosScene, deficit: DeficitScene, zaporiyia: ZaporiyiaScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -131,6 +132,14 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
       return { costume: 'business', arm: 'hold', item: 'briefcase', expression: after('disparan') && !after('mayor') ? 'stars' : after('readmite') && !after('jefe') ? 'shock' : 'happy' };
     case 'cayucos':
       return { costume: 'maritime', arm: 'down', expression: 'serious' };
+    case 'minas':
+      return { costume: 'navy', arm: 'down', expression: 'serious' };
+    case 'permisos':
+      return { costume: 'parent', arm: 'thumb', expression: after('veinte') && !after('progenitor') ? 'stars' : after('oposicion') ? 'happy' : 'happy', armLift: pop(f, wordAt(seg, 'veinte'), 6) * 0.5 };
+    case 'deficit':
+      return { costume: 'business', arm: 'hold', item: 'briefcase', expression: after('avisa') && !after('espana') ? 'shock' : 'happy' };
+    case 'zaporiyia':
+      return { costume: 'rescuer', arm: 'down', expression: 'serious' };
     case 'voyager': {
       const sT = wordAt(seg, 'sigueme');
       return { costume: 'astronaut', arm: 'thumb', expression: f >= sT ? 'wink' : after('ex') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };

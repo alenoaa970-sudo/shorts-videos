@@ -1,0 +1,11 @@
+{
+ "fecha": "2026-11-25",
+ "tipo": "diario",
+ "segments": [
+  {"key": "intro", "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!", "title": "", "costume": "anchor", "serious": false, "sfx": [["minuto", "ding", 0.35]]},
+  {"key": "minas", "text": "Tensión máxima en Ormuz. Irán dice que al menos dos petroleros han chocado con minas y se han incendiado. Su jefe del Ejército ordena endurecer el bloqueo día a día y amenaza a Estados Unidos con una respuesta aplastante. Catar intenta reabrir el diálogo.", "title": "PETROLEROS EN LLAMAS EN ORMUZ", "costume": "navy", "serious": true, "sfx": [["minas", "impact", 0.25], ["aplastante", "impact", 0.2]]},
+  {"key": "permisos", "text": "Último Consejo de Ministros antes del domingo: el permiso por nacimiento sube a veinte semanas por progenitor, el de duelo a diez días, y las ayudas al transporte se prorrogan todo dos mil veintisiete. La oposición lo llama ofensiva de última hora.", "title": "PERMISO DE 20 SEMANAS", "costume": "parent", "serious": false, "sfx": [["veinte", "ding", 0.3], ["transporte", "whoosh", 0.3], ["oposición", "vine-boom", 0.2]]},
+  {"key": "deficit", "text": "Bruselas avisa: España se expone a un expediente por déficit excesivo. El comisario Valdis Dombrovskis calcula que el gasto se desvía un cero coma nueve por ciento del PIB, unos cinco mil cien millones de euros. Se decidirá en primavera.", "title": "BRUSELAS AVISA A ESPAÑA", "costume": "business", "serious": false, "sfx": [["bruselas", "whoosh", 0.3], ["cinco", "ding", 0.3]]},
+  {"key": "zaporiyia", "text": "Y en Ucrania, un bombardeo ruso nocturno sobre Zaporiyia mata a dos personas y deja más de treinta heridos, entre ellos un bebé. Un edificio de nueve plantas quedó parcialmente destruido. ¡Sígueme para más!", "title": "BOMBARDEO EN ZAPORIYIA", "costume": "rescuer", "serious": true, "sfx": [["bombardeo", "impact", 0.2]]}
+ ]
+}
