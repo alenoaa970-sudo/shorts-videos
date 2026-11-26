@@ -1,0 +1,91 @@
+{
+ "fecha": "2026-11-26",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "aranceles",
+   "text": "Trump vuelve a la carga con los aranceles: prepara nuevas tasas contra China, la Unión Europea y otras doce economías. El Ibex se desploma un dos por ciento, hasta dieciocho mil seiscientos treinta y cinco puntos, arrastrado por la banca, y el Nasdaq llega a caer un cuatro.",
+   "title": "TRUMP VUELVE A LOS ARANCELES",
+   "costume": "business",
+   "serious": false,
+   "sfx": [
+    [
+     "aranceles",
+     "whoosh",
+     0.3
+    ],
+    [
+     "desploma",
+     "vine-boom",
+     0.25
+    ],
+    [
+     "Nasdaq",
+     "whip",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "cairo",
+   "text": "Tragedia en Egipto. Un camión cisterna pierde el control, choca contra una barrera y explota en una carretera de El Cairo. Mueren al menos treinta personas y hay más de veinte heridos. Las llamas calcinaron más de veinte vehículos.",
+   "title": "EXPLOSIÓN MORTAL EN EL CAIRO",
+   "costume": "firefighter",
+   "serious": true,
+   "sfx": [
+    [
+     "explota",
+     "impact",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "puigdemont",
+   "text": "Puigdemont pone fecha a su regreso: el doce de diciembre volará de Bruselas a Barcelona e irá directo al Parlament, tras más de nueve años fuera. Dice que vuelve sin pedir permiso ni perdón. El Supremo le aplicó la amnistía el lunes.",
+   "title": "PUIGDEMONT VUELVE EL 12-D",
+   "costume": "pilot",
+   "serious": false,
+   "sfx": [
+    [
+     "volará",
+     "whoosh",
+     0.3
+    ],
+    [
+     "Parlament",
+     "ding",
+     0.3
+    ]
+   ]
+  },
+  {
+   "key": "petroleros",
+   "text": "Y en Ormuz, la Guardia Revolucionaria iraní asegura que otros dos petroleros han chocado con minas y arden. No se ha podido verificar. El petróleo Brent supera los noventa y tres dólares. ¡Sígueme para más!",
+   "title": "MÁS PETROLEROS EN LLAMAS",
+   "costume": "navy",
+   "serious": true,
+   "sfx": [
+    [
+     "minas",
+     "impact",
+     0.2
+    ]
+   ]
+  }
+ ]
+}

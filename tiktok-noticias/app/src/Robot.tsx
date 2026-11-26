@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime' | 'parent';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime' | 'parent' | 'pilot';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -631,6 +631,37 @@ export const Robot: React.FC<RobotProps> = (p) => {
           </g>
         </g>
       )}
+      {costume === 'pilot' && (
+        <g clipPath="url(#rb-torsoClip)">
+          {/* camisa blanca de piloto */}
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#f4f6fb" stroke={OUT} strokeWidth={7} />
+          <path d="M300 760 Q 290 950 310 1200 M780 760 Q 790 950 770 1200" stroke="#d5dbe8" strokeWidth={8} fill="none" />
+          <path d="M540 700 L540 1200" stroke="#d5dbe8" strokeWidth={5} />
+          {[0, 1, 2, 3].map((i) => <circle key={i} cx={540} cy={900 + i * 80} r={8} fill="#ffffff" stroke={OUT} strokeWidth={3} />)}
+          {/* cuello y corbata */}
+          <path d="M455 694 L540 760 L625 694 L600 740 L540 790 L480 740 Z" fill="#ffffff" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M520 770 L560 770 L556 800 L572 990 L540 1030 L508 990 L524 800 Z" fill="#14234a" stroke={OUT} strokeWidth={5} strokeLinejoin="round" />
+          <path d="M524 800 L556 800" stroke="#f0c94a" strokeWidth={4} />
+          {/* hombreras con 4 galones */}
+          {[240, 710].map((x) => (
+            <g key={x}>
+              <rect x={x} y={700} width={130} height={46} rx={10} fill="#0a1022" stroke={OUT} strokeWidth={5} />
+              {[0, 1, 2, 3].map((i) => <path key={i} d={`M${x + 14} ${709 + i * 9} L${x + 116} ${709 + i * 9}`} stroke="#f0c94a" strokeWidth={5} />)}
+            </g>
+          ))}
+          {/* alas doradas en el pecho */}
+          <g transform="translate(690 860)">
+            <path d="M-80 0 Q -50 -26 -12 -6 L-12 6 Q -50 18 -80 0 Z M80 0 Q 50 -26 12 -6 L12 6 Q 50 18 80 0 Z" fill="#f0c94a" stroke={OUT} strokeWidth={4} />
+            <path d="M-70 -2 L-24 -4 M-66 6 L-24 4 M70 -2 L24 -4 M66 6 L24 4" stroke="#b8902a" strokeWidth={3} />
+            <circle r={14} fill="#f0c94a" stroke={OUT} strokeWidth={4} />
+          </g>
+          {/* bolsillo con bolígrafo y placa */}
+          <rect x={300} y={830} width={130} height={110} rx={10} fill="#e9edf5" stroke={OUT} strokeWidth={5} />
+          <rect x={340} y={800} width={12} height={60} rx={5} fill="#1e5bd8" stroke={OUT} strokeWidth={3} />
+          <rect x={300} y={960} width={150} height={40} rx={8} fill="#14234a" stroke={OUT} strokeWidth={4} />
+          <text x={375} y={988} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={26} fill="#f0c94a">NOTI</text>
+        </g>
+      )}
       {costume === 'rescuer' && (
         <g clipPath="url(#rb-torsoClip)">
           {/* mono de rescatista con chaleco reflectante */}
@@ -903,6 +934,22 @@ export const Robot: React.FC<RobotProps> = (p) => {
               <circle cx={0} cy={-17} r={5} />
               <path d="M0 -12 L0 18 M-11 -4 L11 -4 M-16 8 Q -14 22 0 22 Q 14 22 16 8" />
             </g>
+          </g>
+        </g>
+      )}
+      {costume === 'pilot' && (
+        <g>
+          {/* gorra de piloto negra con banda dorada y alas */}
+          <path d="M250 250 Q 260 120 540 112 Q 820 120 830 250 Q 540 210 250 250 Z" fill="#14182a" stroke={OUT} strokeWidth={9} />
+          <path d="M300 200 Q 420 150 540 146" fill="none" stroke="#2c3350" strokeWidth={12} strokeLinecap="round" />
+          <path d="M282 250 Q 540 214 798 250 L792 312 Q 540 274 288 312 Z" fill="#0a0d18" stroke={OUT} strokeWidth={7} />
+          <path d="M296 284 Q 540 248 784 284" fill="none" stroke="#f0c94a" strokeWidth={10} />
+          <path d="M300 310 Q 540 276 780 310 Q 760 380 540 366 Q 320 380 300 310 Z" fill="#0a0d18" stroke={OUT} strokeWidth={7} />
+          <path d="M360 340 Q 450 322 520 320" fill="none" stroke="#3a4060" strokeWidth={8} strokeLinecap="round" />
+          <g transform="translate(540 246)">
+            <path d="M-110 4 Q -60 -34 -16 -8 L-16 8 Q -60 22 -110 4 Z M110 4 Q 60 -34 16 -8 L16 8 Q 60 22 110 4 Z" fill="#f0c94a" stroke={OUT} strokeWidth={5} />
+            <circle r={26} fill="#f0c94a" stroke={OUT} strokeWidth={5} />
+            <path d="M-12 4 L0 -14 L12 4 L0 0 Z" fill="#14182a" />
           </g>
         </g>
       )}

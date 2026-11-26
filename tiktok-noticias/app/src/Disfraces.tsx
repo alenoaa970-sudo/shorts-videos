@@ -12,7 +12,7 @@ const LIST: [Costume, any][] = [
   ['judge', { arm: 'hold', item: 'gavel', expression: 'serious' }],
   ['deputy', { arm: 'down', expression: 'serious' }], ['conductor', { arm: 'thumb', expression: 'happy' }],
   ['officer', { arm: 'down', expression: 'serious' }], ['riot', { arm: 'thumb', expression: 'happy' }], ['navy', { arm: 'down', expression: 'serious' }],
-  ['rescuer', { arm: 'down', expression: 'serious' }], ['eco', { arm: 'thumb', expression: 'happy' }], ['maritime', { arm: 'down', expression: 'serious' }], ['parent', { arm: 'thumb', expression: 'happy' }],
+  ['rescuer', { arm: 'down', expression: 'serious' }], ['eco', { arm: 'thumb', expression: 'happy' }], ['maritime', { arm: 'down', expression: 'serious' }], ['parent', { arm: 'thumb', expression: 'happy' }], ['pilot', { arm: 'thumb', expression: 'happy' }],
 ];
 export const Disfraces: React.FC = () => {
   const t = useCurrentFrame();

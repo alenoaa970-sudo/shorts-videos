@@ -4440,3 +4440,415 @@ export const ZaporiyiaScene: React.FC<P> = ({ f, T, seg }) => {
     </svg>
   );
 };
+
+/* ===================== 25-11: TRUMP VUELVE A LOS ARANCELES Y CAE EL IBEX ===================== */
+const BankIcon: React.FC<{ x: number; y: number; s: number; name: string; crack: number; drop: string }> = ({ x, y, s, name, crack, drop }) => (
+  <g transform={`translate(${x} ${y + crack * 14}) scale(${s})`}>
+    <path d="M-70 -40 L0 -80 L70 -40 Z" fill="#dfe6f2" stroke={OUT} strokeWidth={5} strokeLinejoin="round" />
+    <rect x={-66} y={-40} width={132} height={14} fill="#c5cede" stroke={OUT} strokeWidth={4} />
+    {[-48, -16, 16, 48].map((cx) => <rect key={cx} x={cx - 8} y={-26} width={16} height={56} fill="#eef2f8" stroke={OUT} strokeWidth={3} />)}
+    <rect x={-74} y={30} width={148} height={16} fill="#c5cede" stroke={OUT} strokeWidth={4} />
+    {crack > 0 && <path d={`M-10 -78 L4 -50 L-8 -20 L10 10 L-4 44`} fill="none" stroke="#ff3b4e" strokeWidth={5} opacity={crack} />}
+    <text x={0} y={84} textAnchor="middle" fontFamily={HEAD} fontSize={30} fill="#ffffff">{name}</text>
+    <text x={0} y={118} textAnchor="middle" fontFamily={HEAD} fontSize={30} fill="#ff4d6a" opacity={crack}>{drop}</text>
+  </g>
+);
+export const ArancelesScene: React.FC<P> = ({ f, T, seg }) => {
+  const trT = wordAt(seg, 'trump'), arT = wordAt(seg, 'aranceles'), taT = wordAt(seg, 'tasas'), chT = wordAt(seg, 'china');
+  const unT = wordAt(seg, 'union'), doT = wordAt(seg, 'doce'), ibT = wordAt(seg, 'ibex'), deT = wordAt(seg, 'desploma');
+  const diT = wordAt(seg, 'dieciocho'), baT = wordAt(seg, 'banca'), naT = wordAt(seg, 'nasdaq'), cuT = wordAt(seg, 'cuatro');
+  const ph1 = lerp(f, [ibT - 8, ibT], [1, 0], null);
+  const ph2 = lerp(f, [ibT - 6, ibT + 2], [0, 1], null);
+  const pts = lerp(f, [deT, diT + 40], [19015.8, 18635.8]);
+  const chartP = lerp(f, [ibT, diT + 40], [0, 1]);
+  const stampHit = (s: number) => (f > s && f < s + 10 ? Math.sin((f - s) * 2) * 6 : 0);
+  // datos de la gráfica (cierres reales de la semana y caída del 25-11)
+  const series = [19186, 18873, 19181, 19016, 18636];
+  const cx0 = 150, cw = 520, cy0 = 610, chh = 190, mn = 18550, mx = 19250;
+  const pt = (i: number, v: number) => [cx0 + (i / (series.length - 1)) * cw, cy0 + chh - ((v - mn) / (mx - mn)) * chh];
+  const nShown = chartP * (series.length - 1);
+  let d = '';
+  for (let i = 0; i <= Math.floor(nShown); i++) { const [x, y] = pt(i, series[i]); d += `${i ? ' L' : 'M'}${x} ${y}`; }
+  const k = Math.floor(nShown), fr = nShown - k;
+  let tip = pt(k, series[k]);
+  if (k < series.length - 1) { const a = pt(k, series[k]), b = pt(k + 1, series[k + 1]); tip = [a[0] + (b[0] - a[0]) * fr, a[1] + (b[1] - a[1]) * fr]; d += ` L${tip[0]} ${tip[1]}`; }
+  const minis = ['SINGAPUR', 'SUIZA', 'INDONESIA', 'MALASIA', 'CAMBOYA', 'TAILANDIA', 'COREA', 'VIETNAM', 'TAIWÁN', 'BANGLADÉS', 'JAPÓN', 'INDIA'];
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="ar-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#14060a" /><stop offset="0.5" stopColor="#3a0f1c" /><stop offset="1" stopColor="#07030a" />
+        </linearGradient>
+        <linearGradient id="ar-area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ff3b4e" stopOpacity="0.45" /><stop offset="1" stopColor="#ff3b4e" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#ar-bg)" />
+      {/* cinta de cotizaciones */}
+      <g opacity={0.25}>
+        {Array.from({ length: 3 }).map((_, r) => (
+          <text key={r} x={-((T * (2 + r)) % 600)} y={500 + r * 230} fontFamily={HEAD} fontSize={36} fill={r === 1 ? '#ff4d6a' : '#ffffff'} letterSpacing={4}>
+            {'IBEX ▼ 2,00%   SAN ▼ 3,96%   CABK ▼ 4,19%   NDX ▼ 4%   NVDA ▼ 9%   BRENT ▲ 93$   '.repeat(4)}
+          </text>
+        ))}
+      </g>
+      {/* fase 1: el muro de aranceles */}
+      <g opacity={ph1}>
+        <g transform={`translate(540 560) scale(${pop(f, trT - 2, 11)})`}>
+          <rect x={-330} y={-62} width={660} height={124} rx={24} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <USFlag x={-306} y={-40} w={120} h={80} />
+          <text x={60} y={-4} textAnchor="middle" fontFamily={HEAD} fontSize={46} fill={OUT}>CASA BLANCA</text>
+          <text x={60} y={36} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={22} fill="#5a6488">OFICINA DE COMERCIO (USTR)</text>
+        </g>
+        {/* muro de ladrillos "ARANCELES" que sube */}
+        <g transform={`translate(540 ${700 + (1 - pop(f, arT - 2, 14)) * 80})`} opacity={pop(f, arT - 2, 14)}>
+          {Array.from({ length: 3 }).map((_, r) => Array.from({ length: 7 }).map((__, c) => (
+            <rect key={`${r}-${c}`} x={-420 + c * 120 + (r % 2) * 60 - 30} y={-40 + r * 34} width={112} height={30} rx={4} fill={r === 1 ? '#c4001f' : '#a3172b'} stroke={OUT} strokeWidth={3} />
+          )))}
+          <text x={0} y={36} textAnchor="middle" fontFamily={HEAD} fontSize={52} fill="#ffffff" stroke={OUT} strokeWidth={5} paintOrder="stroke" letterSpacing={8}>ARANCELES</text>
+        </g>
+        {/* destinatarios */}
+        <g transform={`translate(${250 + stampHit(chT)} 860) scale(${pop(f, chT - 2, 10)})`}>
+          <ChinaFlag x={-90} y={-58} w={180} h={116} />
+          <Stamp x={30} y={30} text="TASA" s={pop(f, chT + 4, 8)} color="#ffc400" size={36} rot={-12} />
+        </g>
+        <g transform={`translate(${540 + stampHit(unT)} 860) scale(${pop(f, unT - 2, 10)})`}>
+          <EUFlag x={-90} y={-58} w={180} h={116} spin={T * 0.01} />
+          <Stamp x={30} y={30} text="TASA" s={pop(f, unT + 4, 8)} color="#ffc400" size={36} rot={10} />
+        </g>
+        <g transform={`translate(830 860) scale(${pop(f, doT - 2, 10)})`}>
+          <rect x={-110} y={-70} width={220} height={140} rx={18} fill="#0b0f1c" stroke="#ffc400" strokeWidth={5} />
+          {minis.map((m, i) => (
+            <circle key={m} cx={-80 + (i % 6) * 32} cy={-40 + Math.floor(i / 6) * 30} r={11} fill={f >= doT + i * 2 ? '#ffc400' : '#3a4058'} />
+          ))}
+          <text x={0} y={46} textAnchor="middle" fontFamily={HEAD} fontSize={44} fill="#ffffff">+12</text>
+        </g>
+        <Pill x={540} y={950} text="CHINA, LA UE Y 12 ECONOMÍAS MÁS" s={pop(f, doT + 8, 10)} bg="#ffc400" color={OUT} size={30} />
+      </g>
+      {/* fase 2: el Ibex se desploma */}
+      <g opacity={ph2}>
+        <g>
+          <rect x={110} y={500} width={600} height={360} rx={26} fill="#0b0f1c" stroke="#ffffff" strokeOpacity={0.2} strokeWidth={4} opacity={pop(f, ibT - 4, 10)} />
+          <text x={140} y={555} fontFamily={HEAD} fontSize={44} fill="#ffffff" opacity={pop(f, ibT - 4, 10)}>IBEX 35</text>
+          <text x={680} y={555} textAnchor="end" fontFamily={HEAD} fontSize={44} fill="#ff4d6a" opacity={pop(f, deT, 9)}>▼ 2,00%</text>
+          {[0, 1, 2, 3].map((i) => <path key={i} d={`M${cx0} ${cy0 + i * (chh / 3)} H${cx0 + cw}`} stroke="#ffffff" strokeOpacity={0.08} strokeWidth={2} />)}
+          {d && <path d={`${d} L${tip[0]} ${cy0 + chh} L${cx0} ${cy0 + chh} Z`} fill="url(#ar-area)" />}
+          {d && <path d={d} fill="none" stroke="#ff3b4e" strokeWidth={8} strokeLinejoin="round" strokeLinecap="round" />}
+          {d && <circle cx={tip[0]} cy={tip[1]} r={12 + 3 * Math.sin(T * 0.4)} fill="#ff3b4e" stroke="#ffffff" strokeWidth={4} />}
+          {['19N', '20N', '23N', '24N', '25N'].map((l, i) => <text key={l} x={pt(i, mn)[0]} y={cy0 + chh + 34} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={20} fill="#8a93ad">{l}</text>)}
+        </g>
+        <g transform={`translate(410 920) scale(${pop(f, diT - 2, 10)})`}>
+          <rect x={-300} y={-44} width={600} height={88} rx={22} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={22} textAnchor="middle" fontFamily={HEAD} fontSize={64} fill="#c4001f">{fmtCount(pts)} PTS</text>
+        </g>
+        <BankIcon x={880} y={590} s={pop(f, baT - 4, 10) * 0.85} name="CAIXABANK" crack={lerp(f, [baT, baT + 8], [0, 1])} drop="▼ 4,19%" />
+        <BankIcon x={880} y={760} s={pop(f, baT, 10) * 0.85} name="SANTANDER" crack={lerp(f, [baT + 4, baT + 12], [0, 1])} drop="▼ 3,96%" />
+        <g transform={`translate(880 ${920 + Math.sin(T * 0.2) * 3}) scale(${pop(f, naT - 2, 9)}) rotate(-4)`}>
+          <rect x={-150} y={-40} width={300} height={80} rx={40} fill="#1e5bd8" stroke={OUT} strokeWidth={6} />
+          <USFlag x={-130} y={-22} w={60} h={44} />
+          <text x={34} y={16} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffffff">NASDAQ {f >= cuT ? '−4%' : ''}</text>
+        </g>
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 25-11: EXPLOSIÓN DE UN CAMIÓN CISTERNA EN EL CAIRO ===================== */
+export const EgyptFlag: React.FC<{ x: number; y: number; w: number; h: number }> = ({ x, y, w, h }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h / 3} fill="#ce1126" />
+    <rect x={x} y={y + h / 3} width={w} height={h / 3} fill="#ffffff" />
+    <rect x={x} y={y + (2 * h) / 3} width={w} height={h / 3} fill="#000000" />
+    <path d={`M${x + w / 2} ${y + h * 0.38} l${w * 0.05} ${h * 0.06} l${-w * 0.02} ${h * 0.1} h${-w * 0.06} l${-w * 0.02} ${-h * 0.1} Z`} fill="#c09300" />
+    <rect x={x} y={y} width={w} height={h} fill="none" stroke={OUT} strokeWidth={5} />
+  </g>
+);
+const CarBurnt: React.FC<{ x: number; y: number; s: number; T: number; burn: number; c: string; i: number }> = ({ x, y, s, T, burn, c, i }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <path d="M-60 0 L-50 -26 Q -40 -44 -14 -46 L22 -46 Q 44 -44 52 -26 L62 0 Z" fill={burn > 0.5 ? '#2a2a30' : c} stroke={OUT} strokeWidth={4} />
+    <rect x={-66} y={-4} width={132} height={22} rx={8} fill={burn > 0.5 ? '#1c1c22' : c} stroke={OUT} strokeWidth={4} />
+    <path d="M-36 -26 L-28 -40 L-2 -40 L-2 -26 Z M6 -26 L6 -40 L28 -40 L38 -26 Z" fill={burn > 0.5 ? '#ff8a1f' : '#7fd6ff'} opacity={0.8} />
+    <circle cx={-38} cy={20} r={12} fill={OUT} /><circle cx={38} cy={20} r={12} fill={OUT} />
+    {burn > 0 && <Flame x={0} y={-30} s={0.42 * burn} T={T + i * 9} />}
+  </g>
+);
+export const CairoScene: React.FC<P> = ({ f, T, seg }) => {
+  const egT = wordAt(seg, 'egipto'), caT = wordAt(seg, 'camion'), coT = wordAt(seg, 'control'), chT = wordAt(seg, 'choca');
+  const exT = wordAt(seg, 'explota'), kT = wordAt(seg, 'cairo'), muT = wordAt(seg, 'mueren'), trT = wordAt(seg, 'treinta');
+  const heT = wordAt(seg, 'heridos'), llT = wordAt(seg, 'llamas'), veT = wordAt(seg, 'vehiculos');
+  const truckX = lerp(f, [caT - 6, chT + 4], [-260, 610]);
+  const wobble = f > coT && f < chT + 4 ? Math.sin(f * 0.9) * 10 : 0;
+  const crash = f > chT + 4 && f < chT + 14 ? Math.sin(f * 4) * 8 : 0;
+  const boom = f > exT && f < exT + 30 ? (f - exT) / 30 : 0;
+  const fire = lerp(f, [exT, exT + 20], [0, 1]);
+  const spread = lerp(f, [llT - 6, veT + 10], [0, 1]);
+  const ph2 = lerp(f, [muT - 6, muT + 2], [0, 1], null);
+  const cars = [[150, '#e8ecf4'], [260, '#ffd23f'], [370, '#1e5bd8'], [820, '#ffffff'], [930, '#c4001f'], [1040, '#3fbf6a']] as const;
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="ca-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#0a0612" /><stop offset="0.5" stopColor="#2a1420" /><stop offset="1" stopColor="#060408" />
+        </linearGradient>
+        <radialGradient id="ca-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#ff9a2a" stopOpacity="0.7" /><stop offset="1" stopColor="#ff9a2a" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#ca-bg)" />
+      {/* skyline de El Cairo con minaretes y pirámides lejanas */}
+      <g opacity={0.55}>
+        <path d="M720 700 L820 600 L920 700 Z M860 700 L930 630 L1000 700 Z" fill="#3a2a2a" />
+        {[[60, 90, 150], [160, 70, 110], [240, 110, 170], [380, 80, 130], [470, 120, 190], [600, 90, 140]].map(([x, w, h], i) => (
+          <g key={i}>
+            <rect x={x} y={700 - h} width={w} height={h} fill="#1e1620" />
+            {Array.from({ length: 4 }).map((_, r) => <rect key={r} x={x + 14} y={700 - h + 20 + r * 34} width={w - 28} height={10} fill={rnd(i * 5 + r) > 0.5 ? '#ffc27a' : '#2a2030'} opacity={0.6} />)}
+          </g>
+        ))}
+        <rect x={340} y={480} width={14} height={220} fill="#1e1620" /><path d="M334 480 L347 450 L360 480 Z" fill="#1e1620" />
+        <path d="M290 560 Q 330 500 370 560 Z" fill="#1e1620" />
+      </g>
+      {/* paso elevado / carretera de circunvalación */}
+      <rect x={0} y={700} width={1080} height={26} fill="#4a4a56" stroke={OUT} strokeWidth={4} />
+      {[80, 360, 640, 920].map((x) => <rect key={x} x={x} y={726} width={40} height={60} fill="#3a3a46" stroke={OUT} strokeWidth={3} />)}
+      <path d="M0 786 L1080 786 L1080 900 L0 900 Z" fill="#26262e" stroke={OUT} strokeWidth={4} />
+      {Array.from({ length: 12 }).map((_, i) => <rect key={i} x={((i * 110 - T * 4) % 1320 + 1320) % 1320 - 120} y={840} width={60} height={8} fill="#ffd23f" opacity={f < chT ? 0.7 : 0.25} />)}
+      {/* barrera de hormigón */}
+      <path d="M640 790 L760 790 L770 880 L630 880 Z" fill="#b8b8c0" stroke={OUT} strokeWidth={5} />
+      <path d="M650 820 L760 820" stroke="#ffd23f" strokeWidth={8} strokeDasharray="20 14" />
+      {/* coches que acaban calcinados */}
+      {cars.map(([x, c], i) => (
+        <CarBurnt key={i} x={x - (x > 600 ? 0 : 0)} y={870} s={0.9 * pop(f, egT + i * 2, 10)} T={T} burn={i < 3 ? spread * (i === 2 ? 1 : 0.9) : fire * (i === 3 ? 1 : spread)} c={c} i={i} />
+      ))}
+      {/* camión cisterna */}
+      {f < exT + 10 && (
+        <g transform={`translate(${Math.min(truckX, 560) + crash} ${850 + wobble * 0.3}) rotate(${wobble * 0.4})`} opacity={1 - lerp(f, [exT, exT + 10], [0, 1])}>
+          <rect x={-200} y={-74} width={240} height={80} rx={38} fill="#e8ecf4" stroke={OUT} strokeWidth={5} />
+          <path d="M-190 -34 H30" stroke="#ff8a1f" strokeWidth={10} />
+          <path d="M40 -74 L100 -74 L124 -30 L124 6 L40 6 Z" fill="#ff3b4e" stroke={OUT} strokeWidth={5} />
+          <path d="M60 -64 L94 -64 L110 -36 L60 -36 Z" fill="#7fd6ff" stroke={OUT} strokeWidth={3} />
+          {[-160, -60, 90].map((cx) => <circle key={cx} cx={cx} cy={14} r={20} fill={OUT} />)}
+        </g>
+      )}
+      {/* explosión e incendio */}
+      {fire > 0 && <circle cx={640} cy={800} r={300} fill="url(#ca-glow)" opacity={0.7 + 0.2 * Math.sin(T * 0.4)} />}
+      {fire > 0 && [560, 640, 720].map((x, i) => <Flame key={x} x={x} y={880} s={(0.9 + i * 0.1) * fire} T={T + i * 6} />)}
+      {fire > 0 && [0, 1, 2, 3, 4, 5].map((i) => {
+        const g = (T * 0.8 + i * 18) % 110;
+        return <circle key={i} cx={640 + Math.sin(g * 0.05 + i) * 80} cy={720 - g * 2.2} r={30 + g * 0.7} fill="#3a3640" opacity={0.55 * (1 - g / 110)} />;
+      })}
+      {boom > 0 && <circle cx={640} cy={830} r={60 + boom * 520} fill="none" stroke="#ffd23f" strokeWidth={30 * (1 - boom)} opacity={1 - boom} />}
+      {boom > 0 && <rect width={1080} height={1920} fill="#ffb060" opacity={(1 - boom) * 0.5} />}
+      {/* rótulos */}
+      <g transform={`translate(220 520) scale(${pop(f, egT - 2, 10)})`}>
+        <EgyptFlag x={-110} y={-40} w={120} h={80} />
+        <text x={30} y={14} fontFamily={HEAD} fontSize={40} fill="#ffffff">EGIPTO</text>
+      </g>
+      <Pill x={800} y={520} text="EL CAIRO" s={pop(f, kT - 2, 10)} bg="#ffffff" color={OUT} size={38} />
+      <Pill x={540} y={620} text="CAMIÓN CISTERNA" s={pop(f, caT, 10) * (1 - ph2)} bg="#ff8a1f" color={OUT} size={34} />
+      <g opacity={ph2}>
+        <Card x={190} y={630} w={320} h={170} s={pop(f, trT - 2, 10)} bg="#ffffff">
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={84} fill="#c4001f">30+</text>
+          <text x={0} y={60} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={24} fill="#5a6488">MUERTOS</text>
+        </Card>
+        <Card x={540} y={630} w={320} h={170} s={pop(f, heT - 2, 10)} bg="#ffffff">
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={84} fill={OUT}>20+</text>
+          <text x={0} y={60} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={24} fill="#5a6488">HERIDOS</text>
+        </Card>
+        <Card x={890} y={630} w={320} h={170} s={pop(f, veT - 2, 10)} bg="#ffffff">
+          <text x={0} y={18} textAnchor="middle" fontFamily={HEAD} fontSize={84} fill="#ff8a1f">20+</text>
+          <text x={0} y={60} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={22} fill="#5a6488">VEHÍCULOS QUEMADOS</text>
+        </Card>
+      </g>
+    </svg>
+  );
+};
+
+/* ===================== 25-11: PUIGDEMONT ANUNCIA SU REGRESO EL 12 DE DICIEMBRE ===================== */
+const Plane: React.FC<{ x: number; y: number; a: number; s: number }> = ({ x, y, a, s }) => (
+  <g transform={`translate(${x} ${y}) rotate(${a}) scale(${s})`}>
+    <path d="M-60 0 Q -60 -12 -40 -12 L50 -10 Q 70 -6 70 0 Q 70 6 50 10 L-40 12 Q -60 12 -60 0 Z" fill="#ffffff" stroke={OUT} strokeWidth={4} />
+    <path d="M-6 -10 L-30 -54 L-12 -54 L22 -10 Z M-6 10 L-30 54 L-12 54 L22 10 Z" fill="#dfe6f2" stroke={OUT} strokeWidth={4} strokeLinejoin="round" />
+    <path d="M-50 -10 L-62 -32 L-50 -32 L-36 -10 Z" fill="#ff3b4e" stroke={OUT} strokeWidth={3} />
+    {[0, 1, 2, 3].map((i) => <circle key={i} cx={-20 + i * 16} cy={-3} r={3} fill="#1e5bd8" />)}
+  </g>
+);
+export const PuigdemontScene: React.FC<P> = ({ f, T, seg }) => {
+  const puT = wordAt(seg, 'puigdemont'), feT = wordAt(seg, 'fecha'), doT = wordAt(seg, 'doce'), diT = wordAt(seg, 'diciembre');
+  const voT = wordAt(seg, 'volara'), brT = wordAt(seg, 'bruselas'), baT = wordAt(seg, 'barcelona'), paT = wordAt(seg, 'parlament');
+  const nuT = wordAt(seg, 'nueve'), peT = wordAt(seg, 'permiso'), suT = wordAt(seg, 'supremo'), amT = wordAt(seg, 'amnistia');
+  const ph1 = lerp(f, [peT - 8, peT], [1, 0], null);
+  const ph2 = lerp(f, [peT - 6, peT + 2], [0, 1], null);
+  // ruta Bruselas (arriba derecha) -> Barcelona (abajo izquierda)
+  const B = [800, 575], C = [300, 840], Q = [760, 800];
+  const fp = lerp(f, [voT - 4, paT + 4], [0, 1]);
+  const bez = (t: number) => [(1 - t) ** 2 * B[0] + 2 * (1 - t) * t * Q[0] + t * t * C[0], (1 - t) ** 2 * B[1] + 2 * (1 - t) * t * Q[1] + t * t * C[1]];
+  const [px, py] = bez(fp);
+  const [nx, ny] = bez(Math.min(1, fp + 0.02));
+  const ang = (Math.atan2(ny - py, nx - px) * 180) / Math.PI;
+  const trail = Array.from({ length: 30 }).map((_, i) => bez((fp * i) / 29));
+  const years = Math.round(lerp(f, [nuT - 2, nuT + 18], [0, 9]));
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="pg-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#061a3a" /><stop offset="0.55" stopColor="#1d4f8a" /><stop offset="1" stopColor="#030c1e" />
+        </linearGradient>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#pg-bg)" />
+      {/* nubes */}
+      {[0, 1, 2, 3].map((i) => {
+        const x = ((i * 330 - T * (0.8 + i * 0.2)) % 1400 + 1400) % 1400 - 200;
+        return <g key={i} opacity={0.18} transform={`translate(${x} ${560 + i * 110})`}><ellipse rx={110} ry={30} fill="#ffffff" /><ellipse cx={50} cy={-20} rx={60} ry={30} fill="#ffffff" /></g>;
+      })}
+      {/* fase 1: el viaje */}
+      <g opacity={ph1}>
+        {/* mapa simplificado: costa y Pirineos */}
+        <path d="M120 960 Q 200 880 260 870 Q 330 860 380 820 Q 420 780 470 770 Q 540 760 600 700 Q 650 640 700 600 L1080 470 L1080 960 Z" fill="#1d3a2c" opacity={0.45 * pop(f, 0, 14)} stroke="#3dffa0" strokeOpacity={0.35} strokeWidth={3} />
+        <path d="M330 790 L360 760 L390 790 L420 750 L450 790" fill="none" stroke="#e8ecf4" strokeOpacity={0.4} strokeWidth={5} />
+        <path d={trail.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ')} fill="none" stroke="#ffd23f" strokeWidth={6} strokeDasharray="14 12" opacity={fp > 0 ? 1 : 0} />
+        <g transform={`translate(${B[0]} ${B[1]}) scale(${pop(f, brT - 4, 10)})`}>
+          <circle r={18 + 4 * Math.sin(T * 0.3)} fill="#ffd23f" stroke={OUT} strokeWidth={4} />
+          <rect x={30} y={-26} width={210} height={52} rx={26} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+          <text x={135} y={12} textAnchor="middle" fontFamily={HEAD} fontSize={34} fill={OUT}>BRUSELAS</text>
+        </g>
+        <g transform={`translate(${C[0]} ${C[1]}) scale(${pop(f, baT - 2, 10)})`}>
+          <circle r={18 + 4 * Math.sin(T * 0.3 + 1)} fill="#ff3b4e" stroke={OUT} strokeWidth={4} />
+          <rect x={-120} y={30} width={240} height={52} rx={26} fill="#ffffff" stroke={OUT} strokeWidth={4} />
+          <text x={0} y={68} textAnchor="middle" fontFamily={HEAD} fontSize={34} fill={OUT}>BARCELONA</text>
+        </g>
+        {fp > 0 && <Plane x={px} y={py - 10} a={ang} s={1.1 * (1 - lerp(f, [paT + 4, paT + 14], [0, 1]))} />}
+        {/* calendario 12 de diciembre */}
+        <g transform={`translate(250 600) scale(${pop(f, doT - 2, 10)}) rotate(-5)`}>
+          <rect x={-120} y={-100} width={240} height={200} rx={22} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+          <rect x={-120} y={-100} width={240} height={56} rx={22} fill="#ff3b4e" stroke={OUT} strokeWidth={6} />
+          <text x={0} y={-60} textAnchor="middle" fontFamily={HEAD} fontSize={34} fill="#ffffff" opacity={f >= diT - 2 ? 1 : 0}>DICIEMBRE</text>
+          <text x={0} y={70} textAnchor="middle" fontFamily={HEAD} fontSize={110} fill={OUT}>12</text>
+          {[-90, 90].map((x) => <rect key={x} x={x - 8} y={-118} width={16} height={36} rx={6} fill="#5a6488" stroke={OUT} strokeWidth={3} />)}
+        </g>
+        {/* Parlament */}
+        <g transform={`translate(570 860) scale(${pop(f, paT - 2, 10)})`}>
+          <path d="M-120 -50 L0 -96 L120 -50 Z" fill="#e9c46a" stroke={OUT} strokeWidth={5} strokeLinejoin="round" />
+          <rect x={-120} y={-50} width={240} height={90} fill="#f4e4b8" stroke={OUT} strokeWidth={5} />
+          {[-90, -54, -18, 18, 54, 90].map((cx) => <rect key={cx} x={cx - 8} y={-40} width={16} height={70} fill="#ffffff" stroke={OUT} strokeWidth={3} />)}
+          <rect x={-20} y={-150} width={4} height={56} fill={OUT} />
+          <g transform={`translate(-16 -150) skewY(${Math.sin(T * 0.2) * 6})`}>
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => <rect key={i} x={0} y={i * 4} width={56} height={4} fill={i % 2 ? '#d52b1e' : '#fcdd09'} />)}
+          </g>
+          <text x={0} y={78} textAnchor="middle" fontFamily={HEAD} fontSize={36} fill="#ffffff" stroke={OUT} strokeWidth={4} paintOrder="stroke">PARLAMENT</text>
+        </g>
+        <g transform={`translate(870 870) scale(${pop(f, nuT - 2, 10)})`}>
+          <rect x={-150} y={-56} width={300} height={112} rx={22} fill="#0b0f1c" stroke="#ffd23f" strokeWidth={5} />
+          <text x={0} y={-4} textAnchor="middle" fontFamily={HEAD} fontSize={56} fill="#ffd23f">+{years} AÑOS</text>
+          <text x={0} y={36} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={22} fill="#cfe0ff">FUERA DE ESPAÑA</text>
+        </g>
+      </g>
+      {/* fase 2: frase y amnistía */}
+      <g opacity={ph2}>
+        <g transform={`translate(540 640) scale(${pop(f, peT - 4, 11)})`}>
+          <path d="M-420 -110 H420 Q 450 -110 450 -80 V70 Q 450 100 420 100 H-120 L-170 150 L-166 100 H-420 Q -450 100 -450 70 V-80 Q -450 -110 -420 -110 Z" fill="#ffffff" stroke={OUT} strokeWidth={7} />
+          <text x={0} y={-30} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={28} fill="#5a6488">PUIGDEMONT:</text>
+          <text x={0} y={40} textAnchor="middle" fontFamily={HEAD} fontSize={56} fill={OUT}>«SIN PEDIR PERMISO NI PERDÓN»</text>
+        </g>
+        <g transform={`translate(540 880) scale(${pop(f, suT - 2, 10)})`}>
+          <rect x={-380} y={-60} width={760} height={120} rx={24} fill="#0b0f1c" stroke="#e9c46a" strokeWidth={5} />
+          <g transform="translate(-310 0)">
+            <path d="M-40 -30 L0 -50 L40 -30 Z" fill="#e9c46a" stroke={OUT} strokeWidth={3} />
+            {[-28, -10, 8, 26].map((cx) => <rect key={cx} x={cx - 4} y={-28} width={8} height={48} fill="#e9c46a" />)}
+            <rect x={-44} y={20} width={88} height={10} fill="#e9c46a" />
+          </g>
+          <text x={40} y={-8} textAnchor="middle" fontFamily={HEAD} fontSize={40} fill="#ffffff">EL SUPREMO</text>
+          <text x={40} y={34} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={26} fill="#e9c46a" opacity={pop(f, amT - 2, 10)}>LE APLICÓ LA AMNISTÍA EL LUNES</text>
+        </g>
+      </g>
+      <Pill x={540} y={500} text="PONE FECHA A SU REGRESO" s={pop(f, feT - 2, 10) * ph1} bg="#ffffff" color={OUT} size={30} />
+    </svg>
+  );
+};
+
+/* ===================== 25-11: MÁS PETROLEROS EN LLAMAS EN ORMUZ ===================== */
+export const PetrolerosScene: React.FC<P> = ({ f, T, seg }) => {
+  const orT = wordAt(seg, 'ormuz'), guT = wordAt(seg, 'guardia'), doT = wordAt(seg, 'dos'), peT = wordAt(seg, 'petroleros');
+  const miT = wordAt(seg, 'minas'), arT = wordAt(seg, 'arden'), veT = wordAt(seg, 'verificar'), brT = wordAt(seg, 'brent');
+  const noT = wordAt(seg, 'noventa'), sgT = wordAt(seg, 'sigueme');
+  const burn = lerp(f, [miT, arT + 8], [0, 1]);
+  const lens = lerp(f, [brT - 8, brT], [1, 0.0], null);
+  const price = lerp(f, [noT - 4, noT + 22], [90, 93.1]);
+  const boom = (s: number) => (f > s && f < s + 24 ? (f - s) / 24 : 0);
+  const sweep = (T * 1.5) % 360;
+  return (
+    <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute' }}>
+      <defs>
+        <linearGradient id="pt-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#1a0a10" /><stop offset="0.35" stopColor="#5a2a1a" /><stop offset="0.5" stopColor="#0a1a2c" /><stop offset="1" stopColor="#02060c" />
+        </linearGradient>
+        <radialGradient id="pt-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#ff8a1f" stopOpacity="0.6" /><stop offset="1" stopColor="#ff8a1f" stopOpacity="0" />
+        </radialGradient>
+        <clipPath id="pt-lens"><circle cx={540} cy={715} r={250} /></clipPath>
+      </defs>
+      <rect width={1080} height={1920} fill="url(#pt-bg)" />
+      {/* vista por prismáticos: atardecer en el estrecho */}
+      <g opacity={lens}>
+        <g clipPath="url(#pt-lens)">
+          <rect x={290} y={465} width={500} height={250} fill="#c4552a" />
+          <circle cx={680} cy={690} r={60} fill="#ffcf6a" opacity={0.85} />
+          <rect x={290} y={700} width={500} height={270} fill="#0d2238" />
+          <path d="M290 700 Q 420 680 520 700 Q 600 690 790 704 L790 690 L290 690 Z" fill="#3a2a1a" />
+          {Array.from({ length: 7 }).map((_, i) => {
+            const y = 730 + i * 30;
+            let d = `M280 ${y}`;
+            for (let x = 280; x <= 800; x += 30) d += ` L${x} ${y + Math.sin(x * 0.02 + T * 0.08 + i) * 4}`;
+            return <path key={i} d={d} fill="none" stroke="#ffcf6a" strokeOpacity={0.12} strokeWidth={3} />;
+          })}
+          {[0, 1].map((i) => {
+            const x = i ? 640 : 430, y = i ? 790 : 740, b = boom(miT + i * 6);
+            return (
+              <g key={i}>
+                {burn > 0 && <circle cx={x} cy={y - 30} r={150} fill="url(#pt-glow)" opacity={burn} />}
+                <Tanker x={x + (b > 0 ? Math.sin(f * 4) * 5 : 0)} y={y} s={(i ? 0.75 : 0.6) * pop(f, peT - 4 + i * 4, 12)} burn={burn} T={T + i * 13} flip={i === 1} />
+                {b > 0 && <circle cx={x} cy={y} r={30 + b * 170} fill="none" stroke="#ffd23f" strokeWidth={12 * (1 - b)} opacity={1 - b} />}
+              </g>
+            );
+          })}
+          {[[340, 860], [520, 900], [720, 880]].map(([x, y], i) => <Mine key={i} x={x} y={y} s={0.7 * pop(f, miT - 6 + i * 2, 10)} T={T} />)}
+          {/* barrido de radar */}
+          <path d={`M540 715 L${540 + Math.cos((sweep * Math.PI) / 180) * 260} ${715 + Math.sin((sweep * Math.PI) / 180) * 260}`} stroke="#3dffa0" strokeOpacity={0.25} strokeWidth={4} />
+        </g>
+        <circle cx={540} cy={715} r={250} fill="none" stroke="#0b0f1c" strokeWidth={22} />
+        <circle cx={540} cy={715} r={262} fill="none" stroke="#3a4058" strokeWidth={6} />
+        <path d="M540 480 V520 M540 910 V950 M305 715 H345 M735 715 H775" stroke="#3dffa0" strokeOpacity={0.6} strokeWidth={4} />
+        <Pill x={540} y={500} text="ESTRECHO DE ORMUZ" s={pop(f, orT - 2, 10)} bg="#ffffff" color={OUT} size={32} />
+        {/* comunicado de la Guardia Revolucionaria */}
+        <g transform={`translate(175 640) scale(${pop(f, guT - 2, 10)})`}>
+          <rect x={-150} y={-90} width={300} height={180} rx={20} fill="#0b1220" stroke="#3dffa0" strokeWidth={4} />
+          <IranFlag x={-60} y={-74} w={120} h={74} />
+          <text x={0} y={34} textAnchor="middle" fontFamily={HEAD} fontSize={30} fill="#ffffff">GUARDIA</text>
+          <text x={0} y={68} textAnchor="middle" fontFamily={HEAD} fontSize={26} fill="#3dffa0">REVOLUCIONARIA</text>
+        </g>
+        <g transform={`translate(905 640) scale(${pop(f, doT - 2, 10)})`}>
+          <rect x={-140} y={-90} width={280} height={180} rx={20} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+          <text x={0} y={20} textAnchor="middle" fontFamily={HEAD} fontSize={96} fill="#c4001f">2</text>
+          <text x={0} y={64} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={24} fill="#5a6488">PETROLEROS MÁS</text>
+        </g>
+        <Pill x={540} y={950} text="ARDEN TRAS CHOCAR CON MINAS" s={pop(f, arT - 2, 10)} bg="#ff8a1f" color={OUT} size={32} />
+        <Stamp x={540} y={715} text="SIN VERIFICAR" s={pop(f, veT - 2, 9)} color="#ffc400" size={54} rot={-10} />
+      </g>
+      {/* fase 2: el Brent sube */}
+      <g opacity={1 - lens}>
+        <g transform={`translate(330 730) scale(${pop(f, brT - 4, 11)})`}>
+          <Barrel x={0} y={0} s={2.2} />
+        </g>
+        <g transform={`translate(720 640) scale(${pop(f, brT - 2, 10)})`}>
+          <rect x={-250} y={-110} width={500} height={220} rx={26} fill="#0b0f1c" stroke="#3fbf6a" strokeWidth={6} />
+          <text x={0} y={-50} textAnchor="middle" fontFamily={BODY} fontWeight={900} fontSize={30} fill="#cfe0ff">PETRÓLEO BRENT</text>
+          <text x={0} y={60} textAnchor="middle" fontFamily={HEAD} fontSize={110} fill="#3fbf6a">{price.toFixed(1).replace('.', ',')} $</text>
+        </g>
+        <g transform={`translate(720 830) scale(${pop(f, noT + 10, 10)})`}>
+          <path d="M-60 30 L0 -40 L60 30 Z" fill="#3fbf6a" stroke={OUT} strokeWidth={5} />
+          <text x={100} y={22} fontFamily={HEAD} fontSize={44} fill="#ffffff">+2%</text>
+        </g>
+        <Pill x={540} y={950} text="SÍGUEME PARA MÁS" s={pop(f, sgT, 9)} bg="#ff2d55" size={40} />
+      </g>
+    </svg>
+  );
+};
