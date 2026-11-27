@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene, MinasScene, PermisosScene, DeficitScene, ZaporiyiaScene, ArancelesScene, CairoScene, PuigdemontScene, PetrolerosScene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene, MinasScene, PermisosScene, DeficitScene, ZaporiyiaScene, ArancelesScene, CairoScene, PuigdemontScene, PetrolerosScene, CosBceScene, MedEmreScene, UmeHierroScene, DebateCuatroScene, CumbreUeScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -24,6 +24,7 @@ const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   amnistia: AmnistiaScene, debateocho: DebateOchoScene, huang: HuangScene, cayucos: CayucosScene,
   minas: MinasScene, permisos: PermisosScene, deficit: DeficitScene, zaporiyia: ZaporiyiaScene,
   aranceles: ArancelesScene, cairo: CairoScene, puigdemont: PuigdemontScene, petroleros: PetrolerosScene,
+  cosbce: CosBceScene, medemre: MedEmreScene, umehierro: UmeHierroScene, debatecuatro: DebateCuatroScene, cumbreue: CumbreUeScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -147,6 +148,21 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
       return { costume: 'firefighter', arm: 'down', expression: 'serious' };
     case 'puigdemont':
       return { costume: 'pilot', arm: 'thumb', expression: 'happy', armLift: pop(f, wordAt(seg, 'volara'), 6) * 0.5 };
+    case 'cosbce':
+      return { costume: 'business', arm: 'hold', item: 'briefcase', expression: after('primer') ? 'stars' : 'happy' };
+    case 'medemre':
+      return { costume: 'maritime', arm: 'down', expression: 'serious' };
+    case 'umehierro':
+      return { costume: 'ume', arm: 'down', expression: 'serious' };
+    case 'debatecuatro': {
+      const punch = (s: number) => Math.max(0, Math.sin(Math.min(Math.PI, Math.max(0, (f - s) / 6) * Math.PI)));
+      const lift = Math.max(punch(wordAt(seg, 'cuatro')), punch(wordAt(seg, 'chocan')));
+      return { costume: 'boxing', arm: 'punch', expression: after('chocan') && !after('vivienda') ? 'shock' : 'happy', armLift: lift };
+    }
+    case 'cumbreue': {
+      const sT = wordAt(seg, 'sigueme');
+      return { costume: 'diplomat', arm: f >= sT ? 'thumb' : 'down', expression: f >= sT ? 'wink' : after('dividida') && !after('hungria') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
+    }
     case 'petroleros':
       return { costume: 'navy', arm: 'down', expression: 'serious' };
     case 'voyager': {

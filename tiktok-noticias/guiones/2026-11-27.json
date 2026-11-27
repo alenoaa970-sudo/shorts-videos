@@ -1,0 +1,12 @@
+{
+ "fecha": "2026-11-27",
+ "tipo": "diario",
+ "segments": [
+  {"key": "intro", "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!", "title": "", "costume": "anchor", "serious": false, "sfx": [["minuto", "ding", 0.35]]},
+  {"key": "cosbce", "text": "Un español al frente del euro. Los líderes de la eurozona eligen a Pablo Hernández de Cos, exgobernador del Banco de España, para presidir el Banco Central Europeo. Sustituirá a Lagarde en febrero y será el primer español en el cargo.", "title": "UN ESPAÑOL PRESIDIRÁ EL BCE", "costume": "business", "serious": false, "sfx": [["euro", "ding", 0.3], ["primer", "anime-wow", 0.3]]},
+  {"key": "medemre", "text": "Naufragio frente a Ibiza. El petrolero Med Emre, con bandera de Malta y siete mil toneladas de gasoil, vuelca a unas veinticinco millas de la isla. Iban diecisiete tripulantes: uno ha muerto. Se vigila si hay vertido.", "title": "VUELCA UN PETROLERO EN IBIZA", "costume": "maritime", "serious": true, "sfx": [["vuelca", "impact", 0.2]]},
+  {"key": "umehierro", "text": "El Hierro, desbordada por la llegada récord de migrantes. La UME despliega ciento veinte militares y dos puestos sanitarios avanzados para atender a quienes llegan en cayuco.", "title": "LA UME LLEGA A EL HIERRO", "costume": "vest", "serious": true, "sfx": []},
+  {"key": "debatecuatro", "text": "Debate a cuatro a tres días del veintinueve ene: Sánchez, Feijóo, Abascal y Colau chocan por la vivienda, la economía y la inmigración.", "title": "DEBATE A CUATRO ANTES DEL 29N", "costume": "boxing", "serious": false, "sfx": [["cuatro", "vine-boom", 0.3]]},
+  {"key": "cumbreue", "text": "Y en Bruselas, la Unión Europea, dividida: Hungría, Eslovaquia y Chequia se resisten al préstamo de cuarenta y cinco mil millones para Ucrania. ¡Sígueme para más!", "title": "LA UE, DIVIDIDA POR UCRANIA", "costume": "diplomat", "serious": false, "sfx": [["dividida", "whip", 0.25], ["sigueme", "vine-boom", 0.3]]}
+ ]
+}

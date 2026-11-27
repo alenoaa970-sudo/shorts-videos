@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime' | 'parent' | 'pilot';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime' | 'parent' | 'pilot' | 'ume';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -761,8 +761,44 @@ export const Robot: React.FC<RobotProps> = (p) => {
           </g>
         </g>
       )}
+      {costume === 'ume' && (
+        <g clipPath="url(#rb-torsoClip)">
+          {/* uniforme de la UME: camuflaje boscoso, chaleco sanitario y emblema */}
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#5d6b3c" stroke={OUT} strokeWidth={7} />
+          {[[260,760,70,40],[380,820,90,46],[620,760,80,44],[760,860,70,50],[300,980,100,50],[700,1040,90,44],[460,1100,80,40],[560,960,70,36],[250,1120,60,40],[800,1150,70,40]].map(([x,y,rx,ry],i)=>(
+            <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} transform={`rotate(${(i*37)%60-30} ${x} ${y})`} fill={['#3b4426','#8a7a4a','#2c3320','#7a8a50'][i%4]} opacity={0.9} />
+          ))}
+          {/* chaleco sanitario amarillo con bandas */}
+          <path d="M236 720 L462 690 L500 1200 L224 1200 Z" fill="#ffd21f" stroke={OUT} strokeWidth={7} />
+          <path d="M844 720 L618 690 L580 1200 L856 1200 Z" fill="#ffd21f" stroke={OUT} strokeWidth={7} />
+          <path d="M232 990 L496 990 M848 990 L584 990" stroke="#e8eef6" strokeWidth={22} />
+          <path d="M232 990 L496 990 M848 990 L584 990" stroke="#9aa6bd" strokeWidth={4} opacity={0.7} />
+          {/* cuello de la camisola */}
+          <path d="M455 694 L540 790 L625 694 L600 760 L540 820 L480 760 Z" fill="#4a5630" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          {/* parche SANITARIO */}
+          <rect x={280} y={1060} width={200} height={50} rx={10} fill="#1d6b3a" stroke={OUT} strokeWidth={5} />
+          <text x={380} y={1096} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={30} fill="#ffffff">SANITARIO</text>
+          {/* emblema UME: escudo rojo y amarillo */}
+          <g transform="translate(375 830)">
+            <path d="M-56 -50 L56 -50 L56 10 Q 56 52 0 70 Q -56 52 -56 10 Z" fill="#c4001f" stroke={OUT} strokeWidth={6} />
+            <path d="M-56 -10 L56 -10 L56 10 L-56 10 Z" fill="#ffd21f" />
+            <text x={0} y={18} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={40} fill="#14151c">UME</text>
+          </g>
+          {/* cruz sanitaria */}
+          <g transform="translate(705 830)">
+            <circle r={48} fill="#ffffff" stroke={OUT} strokeWidth={6} />
+            <path d="M-12 -32 H12 V-12 H32 V12 H12 V32 H-12 V12 H-32 V-12 H-12 Z" fill="#e3122b" />
+          </g>
+          {/* bandera de España en el hombro */}
+          <g transform="translate(700 1060)">
+            <rect x={-50} y={-22} width={100} height={44} rx={4} fill="#c60b1e" stroke={OUT} strokeWidth={4} />
+            <rect x={-50} y={-11} width={100} height={22} fill="#ffc400" />
+          </g>
+          <path d="M540 820 L540 1200" stroke={OUT} strokeWidth={5} opacity={0.5} />
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && costume !== 'maritime' && costume !== 'parent' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && costume !== 'maritime' && costume !== 'parent' && costume !== 'ume' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -1013,6 +1049,22 @@ export const Robot: React.FC<RobotProps> = (p) => {
           <path d="M260 362 Q 540 306 820 362" stroke="#e9c8ae" strokeWidth={6} strokeDasharray="10 10" fill="none" />
           <circle cx={540} cy={100} r={44} fill="#ffe8d6" stroke={OUT} strokeWidth={7} />
           <path d="M520 80 Q 540 70 556 84" stroke="#ffffff" strokeWidth={8} strokeLinecap="round" fill="none" />
+        </g>
+      )}
+      {costume === 'ume' && (
+        <g>
+          {/* gorra militar de faena con emblema de la UME */}
+          <path d="M270 300 Q 276 120 540 112 Q 804 120 810 300 Q 540 262 270 300 Z" fill="#5d6b3c" stroke={OUT} strokeWidth={9} />
+          {[[380,200,60,26],[520,160,70,24],[680,210,60,28],[450,270,50,18],[640,280,56,18]].map(([x,y,rx,ry],i)=>(
+            <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} fill={['#3b4426','#8a7a4a','#2c3320'][i%3]} opacity={0.9} />
+          ))}
+          <path d="M270 300 Q 540 262 810 300 L806 330 Q 540 292 274 330 Z" fill="#4a5630" stroke={OUT} strokeWidth={6} />
+          <path d="M300 320 Q 540 280 780 320 Q 820 360 760 372 Q 540 330 320 372 Q 260 360 300 320 Z" fill="#3b4426" stroke={OUT} strokeWidth={7} />
+          <g transform="translate(540 214)">
+            <path d="M-40 -36 L40 -36 L40 6 Q 40 36 0 48 Q -40 36 -40 6 Z" fill="#c4001f" stroke={OUT} strokeWidth={5} />
+            <path d="M-40 -8 L40 -8 L40 8 L-40 8 Z" fill="#ffd21f" />
+            <text x={0} y={14} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={28} fill="#14151c">UME</text>
+          </g>
         </g>
       )}
       {costume === 'judge' && (
