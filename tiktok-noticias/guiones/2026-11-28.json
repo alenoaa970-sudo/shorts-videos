@@ -1,0 +1,95 @@
+{
+ "fecha": "2026-11-28",
+ "tipo": "diario",
+ "segments": [
+  {
+   "key": "intro",
+   "text": "¡Las noticias más importantes de las últimas veinticuatro horas, en un minuto! ¡Vamos!",
+   "title": "",
+   "costume": "anchor",
+   "serious": false,
+   "sfx": [
+    [
+     "minuto",
+     "ding",
+     0.35
+    ]
+   ]
+  },
+  {
+   "key": "cayucohierro",
+   "text": "Tragedia en el mar. Al menos diez migrantes mueren en un cayuco rescatado a sesenta y dos kilómetros de El Hierro. Ochenta y cuatro supervivientes llegan a La Restinga y seis heridos graves son evacuados en helicóptero.",
+   "title": "10 MUERTOS EN UN CAYUCO",
+   "costume": "maritime",
+   "serious": true,
+   "sfx": [
+    [
+     "tragedia",
+     "impact",
+     0.2
+    ]
+   ]
+  },
+  {
+   "key": "pensiones",
+   "text": "La inflación baja al cuatro coma uno por ciento en noviembre. Con ese dato, las pensiones subirán un tres coma cinco por ciento en dos mil veintisiete: unos setecientos setenta y cinco euros más al año para la jubilación media.",
+   "title": "LAS PENSIONES SUBIRÁN UN 3,5 %",
+   "costume": "business",
+   "serious": false,
+   "sfx": [
+    [
+     "pensiones",
+     "ding",
+     0.3
+    ]
+   ]
+  },
+  {
+   "key": "votocorreo",
+   "text": "Termina la campaña del veintinueve ene. Más de un millón de personas ya han votado por correo. El PP denuncia irregularidades ante la Junta Electoral y Correos defiende las garantías. Hoy, jornada de reflexión.",
+   "title": "1 MILLÓN YA VOTÓ POR CORREO",
+   "costume": "postman",
+   "serious": false,
+   "sfx": [
+    [
+     "millon",
+     "whoosh",
+     0.3
+    ],
+    [
+     "reflexion",
+     "ding",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "mfpue",
+   "text": "Fracasa la cumbre europea del presupuesto de dos mil veintiocho a dos mil treinta y cuatro: los líderes no logran acuerdo y lo intentarán de nuevo el diecisiete de diciembre.",
+   "title": "LA UE, SIN PRESUPUESTO",
+   "costume": "diplomat",
+   "serious": false,
+   "sfx": [
+    [
+     "fracasa",
+     "whip",
+     0.25
+    ]
+   ]
+  },
+  {
+   "key": "dronletonia",
+   "text": "Y alerta en el Báltico: un dron entra en Letonia desde la frontera rusa y la OTAN hace despegar sus cazas. ¡Sígueme para más!",
+   "title": "UN DRON ENTRA EN LETONIA",
+   "costume": "helmet",
+   "serious": true,
+   "sfx": [
+    [
+     "cazas",
+     "whoosh",
+     0.25
+    ]
+   ]
+  }
+ ]
+}

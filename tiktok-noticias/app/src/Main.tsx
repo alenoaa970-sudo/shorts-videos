@@ -4,7 +4,7 @@ import { loadFont as loadAnton } from '@remotion/google-fonts/Anton';
 import { loadFont as loadMont } from '@remotion/google-fonts/Montserrat';
 import { Robot, Expression, Costume, ArmPose, RobotProps } from './Robot';
 import { TL, Seg, lerp, pop, wordAt, talkAt, segAt, rnd } from './util';
-import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene, MinasScene, PermisosScene, DeficitScene, ZaporiyiaScene, ArancelesScene, CairoScene, PuigdemontScene, PetrolerosScene, CosBceScene, MedEmreScene, UmeHierroScene, DebateCuatroScene, CumbreUeScene } from './Scenes';
+import { IntroScene, DebateScene, CanariasScene, TiempoScene, BebesScene, IranScene, ChinaScene, VoyagerScene, ShenzhenScene, PrestamoScene, DecretosScene, HuelgaScene, CumbreScene, CaraACaraScene, MyanmarScene, BolsaScene, AtaqueScene, PoloniaScene, ViernesNegroScene, VotoNietosScene, BareinScene, RutteScene, CampanaScene, FranciaScene, TrioScene, OleadaScene, DesplomeScene, UrnasScene, GolfoScene, DymerScene, UltimatumScene, DomingoScene, Cop31Scene, AmnistiaScene, DebateOchoScene, HuangScene, CayucosScene, MinasScene, PermisosScene, DeficitScene, ZaporiyiaScene, ArancelesScene, CairoScene, PuigdemontScene, PetrolerosScene, CosBceScene, MedEmreScene, UmeHierroScene, DebateCuatroScene, CumbreUeScene, CayucoHierroScene, PensionesScene, VotoCorreoScene, MfpUeScene, DronLetoniaScene } from './Scenes';
 
 loadAnton();
 loadMont('normal', { weights: ['700', '800', '900'], subsets: ['latin', 'latin-ext'] });
@@ -25,6 +25,7 @@ const SCENES: Record<string, React.FC<{ f: number; seg: Seg; T: number }>> = {
   minas: MinasScene, permisos: PermisosScene, deficit: DeficitScene, zaporiyia: ZaporiyiaScene,
   aranceles: ArancelesScene, cairo: CairoScene, puigdemont: PuigdemontScene, petroleros: PetrolerosScene,
   cosbce: CosBceScene, medemre: MedEmreScene, umehierro: UmeHierroScene, debatecuatro: DebateCuatroScene, cumbreue: CumbreUeScene,
+  cayucohierro: CayucoHierroScene, pensiones: PensionesScene, votocorreo: VotoCorreoScene, mfpue: MfpUeScene, dronletonia: DronLetoniaScene,
 };
 
 /* ---------- configuración del robot por noticia ---------- */
@@ -162,6 +163,16 @@ const robotFor = (seg: Seg, f: number, T: number): Omit<RobotProps, 't' | 'talk'
     case 'cumbreue': {
       const sT = wordAt(seg, 'sigueme');
       return { costume: 'diplomat', arm: f >= sT ? 'thumb' : 'down', expression: f >= sT ? 'wink' : after('dividida') && !after('hungria') ? 'shock' : 'happy', armLift: pop(f, sT, 6) * 0.7 };
+    }
+    case 'pensiones':
+      return { costume: 'business', arm: 'hold', item: 'briefcase', expression: after('tres') && !after('dos') ? 'stars' : 'happy' };
+    case 'votocorreo':
+      return { costume: 'postman', arm: 'thumb', expression: after('millon') && !after('pp') ? 'stars' : after('reflexion') ? 'wink' : 'happy', armLift: pop(f, wordAt(seg, 'millon'), 6) * 0.5 };
+    case 'mfpue':
+      return { costume: 'diplomat', arm: 'down', expression: after('fracasa') && !after('lideres') ? 'shock' : 'happy' };
+    case 'dronletonia': {
+      const sT = wordAt(seg, 'sigueme');
+      return { costume: 'helmet', arm: f >= sT ? 'thumb' : 'down', expression: f >= sT ? 'happy' : 'serious', armLift: pop(f, sT, 6) * 0.7 };
     }
     case 'petroleros':
       return { costume: 'navy', arm: 'down', expression: 'serious' };

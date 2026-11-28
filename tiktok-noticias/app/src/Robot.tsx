@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Expression = 'happy' | 'wink' | 'serious' | 'shock' | 'dizzy' | 'hearts' | 'stars';
-export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime' | 'parent' | 'pilot' | 'ume';
+export type Costume = 'anchor' | 'boxing' | 'vest' | 'raincoat' | 'baby' | 'helmet' | 'diplomat' | 'astronaut' | 'business' | 'firefighter' | 'judge' | 'deputy' | 'conductor' | 'officer' | 'riot' | 'navy' | 'rescuer' | 'eco' | 'maritime' | 'parent' | 'pilot' | 'ume' | 'postman';
 export type ArmPose = 'thumb' | 'down' | 'hold' | 'punch';
 
 export type RobotProps = {
@@ -797,8 +797,35 @@ export const Robot: React.FC<RobotProps> = (p) => {
           <path d="M540 820 L540 1200" stroke={OUT} strokeWidth={5} opacity={0.5} />
         </g>
       )}
+      {costume === 'postman' && (
+        <g clipPath="url(#rb-torsoClip)">
+          {/* polo amarillo de cartero con franjas azules */}
+          <path d="M220 700 L860 700 L860 1200 L220 1200 Z" fill="#ffcc1f" stroke={OUT} strokeWidth={7} />
+          <path d="M220 1120 L860 1120 L860 1200 L220 1200 Z" fill="#1d3f8f" />
+          <path d="M220 1112 L860 1112" stroke="#e8eef6" strokeWidth={8} />
+          <path d="M300 760 Q 290 950 310 1110 M780 760 Q 790 950 770 1110" stroke="#e6b200" strokeWidth={8} fill="none" />
+          {/* cuello azul del polo con botones */}
+          <path d="M455 694 L540 770 L625 694 L610 744 L540 800 L470 744 Z" fill="#1d3f8f" stroke={OUT} strokeWidth={6} strokeLinejoin="round" />
+          <path d="M540 800 L540 900" stroke={OUT} strokeWidth={4} />
+          {[0, 1].map((i) => <circle key={i} cx={540} cy={830 + i * 44} r={7} fill="#ffffff" stroke={OUT} strokeWidth={3} />)}
+          {/* bandolera cruzada */}
+          <path d="M250 720 L830 1180" stroke="#6b3e1f" strokeWidth={46} />
+          <path d="M250 720 L830 1180" stroke="#8a5530" strokeWidth={30} />
+          <path d="M262 712 L842 1172" stroke="#b07a48" strokeWidth={4} strokeDasharray="14 10" />
+          <rect x={520} y={926} width={50} height={40} rx={6} transform="rotate(38 545 946)" fill="#d4d8e0" stroke={OUT} strokeWidth={4} />
+          {/* sobre bordado en el pecho */}
+          <g transform="translate(360 860)">
+            <rect x={-62} y={-42} width={124} height={84} rx={8} fill="#ffffff" stroke={OUT} strokeWidth={5} />
+            <path d="M-62 -42 L0 8 L62 -42" fill="none" stroke={OUT} strokeWidth={5} strokeLinejoin="round" />
+            <rect x={28} y={-34} width={24} height={28} fill="#e3122b" stroke={OUT} strokeWidth={3} />
+          </g>
+          {/* placa CARTERO */}
+          <rect x={620} y={1040} width={190} height={50} rx={10} fill="#1d3f8f" stroke={OUT} strokeWidth={5} />
+          <text x={715} y={1076} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={30} fill="#ffffff">CARTERO</text>
+        </g>
+      )}
       {/* pantalla del pecho */}
-      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && costume !== 'maritime' && costume !== 'parent' && costume !== 'ume' && (
+      {!astronaut && costume !== 'vest' && costume !== 'firefighter' && costume !== 'conductor' && costume !== 'officer' && costume !== 'riot' && costume !== 'navy' && costume !== 'rescuer' && costume !== 'maritime' && costume !== 'parent' && costume !== 'ume' && costume !== 'postman' && (
         <g>
           <rect x={462} y={800} width={156} height={92} rx={22} fill="#060a18" stroke={OUT} strokeWidth={6} />
           <rect x={470} y={808} width={140} height={76} rx={16} fill="none" stroke="#2fd8ff" strokeOpacity={0.5} strokeWidth={2} />
@@ -1064,6 +1091,19 @@ export const Robot: React.FC<RobotProps> = (p) => {
             <path d="M-40 -36 L40 -36 L40 6 Q 40 36 0 48 Q -40 36 -40 6 Z" fill="#c4001f" stroke={OUT} strokeWidth={5} />
             <path d="M-40 -8 L40 -8 L40 8 L-40 8 Z" fill="#ffd21f" />
             <text x={0} y={14} textAnchor="middle" fontFamily="'Anton', Impact, sans-serif" fontSize={28} fill="#14151c">UME</text>
+          </g>
+        </g>
+      )}
+      {costume === 'postman' && (
+        <g>
+          {/* gorra azul de cartero con visera y sobre */}
+          <path d="M270 300 Q 276 120 540 112 Q 804 120 810 300 Q 540 262 270 300 Z" fill="#1d3f8f" stroke={OUT} strokeWidth={9} />
+          <path d="M340 220 Q 430 160 530 150" fill="none" stroke="#3a62c0" strokeWidth={12} strokeLinecap="round" />
+          <path d="M270 300 Q 540 262 810 300 L806 330 Q 540 292 274 330 Z" fill="#ffcc1f" stroke={OUT} strokeWidth={6} />
+          <path d="M300 320 Q 540 280 780 320 Q 820 360 760 372 Q 540 330 320 372 Q 260 360 300 320 Z" fill="#14285e" stroke={OUT} strokeWidth={7} />
+          <g transform="translate(540 214)">
+            <rect x={-46} y={-30} width={92} height={60} rx={6} fill="#ffcc1f" stroke={OUT} strokeWidth={5} />
+            <path d="M-46 -30 L0 6 L46 -30" fill="none" stroke={OUT} strokeWidth={5} strokeLinejoin="round" />
           </g>
         </g>
       )}
